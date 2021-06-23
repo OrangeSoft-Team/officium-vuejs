@@ -18,4 +18,8 @@ export abstract class ValueObject<T extends ValueObjectProps> {
         }
         return JSON.stringify(this.props) === JSON.stringify(vo.props);
     }
+
+    public valor(): any {
+        return this.props;
+    }
 }
