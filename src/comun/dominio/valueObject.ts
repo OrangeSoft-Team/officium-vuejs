@@ -3,12 +3,10 @@ interface ValueObjectProps {
 }
 
 export abstract class ValueObject<T extends ValueObjectProps> {
-    constructor(protected props: T) {
-        const baseProps: any = {
-            ...props,
-        };
+    public readonly props: T;
 
-        this.props = baseProps;
+    constructor(props: T) {
+        this.props = Object.freeze(props);
     }
 
     public esIgual(vo?: ValueObject<T>): boolean {
