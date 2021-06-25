@@ -34,23 +34,23 @@ export class ObtenerOfertaLaboral
         if (ofertaLaboralOrError.esFallido)
             return Resultado.falla<any>(ofertaLaboralOrError.error);
 
-        //Convertimos a dominio array
-        let conjutoOfertasOrError = OfertasLaboralesMapeador.aDominio(
+        //Convertimos a dominio
+        let ofertasOrError = OfertasLaboralesMapeador.aDominio(
             ofertaLaboralOrError.getValue()
         );
-        if (conjutoOfertasOrError.esFallido)
-            return Resultado.falla<any>(conjutoOfertasOrError.error);
+        if (ofertasOrError.esFallido)
+            return Resultado.falla<any>(ofertasOrError.error);
 
-        //Respondo con un arreglo segun estandar DTO
-        let ConjuntoRespuestaOrError = OfertasLaboralesMapeador.aDTO(
-            conjutoOfertasOrError.getValue()
+        //Respondo con un DTO
+        let respuestaOrError = OfertasLaboralesMapeador.aDTO(
+            ofertasOrError.getValue()
         );
 
-        if (ConjuntoRespuestaOrError.esFallido)
-            return Resultado.falla<any>(ConjuntoRespuestaOrError.error);
+        if (respuestaOrError.esFallido)
+            return Resultado.falla<any>(respuestaOrError.error);
 
         return Resultado.ok<OfertaLaboralEmpresaDTO>(
-            ConjuntoRespuestaOrError.getValue()
+            respuestaOrError.getValue()
         );
     }
 }
