@@ -1,6 +1,6 @@
-import { ValueObject } from "@/comun/dominio/valueObject";
-import { Resultado } from "@/comun/dominio/resultado";
 import { IDENTIFICADOR_VACIO } from "../excepciones/identificador.excepcion";
+import { Resultado } from "../resultado";
+import { ValueObject } from "../valueObject";
 
 export interface IdentificadorProps {
     id: string;

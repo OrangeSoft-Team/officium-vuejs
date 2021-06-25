@@ -1,5 +1,5 @@
-import { Resultado } from "@/comun/dominio/resultado";
-import { ValueObject } from "@/comun/dominio/valueObject";
+import { Resultado } from "../../../comun/dominio/resultado";
+import { ValueObject } from "../../../comun/dominio/valueObject";
 import { TITULO_OFERTA_LONGITUD_NO_VALIDA } from "../excepciones/tituloOferta.excepcion";
 
 export interface tituloOfertaProps {

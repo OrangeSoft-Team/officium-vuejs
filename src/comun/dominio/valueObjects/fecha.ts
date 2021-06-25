@@ -1,5 +1,5 @@
-import { Resultado } from "@/comun/dominio/resultado";
-import { ValueObject } from "@/comun/dominio/valueObject";
+import { Resultado } from "../../../comun/dominio/resultado";
+import { ValueObject } from "../../../comun/dominio/valueObject";
 import {
     FORMATO_FECHA_NO_VALIDA,
     VALOR_FECHA_NO_VALIDA,

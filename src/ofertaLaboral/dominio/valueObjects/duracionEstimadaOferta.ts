@@ -1,5 +1,5 @@
-import { Resultado } from "@/comun/dominio/resultado";
-import { ValueObject } from "@/comun/dominio/valueObject";
+import { Resultado } from "../../../comun/dominio/resultado";
+import { ValueObject } from "../../../comun/dominio/valueObject";
 import { DURACION_ESTIMADA_VALOR_NO_VALIDA } from "../excepciones/duracionEstimada.excepcion";
 import { DURACION_ESTIMADA_ESCALA_NO_CONOCIDA } from "../excepciones/duracionEstimada.excepcion";
 

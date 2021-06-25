@@ -1,5 +1,5 @@
-import { Resultado } from "@/comun/dominio/resultado";
-import { ValueObject } from "@/comun/dominio/valueObject";
+import { Resultado } from "../../../comun/dominio/resultado";
+import { ValueObject } from "../../../comun/dominio/valueObject";
 import { TURNO_OFERTA_NO_RECONOCIDO } from "../excepciones/turnoOfeta.excepcion";
 
 export interface turnoTrabajoOfertaProps {

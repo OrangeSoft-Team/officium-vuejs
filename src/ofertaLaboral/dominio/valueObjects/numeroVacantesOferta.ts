@@ -1,5 +1,5 @@
-import { Resultado } from "@/comun/dominio/resultado";
-import { ValueObject } from "@/comun/dominio/valueObject";
+import { Resultado } from "../../../comun/dominio/resultado";
+import { ValueObject } from "../../../comun/dominio/valueObject";
 import { NUMERO_VACANTES_NO_VALIDA } from "../excepciones/numeroVacantesOferta.excepcion";
 
 export interface numeroVacantesOfertaProps {

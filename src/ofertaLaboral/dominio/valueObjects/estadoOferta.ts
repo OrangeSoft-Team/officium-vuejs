@@ -1,5 +1,5 @@
-import { Resultado } from "@/comun/dominio/resultado";
-import { ValueObject } from "@/comun/dominio/valueObject";
+import { Resultado } from "../../../comun/dominio/resultado";
+import { ValueObject } from "../../../comun/dominio/valueObject";
 import { ESTADO_OFERTA_NO_RECONOCIDO } from "../excepciones/estadoOferta.excepcion";
 
 export interface estadoOfertaProps {
