@@ -142,4 +142,24 @@ export class OfertasLaboralesMapeador {
 
         return Resultado.ok<OfertaLaboral[]>(arrayOfertasLaborales);
     }
+
+    public static aDTOConjunto(
+        entidades: OfertaLaboral[]
+    ): Resultado<OfertaLaboralEmpresaDTO[]> {
+        //Array auxiliar
+        let arrayOfertasLaboralesDTO: OfertaLaboralEmpresaDTO[] = [];
+
+        for (let oferta of entidades) {
+            let ofertaDTOOrError = OfertasLaboralesMapeador.aDTO(oferta);
+
+            if (ofertaDTOOrError.esFallido)
+                return Resultado.falla<any>(ofertaDTOOrError.error);
+
+            arrayOfertasLaboralesDTO.push(ofertaDTOOrError.getValue());
+        }
+
+        return Resultado.ok<OfertaLaboralEmpresaDTO[]>(
+            arrayOfertasLaboralesDTO
+        );
+    }
 }

@@ -3,6 +3,7 @@ import { OfertasLaboralesMapeador } from "../OfertaLaboral.mapeador";
 import { IOfertasLaboralesRepo } from "../IOfertaLaboral.repositorio";
 import { CasoUso } from "../../../comun/aplicacion/casoUso";
 import { Resultado } from "../../../comun/dominio/resultado";
+import { OfertaLaboralEmpresaDTO } from "../dto/OfertaLaboralEmpresaDTO";
 
 export interface SolicitudOfertasLaboralesActivasDTO {
     idEmpresa: string;
@@ -12,7 +13,7 @@ export class ObtenerOfertasLaboralesActivas
     implements
         CasoUso<
             SolicitudOfertasLaboralesActivasDTO,
-            Resultado<OfertaLaboral[]>
+            Resultado<OfertaLaboralEmpresaDTO[]>
         >
 {
     //Repositorio
@@ -25,7 +26,7 @@ export class ObtenerOfertasLaboralesActivas
     //Query
     public async ejecutar(
         solicitud: SolicitudOfertasLaboralesActivasDTO
-    ): Promise<Resultado<OfertaLaboral[]>> {
+    ): Promise<Resultado<OfertaLaboralEmpresaDTO[]>> {
         //Llamamos al repositorio
         let ofertasLaboralesActivasOrError =
             await this.RepoOfertasLaborales.obtenerOfertasLaboralesActivas(
@@ -35,12 +36,22 @@ export class ObtenerOfertasLaboralesActivas
             return Resultado.falla<any>(ofertasLaboralesActivasOrError.error);
 
         //Convertimos a dominio array
-        let ConjutoOfertasOrError = OfertasLaboralesMapeador.aDominioConjunto(
+        let conjutoOfertasOrError = OfertasLaboralesMapeador.aDominioConjunto(
             ofertasLaboralesActivasOrError.getValue()
         );
-        if (ConjutoOfertasOrError.esFallido)
-            return Resultado.falla<any>(ConjutoOfertasOrError.error);
+        if (conjutoOfertasOrError.esFallido)
+            return Resultado.falla<any>(conjutoOfertasOrError.error);
 
-        return Resultado.ok<OfertaLaboral[]>(ConjutoOfertasOrError.getValue());
+        //Respondo con un arreglo segun estandar DTO
+        let ConjuntoRespuestaOrError = OfertasLaboralesMapeador.aDTOConjunto(
+            conjutoOfertasOrError.getValue()
+        );
+
+        if (ConjuntoRespuestaOrError.esFallido)
+            return Resultado.falla<any>(ConjuntoRespuestaOrError.error);
+
+        return Resultado.ok<OfertaLaboralEmpresaDTO[]>(
+            ConjuntoRespuestaOrError.getValue()
+        );
     }
 }

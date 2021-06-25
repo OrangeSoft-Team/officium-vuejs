@@ -1,7 +1,7 @@
 import { Resultado } from "../../comun/dominio/resultado";
 import { OfertaLaboralEmpresaDTO } from "../../ofertaLaboral/aplicacion/dto/OfertaLaboralEmpresaDTO";
 import { JSONOfertaLaboralRepositorio } from "../../ofertaLaboral/infraestructura/JSON/JSONOfertaLaboral.repositorio";
-import { ObtenerOfertasLaboralesActivas } from "../../ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertasLaboralesActivas";
+import { ObtenerOfertasLaboralesActivas } from "../../ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertasLaboralesActivas.cu";
 import {
     OFERTAS_LABORALES_RESPUESTA_CON_ERROR_VACANTES,
     OFERTAS_LABORALES_RESPUESTA_VALIDA,

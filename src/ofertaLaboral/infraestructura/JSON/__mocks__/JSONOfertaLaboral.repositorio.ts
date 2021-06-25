@@ -1,4 +1,4 @@
-import { SolicitudOfertasLaboralesActivasDTO } from "../../../aplicacion/casoDeUso/ObtenerOfertasLaboralesActivas";
+import { SolicitudOfertasLaboralesActivasDTO } from "../../../aplicacion/casoDeUso/ObtenerOfertasLaboralesActivas.cu";
 import { OfertaLaboralEmpresaDTO } from "../../../aplicacion/dto/OfertaLaboralEmpresaDTO";
 import { Resultado } from "../../../../comun/dominio/resultado";
 import { IOfertasLaboralesRepo } from "../../../aplicacion/IOfertaLaboral.repositorio";
