@@ -14,6 +14,10 @@ export class Fecha extends ValueObject<fechaProps> {
         super(props);
     }
 
+    public valor(): string {
+        return this.props.fecha;
+    }
+
     public static crear(fecha: string): Resultado<Fecha> {
         //Validamos formato dd/mm/yyyy
         if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(fecha))

@@ -11,6 +11,10 @@ export class EstadoOferta extends ValueObject<estadoOfertaProps> {
         super(props);
     }
 
+    public valor(): string {
+        return this.props.estado;
+    }
+
     public static crear(estado: string): Resultado<EstadoOferta> {
         //Validaciones de valores posible
         let valores = ["publicado", "cancelado"];

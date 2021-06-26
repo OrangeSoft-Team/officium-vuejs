@@ -13,6 +13,10 @@ export class DuracionEstimadaOferta extends ValueObject<duracionEstimadaProps> {
         super(props);
     }
 
+    public valor(): duracionEstimadaProps {
+        return this.props;
+    }
+
     public static crear(
         duracion: number,
         escala: string

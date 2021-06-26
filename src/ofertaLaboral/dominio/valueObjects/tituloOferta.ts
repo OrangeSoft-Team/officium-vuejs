@@ -11,6 +11,10 @@ export class TituloOferta extends ValueObject<tituloOfertaProps> {
         super(props);
     }
 
+    public valor(): string {
+        return this.props.titulo;
+    }
+
     public static crear(titulo: string): Resultado<TituloOferta> {
         //Validaciones de longitud
         if (!(titulo.length >= 4 || titulo.length <= 80))

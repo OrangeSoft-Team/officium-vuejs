@@ -11,6 +11,10 @@ export class CargoOferta extends ValueObject<cargoOfertaProps> {
         super(props);
     }
 
+    public valor(): string {
+        return this.props.cargo;
+    }
+
     public static crear(cargo: string): Resultado<CargoOferta> {
         //Validaciones de longitud
         if (!(cargo.length >= 4 || cargo.length <= 40))

@@ -2,7 +2,8 @@ import { SolicitudOfertasLaboralesActivasDTO } from "../../aplicacion/casoDeUso/
 import { OfertaLaboralEmpresaDTO } from "../../aplicacion/dto/OfertaLaboralEmpresaDTO";
 import { Resultado } from "../../../comun/dominio/resultado";
 import { IOfertasLaboralesRepo } from "../../aplicacion/IOfertaLaboral.repositorio";
-import { OFERTAS_LABORALES_RESPUESTA_VALIDA } from "./ofertasLaboralesRespuestas";
+import { OFERTAS_LABORALES_RESPUESTA_VALIDA, OFERTA_LABORAL_RESPUESTA_VALIDA } from "./ofertasLaboralesRespuestas";
+import { SolicitudOfertaLaboralDTO } from "@/ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertaLaboralDetalle.cu";
 
 export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     obtenerOfertasLaboralesActivas(
@@ -10,6 +11,14 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     ): Resultado<OfertaLaboralEmpresaDTO[]> {
         return Resultado.ok<OfertaLaboralEmpresaDTO[]>(
             OFERTAS_LABORALES_RESPUESTA_VALIDA
+        );
+    }
+
+    obtenerOfertaLaboralDetalle(
+        id: SolicitudOfertaLaboralDTO
+    ): Resultado<OfertaLaboralEmpresaDTO> {
+        return Resultado.ok<OfertaLaboralEmpresaDTO>(
+            OFERTA_LABORAL_RESPUESTA_VALIDA
         );
     }
 }

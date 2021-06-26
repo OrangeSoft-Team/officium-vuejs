@@ -11,6 +11,10 @@ export class Identificador extends ValueObject<IdentificadorProps> {
         super(props);
     }
 
+    public valor(): string {
+        return this.props.id;
+    }
+
     public static crear(id: string): Resultado<Identificador> {
         //No deber ser vacio ni null
         if (id == null || id == "" || id == undefined)

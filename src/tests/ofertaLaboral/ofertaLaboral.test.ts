@@ -1,10 +1,12 @@
 import { Resultado } from "../../comun/dominio/resultado";
 import { OfertaLaboralEmpresaDTO } from "../../ofertaLaboral/aplicacion/dto/OfertaLaboralEmpresaDTO";
 import { JSONOfertaLaboralRepositorio } from "../../ofertaLaboral/infraestructura/JSON/JSONOfertaLaboral.repositorio";
+import { ObtenerOfertaLaboral } from "../../ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertaLaboralDetalle.cu";
 import { ObtenerOfertasLaboralesActivas } from "../../ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertasLaboralesActivas.cu";
 import {
     OFERTAS_LABORALES_RESPUESTA_CON_ERROR_VACANTES,
     OFERTAS_LABORALES_RESPUESTA_VALIDA,
+    OFERTA_LABORAL_RESPUESTA_VALIDA
 } from "../../ofertaLaboral/infraestructura/JSON/ofertasLaboralesRespuestas";
 import { NUMERO_VACANTES_NO_VALIDA } from "../../ofertaLaboral/dominio/excepciones/numeroVacantesOferta.excepcion";
 
@@ -61,6 +63,37 @@ describe("Obtener Ofertas Laborales Activas", () => {
             }
             expect(data.esFallido).toBeTruthy();
             expect(data.error).toBe(NUMERO_VACANTES_NO_VALIDA);
+        });
+    });
+});
+
+describe("Obtener Detalle de Oferta Laboral", () => {
+    let repoImplementacion: JSONOfertaLaboralRepositorio;
+
+    beforeEach(() => {
+        repoImplementacion = new JSONOfertaLaboralRepositorio();
+    });
+
+    it("Debe obtener el detalle de una oferta laboral activa", () => {
+        const DATOS_A_USAR = OFERTA_LABORAL_RESPUESTA_VALIDA;
+        JSONOfertaLaboralRepositorio.prototype.obtenerOfertaLaboralDetalle =
+            jest.fn().mockImplementation(() => {
+                return Resultado.ok<OfertaLaboralEmpresaDTO>(DATOS_A_USAR);
+            });
+
+        //Inicializamos Caso de Uso
+        const CU = new ObtenerOfertaLaboral(repoImplementacion);
+        const resultadoCU = CU.ejecutar({
+            idOfertaLaboral: ''
+        });
+
+        return resultadoCU.then((data) => {
+            if (data.esFallido) {
+                console.error("[TEST ERROR] ", data.error);
+            }
+            expect(data.esExitoso).toBeTruthy();
+            expect(data.esFallido).toBeFalsy();
+            expect(data.getValue().idOfertaLaboral).toBe(DATOS_A_USAR.idOfertaLaboral);
         });
     });
 });

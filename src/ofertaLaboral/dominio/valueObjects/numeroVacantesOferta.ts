@@ -11,6 +11,10 @@ export class NumeroVacantesOferta extends ValueObject<numeroVacantesOfertaProps>
         super(props);
     }
 
+    public valor(): number {
+        return this.props.vacantes;
+    }
+
     public static crear(vacantes: number): Resultado<NumeroVacantesOferta> {
         //Validaciones de longitud
         if (vacantes < 0 || vacantes > 99)
