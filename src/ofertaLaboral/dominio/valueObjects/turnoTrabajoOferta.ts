@@ -11,6 +11,10 @@ export class TurnoTrabajo extends ValueObject<turnoTrabajoOfertaProps> {
         super(props);
     }
 
+    public valor(): string {
+        return this.props.turno;
+    }
+
     public static crear(turno: string): Resultado<TurnoTrabajo> {
         //Validaciones de valores posible
         let valores = ["diurno", "nocturno", "mixto"];

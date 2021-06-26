@@ -14,6 +14,10 @@ export class SueldoOferta extends ValueObject<sueldoOfertaProps> {
         super(props);
     }
 
+    public valor(): number {
+        return this.props.sueldo;
+    }
+
     public static crear(sueldo: number): Resultado<SueldoOferta> {
         //Validacion positivo
         if (sueldo < 0)

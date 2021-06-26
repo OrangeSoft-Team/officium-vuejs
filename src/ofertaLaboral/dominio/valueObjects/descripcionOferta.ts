@@ -11,6 +11,10 @@ export class DescripcionOferta extends ValueObject<descripcionOfertaProps> {
         super(props);
     }
 
+    public valor(): string {
+        return this.props.descripcion;
+    }
+
     public static crear(descripcion: string): Resultado<DescripcionOferta> {
         //Validaciones de longitud
         if (!(descripcion.length >= 32 || descripcion.length <= 512))
