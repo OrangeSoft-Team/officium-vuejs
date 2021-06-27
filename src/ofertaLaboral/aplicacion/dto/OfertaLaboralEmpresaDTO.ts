@@ -1,7 +1,7 @@
 export interface OfertaLaboralEmpresaDTO {
     idOfertaLaboral?: string;
     titulo: string;
-    fechaPublicacion: string;
+    fechaPublicacion?: string;
     cargo: string;
     sueldo: number;
     duracionEstimadaValor: number;
