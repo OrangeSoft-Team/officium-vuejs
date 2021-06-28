@@ -3,6 +3,7 @@ import { OfertaLaboralEmpresaDTO } from "../../ofertaLaboral/aplicacion/dto/Ofer
 import { JSONOfertaLaboralRepositorio } from "../../ofertaLaboral/infraestructura/JSON/JSONOfertaLaboral.repositorio";
 import { ObtenerOfertaLaboral } from "../../ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertaLaboralDetalle.cu";
 import { ObtenerOfertasLaboralesActivas } from "../../ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertasLaboralesActivas.cu";
+import { CrearOfertaLaboral } from "../../ofertaLaboral/aplicacion/casoDeUso/CrearOfertaLaboral.cu";
 import {
     OFERTAS_LABORALES_RESPUESTA_CON_ERROR_VACANTES,
     OFERTAS_LABORALES_RESPUESTA_VALIDA,
@@ -97,3 +98,35 @@ describe("Obtener Detalle de Oferta Laboral", () => {
         });
     });
 });
+
+describe("Crear Nueva Oferta Laboral", () => {
+    let repoImplementacion: JSONOfertaLaboralRepositorio;
+
+    beforeEach(() => {
+        repoImplementacion = new JSONOfertaLaboralRepositorio();
+    });
+
+    it("Debe crear y obtener el detalle de una nueva oferta laboral", () => {
+        const DATOS_A_USAR = OFERTA_LABORAL_RESPUESTA_VALIDA;
+        JSONOfertaLaboralRepositorio.prototype.crearOfertaLaboral =
+            jest.fn().mockImplementation(() => {
+                return Resultado.ok<OfertaLaboralEmpresaDTO>(DATOS_A_USAR);
+            });
+
+        //Inicializamos Caso de Uso
+        const CU = new CrearOfertaLaboral(repoImplementacion);
+        const resultadoCU = CU.ejecutar({
+            idEmpresa: "",
+        });
+
+        return resultadoCU.then((data) => {
+            if (data.esFallido) {
+                console.error("[TEST ERROR] ", data.error);
+            }
+            expect(data.esExitoso).toBeTruthy();
+            expect(data.esFallido).toBeFalsy();
+            expect(data.getValue().idOfertaLaboral).toBe(DATOS_A_USAR.idOfertaLaboral);
+        });
+    });
+});
+
