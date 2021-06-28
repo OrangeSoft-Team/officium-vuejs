@@ -88,7 +88,7 @@ export default Vue.extend({
                 {
                     opcion: "Delegados",
                     icono: "mdi-account-multiple",
-                    toDato: "#",
+                    toDato: "InicioSesion",
                 },
                 {
                     opcion: "Ofertas laborales",
@@ -98,12 +98,12 @@ export default Vue.extend({
                 {
                     opcion: "Trabajos",
                     icono: "mdi-briefcase",
-                    toDato: "#",
+                    toDato: "InicioSesion",
                 },
                 {
                     opcion: "Pagos",
                     icono: "mdi-currency-usd",
-                    toDato: "#",
+                    toDato: "InicioSesion",
                 },
             ],
         };
