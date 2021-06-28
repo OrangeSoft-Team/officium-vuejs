@@ -14,6 +14,6 @@ export interface IOfertasLaboralesRepo {
     ): Resultado<OfertaLaboralEmpresaDTO>;
 
     crearOfertaLaboral(
-        id: SolicitudCreacionOfertaLaboralDTO
+        ofertaLaboral: SolicitudCreacionOfertaLaboralDTO
     ): Resultado<OfertaLaboralEmpresaDTO>;
 }

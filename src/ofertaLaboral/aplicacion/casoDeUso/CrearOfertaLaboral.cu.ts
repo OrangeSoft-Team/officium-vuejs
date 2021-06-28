@@ -6,7 +6,14 @@ import { OfertaLaboralEmpresaDTO } from "../dto/OfertaLaboralEmpresaDTO";
 
 
 export interface SolicitudCreacionOfertaLaboralDTO {
-    idEmpresa: string;
+    titulo: string;
+    cargo: string;
+    sueldo: number;
+    duracionEstimadaValor: number;
+    duracionEstimadaEscala: string;
+    turnoTrabajo: string;
+    numeroVacantes: number;
+    descripcion?: string;
 }
 
 export class CrearOfertaLaboral
@@ -26,33 +33,34 @@ export class CrearOfertaLaboral
     //Query
 public async ejecutar(
         solicitud: SolicitudCreacionOfertaLaboralDTO
-    ): Promise<Resultado<OfertaLaboralEmpresaDTO>> {        
-        //Llamamos al repositorio
-        let NuevaOfertaLaboralOrError =
-            await this.RepoOfertasLaborales.crearOfertaLaboral(
-                solicitud
-            );
-        if (NuevaOfertaLaboralOrError.esFallido)
-            return Resultado.falla<any>(NuevaOfertaLaboralOrError.error);
-
+    ): Promise<Resultado<OfertaLaboralEmpresaDTO>> {
         //Convertimos a dominio
         let ofertaOrError = OfertasLaboralesMapeador.aDominio(
-            NuevaOfertaLaboralOrError.getValue()
+            solicitud
         );
         if (ofertaOrError.esFallido)
-            return Resultado.falla<any>(ofertaOrError.error);
-
+            return Resultado.falla<any>(ofertaOrError.error);  
+            
         //Respondo con un DTO
         let respuestaOrError = OfertasLaboralesMapeador.aDTO(
             ofertaOrError.getValue()
         );
-
         if (respuestaOrError.esFallido)
             return Resultado.falla<any>(respuestaOrError.error);
 
+        //Llamamos al repositorio
+        let NuevaOfertaLaboralOrError =
+            await this.RepoOfertasLaborales.crearOfertaLaboral(
+                respuestaOrError.getValue() 
+            );
+        if (NuevaOfertaLaboralOrError.esFallido)
+            return Resultado.falla<any>(NuevaOfertaLaboralOrError.error);
+
         return Resultado.ok<OfertaLaboralEmpresaDTO>(
             respuestaOrError.getValue()
-        );
+            );
+
+
     }
 }
 

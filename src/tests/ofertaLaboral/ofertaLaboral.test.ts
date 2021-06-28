@@ -116,7 +116,14 @@ describe("Crear Nueva Oferta Laboral", () => {
         //Inicializamos Caso de Uso
         const CU = new CrearOfertaLaboral(repoImplementacion);
         const resultadoCU = CU.ejecutar({
-            idEmpresa: "",
+            titulo: "Encargado de tienda",
+            cargo: "Encargado general de tienda IBM",
+            sueldo: 65898,
+            duracionEstimadaValor: 6,
+            duracionEstimadaEscala: "mes",
+            turnoTrabajo: "diurno",
+            numeroVacantes: 4,
+            descripcion: undefined,
         });
 
         return resultadoCU.then((data) => {
@@ -125,7 +132,14 @@ describe("Crear Nueva Oferta Laboral", () => {
             }
             expect(data.esExitoso).toBeTruthy();
             expect(data.esFallido).toBeFalsy();
-            expect(data.getValue().idOfertaLaboral).toBe(DATOS_A_USAR.idOfertaLaboral);
+            expect(data.getValue().titulo).toBe(DATOS_A_USAR.titulo);
+            expect(data.getValue().cargo).toBe(DATOS_A_USAR.cargo);
+            expect(data.getValue().sueldo).toBe(DATOS_A_USAR.sueldo);
+            expect(data.getValue().duracionEstimadaValor).toBe(DATOS_A_USAR.duracionEstimadaValor);
+            expect(data.getValue().duracionEstimadaEscala).toBe(DATOS_A_USAR.duracionEstimadaEscala);
+            expect(data.getValue().turnoTrabajo).toBe(DATOS_A_USAR.turnoTrabajo);
+            expect(data.getValue().numeroVacantes).toBe(DATOS_A_USAR.numeroVacantes);
+            expect(data.getValue().descripcion).toBe(DATOS_A_USAR.descripcion);
         });
     });
 });
