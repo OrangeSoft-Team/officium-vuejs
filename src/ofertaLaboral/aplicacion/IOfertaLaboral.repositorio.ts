@@ -3,6 +3,8 @@ import { SolicitudOfertasLaboralesActivasDTO } from "./casoDeUso/ObtenerOfertasL
 import { SolicitudOfertaLaboralDTO } from "./casoDeUso/ObtenerOfertaLaboralDetalle.cu";
 import { SolicitudCreacionOfertaLaboralDTO } from "./casoDeUso/CrearOfertaLaboral.cu";
 import { OfertaLaboralEmpresaDTO } from "./dto/OfertaLaboralEmpresaDTO";
+import { CrearOfertaLaboralDTO } from "./dto/CrearOfertaLaboralDTO";
+import { OperacionExitosaDTO } from "../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 
 export interface IOfertasLaboralesRepo {
     obtenerOfertasLaboralesActivas(
@@ -14,6 +16,6 @@ export interface IOfertasLaboralesRepo {
     ): Resultado<OfertaLaboralEmpresaDTO>;
 
     crearOfertaLaboral(
-        ofertaLaboral: SolicitudCreacionOfertaLaboralDTO
-    ): Resultado<OfertaLaboralEmpresaDTO>;
+        ofertaLaboral: CrearOfertaLaboralDTO
+    ): Resultado<OperacionExitosaDTO>;
 }

@@ -7,9 +7,13 @@ import { CrearOfertaLaboral } from "../../ofertaLaboral/aplicacion/casoDeUso/Cre
 import {
     OFERTAS_LABORALES_RESPUESTA_CON_ERROR_VACANTES,
     OFERTAS_LABORALES_RESPUESTA_VALIDA,
-    OFERTA_LABORAL_RESPUESTA_VALIDA
+    OFERTA_LABORAL_RESPUESTA_VALIDA,
 } from "../../ofertaLaboral/infraestructura/JSON/ofertasLaboralesRespuestas";
 import { NUMERO_VACANTES_NO_VALIDA } from "../../ofertaLaboral/dominio/excepciones/numeroVacantesOferta.excepcion";
+import {
+    OperacionExitosaDTO,
+    OPERACION_EXITOSA,
+} from "../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 
 jest.mock(
     "../../ofertaLaboral/infraestructura/JSON/JSONOfertaLaboral.repositorio"
@@ -85,7 +89,7 @@ describe("Obtener Detalle de Oferta Laboral", () => {
         //Inicializamos Caso de Uso
         const CU = new ObtenerOfertaLaboral(repoImplementacion);
         const resultadoCU = CU.ejecutar({
-            idOfertaLaboral: ''
+            idOfertaLaboral: "",
         });
 
         return resultadoCU.then((data) => {
@@ -94,7 +98,9 @@ describe("Obtener Detalle de Oferta Laboral", () => {
             }
             expect(data.esExitoso).toBeTruthy();
             expect(data.esFallido).toBeFalsy();
-            expect(data.getValue().idOfertaLaboral).toBe(DATOS_A_USAR.idOfertaLaboral);
+            expect(data.getValue().idOfertaLaboral).toBe(
+                DATOS_A_USAR.idOfertaLaboral
+            );
         });
     });
 });
@@ -106,11 +112,14 @@ describe("Crear Nueva Oferta Laboral", () => {
         repoImplementacion = new JSONOfertaLaboralRepositorio();
     });
 
-    it("Debe crear y obtener el detalle de una nueva oferta laboral", () => {
+    it("Debe crear una nueva oferta laboral y obtener el respuesta exitosa ", () => {
         const DATOS_A_USAR = OFERTA_LABORAL_RESPUESTA_VALIDA;
-        JSONOfertaLaboralRepositorio.prototype.crearOfertaLaboral =
-            jest.fn().mockImplementation(() => {
-                return Resultado.ok<OfertaLaboralEmpresaDTO>(DATOS_A_USAR);
+        JSONOfertaLaboralRepositorio.prototype.crearOfertaLaboral = jest
+            .fn()
+            .mockImplementation(() => {
+                return Resultado.ok<OperacionExitosaDTO>({
+                    mensaje: OPERACION_EXITOSA,
+                });
             });
 
         //Inicializamos Caso de Uso
@@ -123,7 +132,7 @@ describe("Crear Nueva Oferta Laboral", () => {
             duracionEstimadaEscala: "mes",
             turnoTrabajo: "diurno",
             numeroVacantes: 4,
-            descripcion: undefined,
+            descripcion: "Encargado general de tienda IBM Encargado de tienda",
         });
 
         return resultadoCU.then((data) => {
@@ -132,15 +141,7 @@ describe("Crear Nueva Oferta Laboral", () => {
             }
             expect(data.esExitoso).toBeTruthy();
             expect(data.esFallido).toBeFalsy();
-            expect(data.getValue().titulo).toBe(DATOS_A_USAR.titulo);
-            expect(data.getValue().cargo).toBe(DATOS_A_USAR.cargo);
-            expect(data.getValue().sueldo).toBe(DATOS_A_USAR.sueldo);
-            expect(data.getValue().duracionEstimadaValor).toBe(DATOS_A_USAR.duracionEstimadaValor);
-            expect(data.getValue().duracionEstimadaEscala).toBe(DATOS_A_USAR.duracionEstimadaEscala);
-            expect(data.getValue().turnoTrabajo).toBe(DATOS_A_USAR.turnoTrabajo);
-            expect(data.getValue().numeroVacantes).toBe(DATOS_A_USAR.numeroVacantes);
-            expect(data.getValue().descripcion).toBe(DATOS_A_USAR.descripcion);
+            expect(data.getValue().mensaje).toBe(OPERACION_EXITOSA);
         });
     });
 });
-

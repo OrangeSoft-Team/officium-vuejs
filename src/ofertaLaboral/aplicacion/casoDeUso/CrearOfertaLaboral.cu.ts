@@ -3,7 +3,8 @@ import { IOfertasLaboralesRepo } from "../IOfertaLaboral.repositorio";
 import { CasoUso } from "../../../comun/aplicacion/casoUso";
 import { Resultado } from "../../../comun/dominio/resultado";
 import { OfertaLaboralEmpresaDTO } from "../dto/OfertaLaboralEmpresaDTO";
-
+import { CrearOfertaLaboralMapeador } from "../CrearOfertaLaboral.mapeador";
+import { OperacionExitosaDTO } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 
 export interface SolicitudCreacionOfertaLaboralDTO {
     titulo: string;
@@ -13,14 +14,14 @@ export interface SolicitudCreacionOfertaLaboralDTO {
     duracionEstimadaEscala: string;
     turnoTrabajo: string;
     numeroVacantes: number;
-    descripcion?: string;
+    descripcion: string;
 }
 
 export class CrearOfertaLaboral
     implements
         CasoUso<
             SolicitudCreacionOfertaLaboralDTO,
-            Resultado<OfertaLaboralEmpresaDTO>
+            Resultado<OperacionExitosaDTO>
         >
 {
     //Repositorio
@@ -31,36 +32,31 @@ export class CrearOfertaLaboral
     }
 
     //Query
-public async ejecutar(
+    public async ejecutar(
         solicitud: SolicitudCreacionOfertaLaboralDTO
-    ): Promise<Resultado<OfertaLaboralEmpresaDTO>> {
+    ): Promise<Resultado<OperacionExitosaDTO>> {
         //Convertimos a dominio
-        let ofertaOrError = OfertasLaboralesMapeador.aDominio(
-            solicitud
-        );
+        let ofertaOrError = OfertasLaboralesMapeador.aDominio(solicitud);
         if (ofertaOrError.esFallido)
-            return Resultado.falla<any>(ofertaOrError.error);  
-            
-        //Respondo con un DTO
-        let respuestaOrError = OfertasLaboralesMapeador.aDTO(
+            return Resultado.falla<any>(ofertaOrError.error);
+
+        //Convertimos a DTO
+        let DTOCrearOfertaOrError = CrearOfertaLaboralMapeador.aDTO(
             ofertaOrError.getValue()
         );
-        if (respuestaOrError.esFallido)
-            return Resultado.falla<any>(respuestaOrError.error);
+        if (DTOCrearOfertaOrError.esFallido)
+            return Resultado.falla<any>(DTOCrearOfertaOrError.error);
 
         //Llamamos al repositorio
         let NuevaOfertaLaboralOrError =
             await this.RepoOfertasLaborales.crearOfertaLaboral(
-                respuestaOrError.getValue() 
+                DTOCrearOfertaOrError.getValue()
             );
         if (NuevaOfertaLaboralOrError.esFallido)
             return Resultado.falla<any>(NuevaOfertaLaboralOrError.error);
 
-        return Resultado.ok<OfertaLaboralEmpresaDTO>(
-            respuestaOrError.getValue()
-            );
-
-
+        return Resultado.ok<OperacionExitosaDTO>(
+            NuevaOfertaLaboralOrError.getValue()
+        );
     }
 }
-
