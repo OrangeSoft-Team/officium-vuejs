@@ -2,16 +2,14 @@ import { SolicitudOfertasLaboralesActivasDTO } from "../../../aplicacion/casoDeU
 import { OfertaLaboralEmpresaDTO } from "../../../aplicacion/dto/OfertaLaboralEmpresaDTO";
 import { Resultado } from "../../../../comun/dominio/resultado";
 import { IOfertasLaboralesRepo } from "../../../aplicacion/IOfertaLaboral.repositorio";
-import {
-    OFERTAS_LABORALES_RESPUESTA_VALIDA,
-    OFERTA_LABORAL_RESPUESTA_VALIDA,
-} from "../ofertasLaboralesRespuestas";
 import { SolicitudOfertaLaboralDTO } from "@/ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertaLaboralDetalle.cu";
 import { SolicitudCreacionOfertaLaboralDTO } from "@/ofertaLaboral/aplicacion/casoDeUso/CrearOfertaLaboral.cu";
 import {
     OperacionExitosaDTO,
     OPERACION_EXITOSA,
 } from "../../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
+import { OFERTAS_LABORALES_RESPUESTA_VALIDA } from "../../../infraestructura/JSON/respuestas/ListadoOfertasLaborales";
+import { OFERTA_LABORAL_RESPUESTA_VALIDA } from "../../../infraestructura/JSON/respuestas/IndividualOfertaLaboral";
 
 export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     crearOfertaLaboral(

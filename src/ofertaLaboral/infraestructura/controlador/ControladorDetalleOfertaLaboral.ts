@@ -6,6 +6,7 @@ import {
 } from "../../aplicacion/casoDeUso/ObtenerOfertaLaboralDetalle.cu";
 import { OfertaLaboralEmpresaDTO } from "../../aplicacion/dto/OfertaLaboralEmpresaDTO";
 import { IOfertasLaboralesRepo } from "../../aplicacion/IOfertaLaboral.repositorio";
+import { LocalStoragePersistencia } from "../persistencia/LocalStorage.persistencia";
 
 //Controlador de CU Obtener detalle de Oferta Laboral
 export class ControladorDetalleOfertaLaboral {
@@ -19,17 +20,16 @@ export class ControladorDetalleOfertaLaboral {
     //Método estático para inicializar controlador
     public static inicializar(): ControladorDetalleOfertaLaboral {
         return new ControladorDetalleOfertaLaboral(
-            new JSONOfertaLaboralRepositorio()
+            new JSONOfertaLaboralRepositorio(new LocalStoragePersistencia())
         );
     }
 
     public async ejecutarCU(
         solicitud: SolicitudOfertaLaboralDTO
     ): Promise<Resultado<OfertaLaboralEmpresaDTO>> {
-        const CasoUsoObtenerOfertaLaboral =
-            new ObtenerOfertaLaboral(
-                this.RepositorioOfertasLaborales
-            );
+        const CasoUsoObtenerOfertaLaboral = new ObtenerOfertaLaboral(
+            this.RepositorioOfertasLaborales
+        );
 
         const respuestaCU = await CasoUsoObtenerOfertaLaboral.ejecutar(
             solicitud

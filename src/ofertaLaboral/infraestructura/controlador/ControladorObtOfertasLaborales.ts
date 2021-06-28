@@ -27,9 +27,10 @@ export class ControladorObtenerOfertasLaboralesActivas {
     //Método estático para inicializar controlador
     //Inyecciones de dependencias
     public static inicializar(): ControladorObtenerOfertasLaboralesActivas {
+        const AdaptadorPersistencia = new LocalStoragePersistencia();
         return new ControladorObtenerOfertasLaboralesActivas(
-            new JSONOfertaLaboralRepositorio(),
-            new LocalStoragePersistencia()
+            new JSONOfertaLaboralRepositorio(AdaptadorPersistencia),
+            AdaptadorPersistencia
         );
     }
 

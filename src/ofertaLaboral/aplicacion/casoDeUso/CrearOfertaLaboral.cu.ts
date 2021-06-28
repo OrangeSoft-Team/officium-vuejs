@@ -7,6 +7,7 @@ import { CrearOfertaLaboralMapeador } from "../CrearOfertaLaboral.mapeador";
 import { OperacionExitosaDTO } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 
 export interface SolicitudCreacionOfertaLaboralDTO {
+    uuidempresa?: string;
     titulo: string;
     cargo: string;
     sueldo: number;
