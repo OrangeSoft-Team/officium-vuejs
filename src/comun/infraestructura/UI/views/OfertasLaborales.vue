@@ -81,7 +81,7 @@ export default Vue.extend({
             ControladorObtenerOfertasLaboralesActivas.inicializar();
 
         //Ejecutamos el caso de uso
-        const respuestaCU = cuAEjecutar.ejecutarCU({ idEmpresa: "" });
+        const respuestaCU = cuAEjecutar.ejecutarCU();
         respuestaCU
             .then((data) => {
                 if (data.esExitoso) {

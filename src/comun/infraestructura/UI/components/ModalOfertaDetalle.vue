@@ -17,7 +17,12 @@
 
         <v-card>
             <v-card-title>
-                <span class="text-h5">Detalle de la oferta laboral</span>
+                <v-row justify="space-between" class="pa-1">
+                    <span class="text-h5">Detalle de la oferta laboral</span>
+                    <v-btn icon @click="dialog = false">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn></v-row
+                >
             </v-card-title>
             <v-divider></v-divider>
             <v-card-text>
@@ -31,67 +36,120 @@
                     <v-list three-line subheader>
                         <v-list-item>
                             <v-list-item-content>
-                            <v-list-item-title><h2>{{ ofertaLaboral.titulo }}</h2></v-list-item-title>
+                                <v-list-item-title
+                                    ><h2>
+                                        {{ ofertaLaboral.titulo }}
+                                    </h2></v-list-item-title
+                                >
                             </v-list-item-content>
                         </v-list-item>
                         <v-row>
-                            <v-col cols="6" sm="6" md="6" lg="6" xl="6"> 
+                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
                                 <v-list-item>
                                     <v-list-item-content>
-                                    <v-list-item-title><strong>Cargo</strong></v-list-item-title>
-                                    <v-list-item-title>{{ ofertaLaboral.cargo }}</v-list-item-title>
+                                        <v-list-item-title
+                                            ><strong
+                                                >Cargo</strong
+                                            ></v-list-item-title
+                                        >
+                                        <v-list-item-title>{{
+                                            ofertaLaboral.cargo
+                                        }}</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-col>
                             <v-col cols="6" sm="6" md="6" lg="6" xl="6">
                                 <v-list-item>
                                     <v-list-item-content>
-                                    <v-list-item-title><strong>Fecha de publicación</strong></v-list-item-title>
-                                    <v-list-item-title>{{ ofertaLaboral.fechaPublicacion }}</v-list-item-title>
+                                        <v-list-item-title
+                                            ><strong
+                                                >Fecha de publicación</strong
+                                            ></v-list-item-title
+                                        >
+                                        <v-list-item-title>{{
+                                            ofertaLaboral.fechaPublicacion
+                                        }}</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-col>
                         </v-row>
                         <v-row>
-                            <v-col cols="6" sm="6" md="6" lg="6" xl="6"> 
+                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
                                 <v-list-item>
                                     <v-list-item-content>
-                                    <v-list-item-title><strong>Número de vacantes</strong></v-list-item-title>
-                                    <v-list-item-title>{{ ofertaLaboral.numeroVacantes }}</v-list-item-title>
+                                        <v-list-item-title
+                                            ><strong
+                                                >Número de vacantes</strong
+                                            ></v-list-item-title
+                                        >
+                                        <v-list-item-title>{{
+                                            ofertaLaboral.numeroVacantes
+                                        }}</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-col>
                             <v-col cols="6" sm="6" md="6" lg="6" xl="6">
                                 <v-list-item>
                                     <v-list-item-content>
-                                    <v-list-item-title><strong>Sueldo</strong></v-list-item-title>
-                                    <v-list-item-title>{{ ofertaLaboral.sueldo }}$</v-list-item-title>
+                                        <v-list-item-title
+                                            ><strong
+                                                >Sueldo</strong
+                                            ></v-list-item-title
+                                        >
+                                        <v-list-item-title
+                                            >{{
+                                                ofertaLaboral.sueldo
+                                            }}$</v-list-item-title
+                                        >
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-col>
                         </v-row>
                         <v-row>
-                            <v-col cols="6" sm="6" md="6" lg="6" xl="6"> 
+                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
                                 <v-list-item>
                                     <v-list-item-content>
-                                    <v-list-item-title><strong>Duración estimada</strong></v-list-item-title>
-                                    <v-list-item-title>{{ ofertaLaboral.duracionEstimadaValor }} {{ ofertaLaboral.duracionEstimadaEscala }}</v-list-item-title>
+                                        <v-list-item-title
+                                            ><strong
+                                                >Duración estimada</strong
+                                            ></v-list-item-title
+                                        >
+                                        <v-list-item-title
+                                            >{{
+                                                ofertaLaboral.duracionEstimadaValor
+                                            }}
+                                            {{
+                                                ofertaLaboral.duracionEstimadaEscala
+                                            }}</v-list-item-title
+                                        >
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-col>
                             <v-col cols="6" sm="6" md="6" lg="6" xl="6">
                                 <v-list-item>
                                     <v-list-item-content>
-                                    <v-list-item-title><strong>Turno de trabajo</strong></v-list-item-title>
-                                    <v-list-item-title>{{ ofertaLaboral.turnoTrabajo }}</v-list-item-title>
+                                        <v-list-item-title
+                                            ><strong
+                                                >Turno de trabajo</strong
+                                            ></v-list-item-title
+                                        >
+                                        <v-list-item-title>{{
+                                            ofertaLaboral.turnoTrabajo
+                                        }}</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-col>
                         </v-row>
                         <v-list-item>
                             <v-list-item-content>
-                            <v-list-item-title><strong>Descripción</strong></v-list-item-title>
-                            <v-list-item-title>{{ ofertaLaboral.descripcion }}</v-list-item-title>
+                                <v-list-item-title
+                                    ><strong
+                                        >Descripción</strong
+                                    ></v-list-item-title
+                                >
+                                <v-list-item-title>{{
+                                    ofertaLaboral.descripcion
+                                }}</v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
                     </v-list>
@@ -99,7 +157,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="dialog = false">
+                <v-btn color="primary darken-1" text @click="dialog = false">
                     Cerrar
                 </v-btn>
             </v-card-actions>
@@ -126,7 +184,6 @@ export default Vue.extend({
 
     methods: {
         obtenerDetalle() {
-
             console.log("[ID  detalle] ", this.$props.idOferta);
             //Inicializamos el controlador
             const cuAEjecutar = ControladorDetalleOfertaLaboral.inicializar();
