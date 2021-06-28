@@ -21,10 +21,6 @@ export class OfertasLaboralesMapeador {
         if (tituloOrError.esFallido)
             return Resultado.falla<any>(tituloOrError.error);
 
-        let fechaPublicacionOrError = Fecha.crear(dto.fechaPublicacion);
-        if (fechaPublicacionOrError.esFallido)
-            return Resultado.falla<any>(fechaPublicacionOrError.error);
-
         let cargoOrError = CargoOferta.crear(dto.cargo);
         if (cargoOrError.esFallido)
             return Resultado.falla<any>(cargoOrError.error);
@@ -53,7 +49,6 @@ export class OfertasLaboralesMapeador {
         //Propiedades de entidad
         let ofertaProps: OfertaLaboralProps = {
             titulo: tituloOrError.getValue(),
-            fechaPublicacion: fechaPublicacionOrError.getValue(),
             cargo: cargoOrError.getValue(),
             sueldo: sueldoOrError.getValue(),
             duracionEstimada: duracionEstimadaOrError.getValue(),
@@ -62,6 +57,14 @@ export class OfertasLaboralesMapeador {
         };
 
         //OPCIONALES
+        let fechaPublicacionOrError:  Resultado<Fecha>;
+        if (dto.fechaPublicacion){
+            fechaPublicacionOrError = Fecha.crear(dto.fechaPublicacion);
+            if (fechaPublicacionOrError.esFallido)
+                return Resultado.falla<any>(fechaPublicacionOrError.error);
+            ofertaProps.fechaPublicacion = fechaPublicacionOrError.getValue();
+        }
+
         let descripcionOrError: Resultado<DescripcionOferta>;
         if (dto.descripcion) {
             descripcionOrError = DescripcionOferta.crear(dto.descripcion);
@@ -98,7 +101,6 @@ export class OfertasLaboralesMapeador {
         //Extraemos de entidad
         let propsDTO: OfertaLaboralEmpresaDTO = {
             titulo: entidad.props.titulo.valor(),
-            fechaPublicacion: entidad.props.fechaPublicacion.valor(),
             cargo: entidad.props.cargo.valor(),
             sueldo: entidad.props.sueldo.valor(),
             duracionEstimadaEscala:
@@ -110,6 +112,9 @@ export class OfertasLaboralesMapeador {
         };
 
         //Opcionales
+        if (entidad.props.fechaPublicacion)
+            propsDTO.fechaPublicacion = entidad.props.fechaPublicacion.valor();
+
         if (entidad.props.idOfertaLaboral)
             propsDTO.idOfertaLaboral = entidad.props.idOfertaLaboral.valor();
 

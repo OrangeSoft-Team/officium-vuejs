@@ -1,13 +1,10 @@
-export interface OfertaLaboralEmpresaDTO {
-    idOfertaLaboral?: string;
+export interface CrearOfertaLaboralDTO {
     titulo: string;
-    fechaPublicacion?: string;
     cargo: string;
     sueldo: number;
     duracionEstimadaValor: number;
     duracionEstimadaEscala: string;
     turnoTrabajo: string;
     numeroVacantes: number;
-    descripcion?: string;
-    estado?: string;
+    descripcion: string;
 }

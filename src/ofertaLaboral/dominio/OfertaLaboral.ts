@@ -14,7 +14,7 @@ import { TurnoTrabajo } from "./valueObjects/turnoTrabajoOferta";
 export interface OfertaLaboralProps {
     idOfertaLaboral?: Identificador;
     titulo: TituloOferta;
-    fechaPublicacion: Fecha;
+    fechaPublicacion?: Fecha;
     cargo: CargoOferta;
     sueldo: SueldoOferta;
     duracionEstimada: DuracionEstimadaOferta;

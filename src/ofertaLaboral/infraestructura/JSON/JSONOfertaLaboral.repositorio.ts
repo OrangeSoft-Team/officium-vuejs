@@ -8,6 +8,12 @@ import {
     OFERTA_LABORAL_RESPUESTA_VALIDA,
 } from "./ofertasLaboralesRespuestas";
 import { SolicitudOfertaLaboralDTO } from "@/ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertaLaboralDetalle.cu";
+import { SolicitudCreacionOfertaLaboralDTO } from "@/ofertaLaboral/aplicacion/casoDeUso/CrearOfertaLaboral.cu";
+import {
+    OperacionExitosaDTO,
+    OPERACION_EXITOSA,
+} from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
+
 import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersistencia";
 import {
     CLAVE_CONJUNTO_OFERTAS_LABORALES,
@@ -20,6 +26,15 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     constructor(implPersistencia: IServicioPersistencia) {
         this.persistenciaAlterna = implPersistencia;
     }
+
+    crearOfertaLaboral(
+        ofertaLaboral: SolicitudCreacionOfertaLaboralDTO
+    ): Resultado<OperacionExitosaDTO> {
+        return Resultado.ok<OperacionExitosaDTO>({
+            mensaje: OPERACION_EXITOSA,
+        });
+     }
+   
 
     obtenerOfertasLaboralesActivas(
         id: SolicitudOfertasLaboralesActivasDTO
