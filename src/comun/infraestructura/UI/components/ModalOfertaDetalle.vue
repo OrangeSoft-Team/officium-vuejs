@@ -19,6 +19,7 @@
             <v-card-title>
                 <span class="text-h5">Detalle de la oferta laboral</span>
             </v-card-title>
+            <v-divider></v-divider>
             <v-card-text>
                 <v-container>
                     <v-row v-show="estaCargando">
@@ -27,7 +28,73 @@
                             color="primary"
                         ></v-progress-linear
                     ></v-row>
-                    <v-row v-show="!estaCargando"> <p>Contenido</p> </v-row>
+                    <v-list three-line subheader>
+                        <v-list-item>
+                            <v-list-item-content>
+                            <v-list-item-title><h2>{{ ofertaLaboral.titulo }}</h2></v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-row>
+                            <v-col cols="6" sm="6" md="6" lg="6" xl="6"> 
+                                <v-list-item>
+                                    <v-list-item-content>
+                                    <v-list-item-title><strong>Cargo</strong></v-list-item-title>
+                                    <v-list-item-title>{{ ofertaLaboral.cargo }}</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-col>
+                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
+                                <v-list-item>
+                                    <v-list-item-content>
+                                    <v-list-item-title><strong>Fecha de publicación</strong></v-list-item-title>
+                                    <v-list-item-title>{{ ofertaLaboral.fechaPublicacion }}</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col cols="6" sm="6" md="6" lg="6" xl="6"> 
+                                <v-list-item>
+                                    <v-list-item-content>
+                                    <v-list-item-title><strong>Número de vacantes</strong></v-list-item-title>
+                                    <v-list-item-title>{{ ofertaLaboral.numeroVacantes }}</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-col>
+                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
+                                <v-list-item>
+                                    <v-list-item-content>
+                                    <v-list-item-title><strong>Sueldo</strong></v-list-item-title>
+                                    <v-list-item-title>{{ ofertaLaboral.sueldo }}$</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col cols="6" sm="6" md="6" lg="6" xl="6"> 
+                                <v-list-item>
+                                    <v-list-item-content>
+                                    <v-list-item-title><strong>Duración estimada</strong></v-list-item-title>
+                                    <v-list-item-title>{{ ofertaLaboral.duracionEstimadaValor }} {{ ofertaLaboral.duracionEstimadaEscala }}</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-col>
+                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
+                                <v-list-item>
+                                    <v-list-item-content>
+                                    <v-list-item-title><strong>Turno de trabajo</strong></v-list-item-title>
+                                    <v-list-item-title>{{ ofertaLaboral.turnoTrabajo }}</v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-col>
+                        </v-row>
+                        <v-list-item>
+                            <v-list-item-content>
+                            <v-list-item-title><strong>Descripción</strong></v-list-item-title>
+                            <v-list-item-title>{{ ofertaLaboral.descripcion }}</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list>
                 </v-container>
             </v-card-text>
             <v-card-actions>
@@ -59,18 +126,13 @@ export default Vue.extend({
 
     methods: {
         obtenerDetalle() {
+
+            console.log("[ID  detalle] ", this.$props.idOferta);
             //Inicializamos el controlador
             const cuAEjecutar = ControladorDetalleOfertaLaboral.inicializar();
 
-            //Ejecutamos el caso de uso
-
-            /**
-             * FALTA COLOCAR AQUÍ EL ID DE LA OFERTA LABORAL QUE RECIBIMOS
-             * DEL COMPONENTE PADRE
-             */
-
             const respuestaCU = cuAEjecutar.ejecutarCU({
-                idOfertaLaboral: "1",
+                idOfertaLaboral: this.$props.idOferta,
             });
             respuestaCU
                 .then((data) => {
@@ -79,10 +141,10 @@ export default Vue.extend({
 
                         this.estaCargando = false;
 
-                        //this.estaCargando = false;
-                        //console.log("[DETALLE] ", data.getValue());
                         //Actualizamos
                         this.ofertaLaboral = data.getValue();
+
+                        console.log("[DETALLE] ", this.ofertaLaboral);
                     } else {
                         //TODO Manejo de caso con error al recuperar conjunto
                         console.warn("Algo pasó", data.error);
@@ -92,10 +154,6 @@ export default Vue.extend({
                     console.error(e);
                 });
         },
-    },
-
-    mounted() {
-        //console.log("MONTANDO", this.idOferta);
     },
 });
 </script>

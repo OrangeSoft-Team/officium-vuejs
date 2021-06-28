@@ -23,8 +23,19 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     obtenerOfertaLaboralDetalle(
         id: SolicitudOfertaLaboralDTO
     ): Resultado<OfertaLaboralEmpresaDTO> {
+
+        let i:number = 0;
+        for(i=0; i <= OFERTAS_LABORALES_RESPUESTA_VALIDA.length; i++){
+            if(OFERTAS_LABORALES_RESPUESTA_VALIDA[i].idOfertaLaboral === id.idOfertaLaboral) {
+                return Resultado.ok<OfertaLaboralEmpresaDTO>(
+                    OFERTAS_LABORALES_RESPUESTA_VALIDA[i]
+                );
+            }
+        }
+        
         return Resultado.ok<OfertaLaboralEmpresaDTO>(
             OFERTA_LABORAL_RESPUESTA_VALIDA
         );
+        
     }
 }
