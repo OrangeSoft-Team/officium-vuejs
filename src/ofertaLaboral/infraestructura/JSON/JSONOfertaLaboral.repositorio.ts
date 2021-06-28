@@ -2,10 +2,26 @@ import { SolicitudOfertasLaboralesActivasDTO } from "../../aplicacion/casoDeUso/
 import { OfertaLaboralEmpresaDTO } from "../../aplicacion/dto/OfertaLaboralEmpresaDTO";
 import { Resultado } from "../../../comun/dominio/resultado";
 import { IOfertasLaboralesRepo } from "../../aplicacion/IOfertaLaboral.repositorio";
-import { OFERTAS_LABORALES_RESPUESTA_VALIDA, OFERTA_LABORAL_RESPUESTA_VALIDA } from "./ofertasLaboralesRespuestas";
+import {
+    OFERTAS_LABORALES_RESPUESTA_VALIDA,
+    OFERTA_LABORAL_RESPUESTA_VALIDA,
+} from "./ofertasLaboralesRespuestas";
 import { SolicitudOfertaLaboralDTO } from "@/ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertaLaboralDetalle.cu";
+import { SolicitudCreacionOfertaLaboralDTO } from "@/ofertaLaboral/aplicacion/casoDeUso/CrearOfertaLaboral.cu";
+import {
+    OperacionExitosaDTO,
+    OPERACION_EXITOSA,
+} from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 
 export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
+    crearOfertaLaboral(
+        ofertaLaboral: SolicitudCreacionOfertaLaboralDTO
+    ): Resultado<OperacionExitosaDTO> {
+        return Resultado.ok<OperacionExitosaDTO>({
+            mensaje: OPERACION_EXITOSA,
+        });
+    }
+
     obtenerOfertasLaboralesActivas(
         id: SolicitudOfertasLaboralesActivasDTO
     ): Resultado<OfertaLaboralEmpresaDTO[]> {
