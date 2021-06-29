@@ -9,9 +9,11 @@
                     <v-card-title>
                         <v-row justify="space-between" class="pa-2">
                             <h3 class="">Ofertas Activas</h3>
-                            <v-btn depressed color="primary">
-                                Agregar nueva oferta
-                            </v-btn>
+                                <!--Llamamos al componente de crear
+                                oferta laboral-->
+                                <modal-crear-oferta
+                                    
+                                ></modal-crear-oferta>
                         </v-row>
                     </v-card-title>
                     <v-data-table
@@ -55,12 +57,16 @@ import { ControladorObtenerOfertasLaboralesActivas } from "../../../../ofertaLab
 import { OfertaLaboralEmpresaDTO } from "../../../../ofertaLaboral/aplicacion/dto/OfertaLaboralEmpresaDTO";
 
 import ModalOfertaDetalle from "../components/ModalOfertaDetalle.vue";
+import ModalCrearOferta from "../components/ModalCrearOferta.vue";
 
 export default Vue.extend({
     components: {
         ModalOfertaDetalle,
+        ModalCrearOferta
     },
     data() {
+      
+        ModalCrearOferta  
         return {
             estaCargando: true,
             ofertasLaborales: [] as OfertaLaboralEmpresaDTO[],
