@@ -34,14 +34,10 @@ export class ControladorCrearOfertaLaboral {
             this.RepositorioOfertasLaborales
         );
 
-        const respuestaCU = await CasoUsoCrearOfertaLaboral.ejecutar(
-            solicitud
-        );
+        const respuestaCU = await CasoUsoCrearOfertaLaboral.ejecutar(solicitud);
 
         if (respuestaCU.esExitoso) {
-            return Resultado.ok<OperacionExitosaDTO>(
-                respuestaCU.getValue()
-            );
+            return Resultado.ok<OperacionExitosaDTO>(respuestaCU.getValue());
         } else {
             return Resultado.falla<any>(respuestaCU.error);
         }

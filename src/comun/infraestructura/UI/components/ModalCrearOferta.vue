@@ -1,12 +1,7 @@
 <template>
     <v-dialog v-model="dialog">
         <template v-slot:activator="{ on, attrs }">
-            <v-btn
-                depressed
-                color="primary"
-                v-bind="attrs"
-                v-on="on"
-            >
+            <v-btn depressed color="primary" v-bind="attrs" v-on="on">
                 Crear
             </v-btn>
         </template>
@@ -23,80 +18,90 @@
             <v-divider></v-divider>
             <v-card-text>
                 <v-container>
-                        <v-text-field
-                            v-model="ofertaLaboralCrear.titulo"
-                            :counter="100"
-                            label="Ingrese el título de la oferta laboral"
-                            required
-                        ></v-text-field>
+                    <v-text-field
+                        v-model="ofertaLaboralCrear.titulo"
+                        :counter="100"
+                        label="Ingrese el título de la oferta laboral"
+                        required
+                    ></v-text-field>
 
-                        <v-row>
-                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
-                                <v-text-field
-                                    v-model="ofertaLaboralCrear.cargo"
-                                    :counter="50"
-                                    label="Ingrese el cargo de la oferta laboral"
-                                    required
-                                ></v-text-field>
-                            </v-col>
-                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
-                                <v-select
+                    <v-row>
+                        <v-col cols="6" sm="6" md="6" lg="6" xl="6">
+                            <v-text-field
+                                v-model="ofertaLaboralCrear.cargo"
+                                :counter="50"
+                                label="Ingrese el cargo de la oferta laboral"
+                                required
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="6" sm="6" md="6" lg="6" xl="6">
+                            <v-select
                                 v-model="ofertaLaboralCrear.turnoTrabajo"
                                 :items="opcionesTurnoTrabajo"
-                                :rules="[v => !!v || 'Este campo es obligatorio']"
+                                :rules="[
+                                    (v) => !!v || 'Este campo es obligatorio',
+                                ]"
                                 label="Turno de trabajo"
                                 required
-                                ></v-select>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
-                                <v-text-field
-                                    v-model="ofertaLaboralCrear.numeroVacantes"
-                                    :counter="3"
-                                    type="number"
-                                    label="Ingrese el número de vacantes"
-                                    required
-                                ></v-text-field>
-                            </v-col>
-                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
-                                <v-text-field
-                                    v-model="ofertaLaboralCrear.sueldo"
-                                    :counter="10"
-                                    type="number"
-                                    label="Ingrese el sueldo de la oferta laboral"
-                                    required
-                                ></v-text-field>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <strong>Duración</strong>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
-                                <v-text-field
-                                    v-model="ofertaLaboralCrear.duracionEstimadaValor"
-                                    :counter="10"
-                                    type="number"
-                                    label="Duración"
-                                    required
-                                ></v-text-field>
-                            </v-col>
-                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
-                                <v-select
-                                v-model="ofertaLaboralCrear.duracionEstimadaEscala"
+                            ></v-select>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="6" sm="6" md="6" lg="6" xl="6">
+                            <v-text-field
+                                v-model.number="
+                                    ofertaLaboralCrear.numeroVacantes
+                                "
+                                :counter="3"
+                                type="number"
+                                label="Ingrese el número de vacantes"
+                                required
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="6" sm="6" md="6" lg="6" xl="6">
+                            <v-text-field
+                                v-model.number="ofertaLaboralCrear.sueldo"
+                                :counter="10"
+                                type="number"
+                                label="Ingrese el sueldo de la oferta laboral"
+                                required
+                            ></v-text-field>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <strong>Duración</strong>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="6" sm="6" md="6" lg="6" xl="6">
+                            <v-text-field
+                                v-model.number="
+                                    ofertaLaboralCrear.duracionEstimadaValor
+                                "
+                                :counter="10"
+                                type="number"
+                                label="Duración"
+                                required
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="6" sm="6" md="6" lg="6" xl="6">
+                            <v-select
+                                v-model="
+                                    ofertaLaboralCrear.duracionEstimadaEscala
+                                "
                                 :items="opcionesEscalaDuracion"
-                                :rules="[v => !!v || 'Este campo es obligatorio']"
+                                :rules="[
+                                    (v) => !!v || 'Este campo es obligatorio',
+                                ]"
                                 label="Escala"
                                 required
-                                ></v-select>
-                            </v-col>
-                        </v-row>
-                        <v-textarea
+                            ></v-select>
+                        </v-col>
+                    </v-row>
+                    <v-textarea
                         v-model="ofertaLaboralCrear.descripcion"
                         label="Ingrese la descripción de la oferta laboral"
                         hint="La descripción no debería ser mayor a 512 caracteres"
-                        ></v-textarea>
+                    ></v-textarea>
                 </v-container>
             </v-card-text>
             <v-card-actions>
@@ -121,19 +126,18 @@ import { CrearOfertaLaboralDTO } from "../../../../ofertaLaboral/aplicacion/dto/
 import { SolicitudCreacionOfertaLaboralDTO } from "../../../../ofertaLaboral/aplicacion/casoDeUso/CrearOfertaLaboral.cu";
 
 export default Vue.extend({
-    
     data() {
         return {
             estaCargando: true,
             ofertaLaboralCrear: {
-                titulo: '',
-                cargo: '',
+                titulo: "",
+                cargo: "",
                 sueldo: 0,
                 duracionEstimadaValor: 0,
-                duracionEstimadaEscala: '',
-                turnoTrabajo: '',
+                duracionEstimadaEscala: "",
+                turnoTrabajo: "",
                 numeroVacantes: 0,
-                descripcion: ''
+                descripcion: "",
             } as SolicitudCreacionOfertaLaboralDTO,
             /*
             normaTitulo: [
@@ -154,9 +158,7 @@ export default Vue.extend({
             const cuAEjecutar = ControladorCrearOfertaLaboral.inicializar();
 
             //¿Por qué colocar en respuesta la oferta laboral?
-            const respuestaCU = cuAEjecutar.ejecutarCU(
-                this.ofertaLaboralCrear
-            );
+            const respuestaCU = cuAEjecutar.ejecutarCU(this.ofertaLaboralCrear);
             respuestaCU
                 .then((data) => {
                     if (data.esExitoso) {
