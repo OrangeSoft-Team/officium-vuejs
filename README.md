@@ -47,6 +47,8 @@ Adicionalmente, se utilizan las siguientes plantillas para el repositorio:
 | <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/1200px-Npm-logo.svg.png" width="24">                                                               | Manejador de dependencias | Node Package Manager | https://www.npmjs.com/get-npm            | 6.14.3  |
 | <img src="https://nodejs.org/static/images/logo.svg" width="24">                                                                                                                    | Ambiente de ejecución     | Node.JS              | https://nodejs.org/en/download/          | 12.13.0 |
 | <img src="https://camo.githubusercontent.com/dff60c3322fc0645c42441b218ce565be5d14b528ac4d79247baa547b4977d1f/68747470733a2f2f70726574746965722e696f2f69636f6e2e706e67" width="24"> | Linter                    | Prettier             | https://prettier.io/docs/en/install.html | 7.1.1   |
+| <img src="https://avatars.githubusercontent.com/u/32196900?s=400&v=4" width="24">                                                                                                   | Testing                   | Jest                 | https://jestjs.io/docs/getting-started   | 27.0.5  |
+| <img src="https://miro.medium.com/max/3164/1*80J2Wa21DYXxMbbtBziJHg.png" width="48">                                                                                                | Cliente HTTP              | Axios                | https://axios-http.com/docs/intro        | 0.21.1  |
 
 ### :wrench: Instalación de la Aplicación
 

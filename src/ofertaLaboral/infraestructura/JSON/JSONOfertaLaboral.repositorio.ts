@@ -2,24 +2,20 @@ import { SolicitudOfertasLaboralesActivasDTO } from "../../aplicacion/casoDeUso/
 import { OfertaLaboralEmpresaDTO } from "../../aplicacion/dto/OfertaLaboralEmpresaDTO";
 import { Resultado } from "../../../comun/dominio/resultado";
 import { IOfertasLaboralesRepo } from "../../aplicacion/IOfertaLaboral.repositorio";
-import {
-    OFERTAS_LABORALES_RESPUESTA_CON_ERROR_VACANTES,
-    OFERTAS_LABORALES_RESPUESTA_VALIDA,
-    OFERTA_LABORAL_RESPUESTA_VALIDA,
-} from "./ofertasLaboralesRespuestas";
 import { SolicitudOfertaLaboralDTO } from "@/ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertaLaboralDetalle.cu";
 import { SolicitudCreacionOfertaLaboralDTO } from "@/ofertaLaboral/aplicacion/casoDeUso/CrearOfertaLaboral.cu";
 import {
     OperacionExitosaDTO,
     OPERACION_EXITOSA,
 } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
-
+import { OPERACION_FALLIDA } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionFallida";
 import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersistencia";
 import {
     CLAVE_CONJUNTO_OFERTAS_LABORALES,
     CLAVE_ID_EMPRESA,
     CLAVE_ULT_OFERTA_LABORAL,
 } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
+import { OFERTAS_LABORALES_RESPUESTA_VALIDA } from "./respuestas/ListadoOfertasLaborales";
 
 export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     private persistenciaAlterna: IServicioPersistencia;
@@ -85,12 +81,6 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
             }
         }
 
-        //TODO Mensaje de error generico
-        return Resultado.falla<any>("");
+        return Resultado.falla<any>(OPERACION_FALLIDA);
     }
-}
-function OPERACION_FALLIDA<T>(
-    OPERACION_FALLIDA: any
-): Resultado<OperacionExitosaDTO> {
-    throw new Error("Function not implemented.");
 }
