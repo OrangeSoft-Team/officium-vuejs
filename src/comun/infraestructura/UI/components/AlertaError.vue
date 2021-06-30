@@ -9,7 +9,7 @@
             color="pink"
             text
             v-bind="attrs"
-            @click="snackbar = false"
+            @click="cambiarEstadoSnackbar"
             >
             Close
             </v-btn>
@@ -28,15 +28,14 @@ export default Vue.extend({
         };
     },
     methods: {
-    },
-    watch: {
-        snackbar(newVal) {
-            if (newVal) {
-                this.$props.snackbar = !this.$props.snackbar;
-                this.$emit("alertfin");
-            }
+        cambiarEstadoSnackbar() {
+            this.$props.snackbar = !this.$props.snackbar;
+            this.$emit("alertfin");
+        },
+        cambiarEstadoDesdePadre() {
+            this.$props.snackbar = !this.$props.snackbar;
         }
-    }
+    },
 });
 </script>
 

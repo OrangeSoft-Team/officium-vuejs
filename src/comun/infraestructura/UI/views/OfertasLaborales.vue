@@ -1,5 +1,15 @@
 <template>
     <v-container fluid class="grey lighten-5">
+        <v-alert
+            v-model="alertaExito"
+            border="left"
+            close-text="Cerrar"
+            type="success"
+            dismissible
+            >
+            {{ mensajeExito }}
+        </v-alert>
+
         <v-row align="center" no-gutters style="height: 50px"> </v-row>
 
         <v-row align="center" no-gutters style="height: 150px">
@@ -12,7 +22,9 @@
                                 <!--Llamamos al componente de crear
                                 oferta laboral-->
                                 <modal-crear-oferta
-                                    
+                                    :mensajeExito=mensajeExito
+                                    :alertaExito=alertaExito
+                                    v-on:alertexito="alertExito"
                                 ></modal-crear-oferta>
                         </v-row>
                     </v-card-title>
@@ -65,8 +77,6 @@ export default Vue.extend({
         ModalCrearOferta
     },
     data() {
-      
-        ModalCrearOferta  
         return {
             estaCargando: true,
             ofertasLaborales: [] as OfertaLaboralEmpresaDTO[],
@@ -78,6 +88,10 @@ export default Vue.extend({
                 { text: "Turno de trabajo", value: "turnoTrabajo" },
                 { text: "Acciones", value: "acciones" },
             ],
+
+            //Para el manejo del mensaje de éxito
+            mensajeExito: '',
+            alertaExito: false,
         };
     },
 
@@ -105,6 +119,11 @@ export default Vue.extend({
                 console.error(e);
             });
     },
+    methods: {
+        alertExito() {
+            this.alertaExito = true;
+        },
+    }
 });
 </script>
 

@@ -106,7 +106,7 @@
                     <v-textarea
                         v-model="ofertaLaboralCrear.descripcion"
                         label="Ingrese la descripción de la oferta laboral"
-                        hint="La descripción no debería ser mayor a 512 caracteres"
+                        hint="La descripción debería tener entre 32 y 512 caracteres"
                         :rules="[(v) => !!v || 'Este campo es obligatorio']"
                     ></v-textarea>
                 </v-container>
@@ -142,10 +142,13 @@ import { ControladorCrearOfertaLaboral } from "../../../../ofertaLaboral/infraes
 import { SolicitudCreacionOfertaLaboralDTO } from "../../../../ofertaLaboral/aplicacion/casoDeUso/CrearOfertaLaboral.cu";
 
 import AlertaError from "../components/AlertaError.vue";
+import AlertaExito from "../components/AlertaExito.vue";
 
 export default Vue.extend({
+    props: ["mensajeExito"],
     components: {
-        AlertaError
+        AlertaError,
+        AlertaExito
     },
     data() {
         return {
@@ -187,11 +190,38 @@ export default Vue.extend({
                         this.estaCargando = false;
 
                         console.log("[Oferta creada satisfactoriamente]");
+
+                        //Si la oferta fue exitosamente creada, mostramos
+                        //mensaje de éxito y cerramos el modal
+                        this.dialog = false;
+
+                        //Reinicializamos variable del crear
+                        /*
+                        this.ofertaLaboralCrear = {
+                            titulo: "",
+                            cargo: "",
+                            sueldo: 0,
+                            duracionEstimadaValor: 0,
+                            duracionEstimadaEscala: "",
+                            turnoTrabajo: "",
+                            numeroVacantes: 0,
+                            descripcion: "",
+                        }
+                        */
+                       
+                        //Mensaje del mensaje de éxito y se activa alerta por 5 segundos
+                        this.$props.mensajeExito = "¡La oferta laboral ha sido creada satisfactoriamente!";
+                        this.$props.alertaExito;
+                        this.$emit("alertexito");
+
                     } else {
                         //TODO Manejo de caso con error al recuperar conjunto
                         console.warn("Algo pasó", data.error);
                         this.mensajeError = data.error;
+
                         this.snackbar = true;
+                        //¿Cómo le cambiaría el estado al componente hijo?
+                        //this.$refs.AlertaError.snackbar = true;
                     }
                 })
                 .catch((e) => {
