@@ -1,10 +1,8 @@
 <template>
-    <v-snackbar
-      v-model="snackbar"
-    >
+    <v-snackbar v-model="mostrar" :timeout="-1">
       {{ mensaje }}
 
-      <template v-slot:action="{ attrs }">
+        <template v-slot:action="{ attrs }">
             <v-btn
             color="pink"
             text
@@ -13,7 +11,7 @@
             >
             Close
             </v-btn>
-      </template>
+        </template>
     </v-snackbar>
 </template>
 
@@ -25,17 +23,19 @@ export default Vue.extend({
     props: ["mensaje", "snackbar"],
     data() {
         return {
+            mostrar: false
         };
     },
     methods: {
         cambiarEstadoSnackbar() {
-            this.$props.snackbar = !this.$props.snackbar;
             this.$emit("alertfin");
-        },
-        cambiarEstadoDesdePadre() {
-            this.$props.snackbar = !this.$props.snackbar;
         }
     },
+    watch: {
+        snackbar(nuevoValor) {
+            this.mostrar = nuevoValor;
+        }
+    }
 });
 </script>
 

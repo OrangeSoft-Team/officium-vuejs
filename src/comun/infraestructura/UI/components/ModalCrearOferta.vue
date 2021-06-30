@@ -173,72 +173,67 @@ export default Vue.extend({
             snackbar: false,
         };
     },
-
     methods: {
         crear() {
-            console.log("Objeto a enviar: ");
-            console.log(this.ofertaLaboralCrear);
-            //Inicializamos el controlador
-            const cuAEjecutar = ControladorCrearOfertaLaboral.inicializar();
+            if(this.validar()){
+                //Inicializamos el controlador
+                const cuAEjecutar = ControladorCrearOfertaLaboral.inicializar();
 
-            //¿Por qué colocar en respuesta la oferta laboral?
-            const respuestaCU = cuAEjecutar.ejecutarCU(this.ofertaLaboralCrear);
-            respuestaCU
-                .then((data:any) => {
-                    if (data.esExitoso) {
-                        //Cambiamos el estado
-                        this.estaCargando = false;
+                //¿Por qué colocar en respuesta la oferta laboral?
+                const respuestaCU = cuAEjecutar.ejecutarCU(this.ofertaLaboralCrear);
+                respuestaCU
+                    .then((data:any) => {
+                        if (data.esExitoso) {
+                            //Cambiamos el estado
+                            this.estaCargando = false;
 
-                        console.log("[Oferta creada satisfactoriamente]");
+                            console.log("[Oferta creada satisfactoriamente]");
 
-                        //Si la oferta fue exitosamente creada, mostramos
-                        //mensaje de éxito y cerramos el modal
-                        this.dialog = false;
+                            //Si la oferta fue exitosamente creada, mostramos
+                            //mensaje de éxito y cerramos el modal
+                            this.dialog = false;
 
-                        //Reinicializamos variable del crear
-                        /*
-                        this.ofertaLaboralCrear = {
-                            titulo: "",
-                            cargo: "",
-                            sueldo: 0,
-                            duracionEstimadaValor: 0,
-                            duracionEstimadaEscala: "",
-                            turnoTrabajo: "",
-                            numeroVacantes: 0,
-                            descripcion: "",
+                            //Reinicializamos variable del crear
+                            this.ofertaLaboralCrear = {
+                                titulo: "",
+                                cargo: "",
+                                sueldo: 0,
+                                duracionEstimadaValor: 0,
+                                duracionEstimadaEscala: "",
+                                turnoTrabajo: "",
+                                numeroVacantes: 0,
+                                descripcion: "",
+                            }
+                        
+                            this.$emit(
+                                "alertexito",
+                                "¡La oferta laboral ha sido creada satisfactoriamente!"
+                            );
+
+                        } else {
+                            //TODO Manejo de caso con error al recuperar conjunto
+                            console.warn("Algo pasó", data.error);
+                            this.mensajeError = data.error;
+
+                            //Activamos el snackbar para mostrar los errores
+                            this.snackbar = true;
                         }
-                        */
-                       
-                        //Mensaje del mensaje de éxito y se activa alerta por 5 segundos
-                        this.$props.mensajeExito = "¡La oferta laboral ha sido creada satisfactoriamente!";
-                        this.$props.alertaExito;
-                        this.$emit("alertexito");
-
-                    } else {
-                        //TODO Manejo de caso con error al recuperar conjunto
-                        console.warn("Algo pasó", data.error);
-                        this.mensajeError = data.error;
-
-                        this.snackbar = true;
-                        //¿Cómo le cambiaría el estado al componente hijo?
-                        //this.$refs.AlertaError.snackbar = true;
-                    }
-                })
-                .catch((e) => {
-                    console.error(e);
-                });
+                    })
+                    .catch((e) => {
+                        console.error(e);
+                    });
+            }
         },
         validar() {
             interface VForm extends HTMLFormElement {
                 validate(): boolean;
             }
-            //this.$refs[`form`][0].validate();
             if(this.$refs.formulario != undefined){
-                //console.log(this.$refs.formulario);
-                const prueba = this.$refs.form as VForm;
-                console.log(prueba);
-                prueba.validate();
+                const formPrueba = this.$refs.formulario as VForm;
+                console.log(formPrueba);
+                return formPrueba.validate();
             } 
+            return false;
         },
         alertaFin() {
             this.snackbar = false;
