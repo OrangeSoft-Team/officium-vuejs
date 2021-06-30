@@ -107,7 +107,6 @@ export default Vue.extend({
                 if (data.esExitoso) {
                     //Cambiamos el estado
                     this.estaCargando = false;
-                    //console.log("[RESPUESTA] ", data.getValue());
                     //Actualizamos
                     this.ofertasLaborales = data.getValue();
                 } else {
@@ -120,8 +119,9 @@ export default Vue.extend({
             });
     },
     methods: {
-        alertExito() {
+        alertExito(mensaje: string) {
             this.alertaExito = true;
+            this.mensajeExito = mensaje;
         },
     }
 });
