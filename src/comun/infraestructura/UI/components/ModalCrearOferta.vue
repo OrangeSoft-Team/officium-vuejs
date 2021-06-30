@@ -7,6 +7,11 @@
         </template>
 
         <v-card>
+            <v-form
+                ref="formulario"
+                v-model="formValido"
+                lazy-validation
+            >
             <v-card-title>
                 <v-row justify="space-between" class="pa-1">
                     <span class="text-h5">Crear nueva oferta laboral</span>
@@ -21,6 +26,7 @@
                     <v-text-field
                         v-model="ofertaLaboralCrear.titulo"
                         :counter="100"
+                        :rules="[(v) => !!v || 'Este campo es obligatorio']"
                         label="Ingrese el título de la oferta laboral"
                         required
                     ></v-text-field>
@@ -30,6 +36,7 @@
                             <v-text-field
                                 v-model="ofertaLaboralCrear.cargo"
                                 :counter="50"
+                                :rules="[(v) => !!v || 'Este campo es obligatorio']"
                                 label="Ingrese el cargo de la oferta laboral"
                                 required
                             ></v-text-field>
@@ -38,9 +45,7 @@
                             <v-select
                                 v-model="ofertaLaboralCrear.turnoTrabajo"
                                 :items="opcionesTurnoTrabajo"
-                                :rules="[
-                                    (v) => !!v || 'Este campo es obligatorio',
-                                ]"
+                                :rules="[(v) => !!v || 'Este campo es obligatorio']"
                                 label="Turno de trabajo"
                                 required
                             ></v-select>
@@ -54,6 +59,7 @@
                                 "
                                 :counter="3"
                                 type="number"
+                                :rules="[(v) => !!v || 'Este campo es obligatorio']"
                                 label="Ingrese el número de vacantes"
                                 required
                             ></v-text-field>
@@ -63,6 +69,7 @@
                                 v-model.number="ofertaLaboralCrear.sueldo"
                                 :counter="10"
                                 type="number"
+                                :rules="[(v) => !!v || 'Este campo es obligatorio']"
                                 label="Ingrese el sueldo de la oferta laboral"
                                 required
                             ></v-text-field>
@@ -79,6 +86,7 @@
                                 "
                                 :counter="10"
                                 type="number"
+                                :rules="[(v) => !!v || 'Este campo es obligatorio']"
                                 label="Duración"
                                 required
                             ></v-text-field>
@@ -89,9 +97,7 @@
                                     ofertaLaboralCrear.duracionEstimadaEscala
                                 "
                                 :items="opcionesEscalaDuracion"
-                                :rules="[
-                                    (v) => !!v || 'Este campo es obligatorio',
-                                ]"
+                                :rules="[(v) => !!v || 'Este campo es obligatorio']"
                                 label="Escala"
                                 required
                             ></v-select>
@@ -101,18 +107,27 @@
                         v-model="ofertaLaboralCrear.descripcion"
                         label="Ingrese la descripción de la oferta laboral"
                         hint="La descripción no debería ser mayor a 512 caracteres"
+                        :rules="[(v) => !!v || 'Este campo es obligatorio']"
                     ></v-textarea>
                 </v-container>
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary darken-1" text @click="dialog = false">
+                <v-btn color="primary darken-1" @click="dialog = false" text>
                     Cerrar
                 </v-btn>
                 <v-btn color="primary" v-on:click="crear">
                     Crear oferta laboral
                 </v-btn>
             </v-card-actions>
+            
+            <alerta-error
+                :mensaje=mensajeError
+                :snackbar=snackbar
+                v-on:alertfin="alertaFin"
+            ></alerta-error>
+            
+            </v-form>
         </v-card>
     </v-dialog>
 </template>
@@ -122,10 +137,16 @@ import Vue from "vue";
 import { ControladorCrearOfertaLaboral } from "../../../../ofertaLaboral/infraestructura/controlador/ControladorCrearOfertaLaboral";
 //Importamos la interface del DTO para que el objeto a mostrar en la tabla
 //sea del mismo tipo que el que se trae en la respuesta del CU
-import { CrearOfertaLaboralDTO } from "../../../../ofertaLaboral/aplicacion/dto/CrearOfertaLaboralDTO";
+
+//import { CrearOfertaLaboralDTO } from "../../../../ofertaLaboral/aplicacion/dto/CrearOfertaLaboralDTO";
 import { SolicitudCreacionOfertaLaboralDTO } from "../../../../ofertaLaboral/aplicacion/casoDeUso/CrearOfertaLaboral.cu";
 
+import AlertaError from "../components/AlertaError.vue";
+
 export default Vue.extend({
+    components: {
+        AlertaError
+    },
     data() {
         return {
             estaCargando: true,
@@ -139,14 +160,14 @@ export default Vue.extend({
                 numeroVacantes: 0,
                 descripcion: "",
             } as SolicitudCreacionOfertaLaboralDTO,
-            /*
-            normaTitulo: [
-                v => !!v || 'El título es requerido'
-            ],
-            */
+            formValido: true,
             opcionesEscalaDuracion: ["hora", "día", "semana", "mes"],
             opcionesTurnoTrabajo: ["diurno", "nocturno", "mixto"],
             dialog: false,
+
+            //Para el manejo del mensaje
+            mensajeError: '',
+            snackbar: false,
         };
     },
 
@@ -160,7 +181,7 @@ export default Vue.extend({
             //¿Por qué colocar en respuesta la oferta laboral?
             const respuestaCU = cuAEjecutar.ejecutarCU(this.ofertaLaboralCrear);
             respuestaCU
-                .then((data) => {
+                .then((data:any) => {
                     if (data.esExitoso) {
                         //Cambiamos el estado
                         this.estaCargando = false;
@@ -169,11 +190,28 @@ export default Vue.extend({
                     } else {
                         //TODO Manejo de caso con error al recuperar conjunto
                         console.warn("Algo pasó", data.error);
+                        this.mensajeError = data.error;
+                        this.snackbar = true;
                     }
                 })
                 .catch((e) => {
                     console.error(e);
                 });
+        },
+        validar() {
+            interface VForm extends HTMLFormElement {
+                validate(): boolean;
+            }
+            //this.$refs[`form`][0].validate();
+            if(this.$refs.formulario != undefined){
+                //console.log(this.$refs.formulario);
+                const prueba = this.$refs.form as VForm;
+                console.log(prueba);
+                prueba.validate();
+            } 
+        },
+        alertaFin() {
+            this.snackbar = false;
         },
     },
 });
