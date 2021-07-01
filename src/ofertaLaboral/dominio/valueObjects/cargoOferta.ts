@@ -17,7 +17,7 @@ export class CargoOferta extends ValueObject<cargoOfertaProps> {
 
     public static crear(cargo: string): Resultado<CargoOferta> {
         //Validaciones de longitud
-        if (!(cargo.length >= 4 || cargo.length <= 40))
+        if (!(cargo.length >= 4 && cargo.length <= 40))
             return Resultado.falla<any>(CARGO_OFERTA_LONGITUD_NO_VALIDA);
 
         return Resultado.ok<CargoOferta>(new CargoOferta({ cargo }));

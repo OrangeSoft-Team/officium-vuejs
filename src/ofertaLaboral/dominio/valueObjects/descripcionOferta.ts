@@ -17,7 +17,7 @@ export class DescripcionOferta extends ValueObject<descripcionOfertaProps> {
 
     public static crear(descripcion: string): Resultado<DescripcionOferta> {
         //Validaciones de longitud
-        if (!(descripcion.length >= 32 || descripcion.length <= 512))
+        if (!(descripcion.length >= 32 && descripcion.length <= 512))
             return Resultado.falla<any>(DESCRIPCION_OFERTA_LONGITUD_NO_VALIDA);
 
         return Resultado.ok<DescripcionOferta>(

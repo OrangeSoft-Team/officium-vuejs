@@ -22,7 +22,7 @@ export class DuracionEstimadaOferta extends ValueObject<duracionEstimadaProps> {
         escala: string
     ): Resultado<DuracionEstimadaOferta> {
         //Validaciones de longitud
-        if (duracion < 0 || duracion > 99)
+        if (duracion <= 0 || duracion > 99)
             return Resultado.falla<any>(DURACION_ESTIMADA_VALOR_NO_VALIDA);
 
         //Validaciones de valores posible

@@ -17,7 +17,7 @@ export class TituloOferta extends ValueObject<tituloOfertaProps> {
 
     public static crear(titulo: string): Resultado<TituloOferta> {
         //Validaciones de longitud
-        if (!(titulo.length >= 4 || titulo.length <= 80))
+        if (!(titulo.length >= 4 && titulo.length <= 80))
             return Resultado.falla<any>(TITULO_OFERTA_LONGITUD_NO_VALIDA);
 
         return Resultado.ok<TituloOferta>(new TituloOferta({ titulo }));

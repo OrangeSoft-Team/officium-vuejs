@@ -20,7 +20,7 @@ export class SueldoOferta extends ValueObject<sueldoOfertaProps> {
 
     public static crear(sueldo: number): Resultado<SueldoOferta> {
         //Validacion positivo
-        if (sueldo < 0)
+        if (sueldo <= 0)
             return Resultado.falla<any>(SUELDO_OFERTA_LABORAL_NEGATIVO);
 
         //Validar limite superior

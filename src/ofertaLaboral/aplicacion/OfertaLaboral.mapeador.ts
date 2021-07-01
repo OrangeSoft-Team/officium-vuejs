@@ -37,14 +37,16 @@ export class OfertasLaboralesMapeador {
             return Resultado.falla<any>(duracionEstimadaOrError.error);
 
         let turnoTrabajoOrError = TurnoTrabajo.crear(dto.turnoTrabajo);
-        if (turnoTrabajoOrError.esFallido)
-            return Resultado.falla<any>(turnoTrabajoOrError.esFallido);
+        if (turnoTrabajoOrError.esFallido) {
+            return Resultado.falla<any>(turnoTrabajoOrError.error);
+        }
 
         let numeroVacantesOrError = NumeroVacantesOferta.crear(
             dto.numeroVacantes
         );
-        if (numeroVacantesOrError.esFallido)
+        if (numeroVacantesOrError.esFallido) {
             return Resultado.falla<any>(numeroVacantesOrError.error);
+        }
 
         //Propiedades de entidad
         let ofertaProps: OfertaLaboralProps = {
@@ -57,33 +59,35 @@ export class OfertasLaboralesMapeador {
         };
 
         //OPCIONALES
-        let fechaPublicacionOrError:  Resultado<Fecha>;
-        if (dto.fechaPublicacion){
-            fechaPublicacionOrError = Fecha.crear(dto.fechaPublicacion);
+        let fechaPublicacionOrError: Resultado<Fecha>;
+        if (dto.hasOwnProperty("fechaPublicacion")) {
+            fechaPublicacionOrError = Fecha.crear(<string>dto.fechaPublicacion);
             if (fechaPublicacionOrError.esFallido)
                 return Resultado.falla<any>(fechaPublicacionOrError.error);
             ofertaProps.fechaPublicacion = fechaPublicacionOrError.getValue();
         }
 
         let descripcionOrError: Resultado<DescripcionOferta>;
-        if (dto.descripcion) {
-            descripcionOrError = DescripcionOferta.crear(dto.descripcion);
+        if (dto.hasOwnProperty("descripcion")) {
+            descripcionOrError = DescripcionOferta.crear(
+                <string>dto.descripcion
+            );
             if (descripcionOrError.esFallido)
                 return Resultado.falla<any>(descripcionOrError.error);
             ofertaProps.descripcion = descripcionOrError.getValue();
         }
 
         let estadoOfertaOrError: Resultado<EstadoOferta>;
-        if (dto.estado) {
-            estadoOfertaOrError = EstadoOferta.crear(dto.estado);
+        if (dto.hasOwnProperty("estado")) {
+            estadoOfertaOrError = EstadoOferta.crear(<string>dto.estado);
             if (estadoOfertaOrError.esFallido)
                 return Resultado.falla<any>(estadoOfertaOrError.error);
             ofertaProps.estado = estadoOfertaOrError.getValue();
         }
 
         let idOrError: Resultado<Identificador>;
-        if (dto.idOfertaLaboral) {
-            idOrError = Identificador.crear(dto.idOfertaLaboral);
+        if (dto.hasOwnProperty("idOfertaLaboral")) {
+            idOrError = Identificador.crear(<string>dto.idOfertaLaboral);
 
             if (idOrError.esFallido)
                 return Resultado.falla<any>(idOrError.error);
@@ -112,17 +116,31 @@ export class OfertasLaboralesMapeador {
         };
 
         //Opcionales
-        if (entidad.props.fechaPublicacion)
+        if (
+            entidad.props.hasOwnProperty("fechaPublicacion") &&
+            entidad.props.fechaPublicacion != undefined
+        )
             propsDTO.fechaPublicacion = entidad.props.fechaPublicacion.valor();
 
-        if (entidad.props.idOfertaLaboral)
-            propsDTO.idOfertaLaboral = entidad.props.idOfertaLaboral.valor();
+        if (
+            entidad.props.hasOwnProperty("idOfertaLaboral") &&
+            entidad.props.idOfertaLaboral != undefined
+        )
+            propsDTO.idOfertaLaboral = <string>(
+                entidad.props.idOfertaLaboral.valor()
+            );
 
-        if (entidad.props.descripcion)
-            propsDTO.descripcion = entidad.props.descripcion.valor();
+        if (
+            entidad.props.hasOwnProperty("descripcion") &&
+            entidad.props.descripcion != undefined
+        )
+            propsDTO.descripcion = <string>entidad.props.descripcion.valor();
 
-        if (entidad.props.estado)
-            propsDTO.estado = entidad.props.estado.valor();
+        if (
+            entidad.props.hasOwnProperty("estado") &&
+            entidad.props.estado != undefined
+        )
+            propsDTO.estado = <string>entidad.props.estado.valor();
 
         return Resultado.ok<OfertaLaboralEmpresaDTO>(propsDTO);
     }
