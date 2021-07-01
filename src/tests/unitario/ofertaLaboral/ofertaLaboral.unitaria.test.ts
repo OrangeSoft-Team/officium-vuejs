@@ -1,25 +1,25 @@
-import { Resultado } from "../../comun/dominio/resultado";
-import { OfertaLaboralEmpresaDTO } from "../../ofertaLaboral/aplicacion/dto/OfertaLaboralEmpresaDTO";
-import { JSONOfertaLaboralRepositorio } from "../../ofertaLaboral/infraestructura/JSON/JSONOfertaLaboral.repositorio";
-import { ObtenerOfertaLaboral } from "../../ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertaLaboralDetalle.cu";
-import { ObtenerOfertasLaboralesActivas } from "../../ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertasLaboralesActivas.cu";
-import { CrearOfertaLaboral } from "../../ofertaLaboral/aplicacion/casoDeUso/CrearOfertaLaboral.cu";
-import { NUMERO_VACANTES_NO_VALIDA } from "../../ofertaLaboral/dominio/excepciones/numeroVacantesOferta.excepcion";
+import { Resultado } from "../../../comun/dominio/resultado";
+import { OfertaLaboralEmpresaDTO } from "../../../ofertaLaboral/aplicacion/dto/OfertaLaboralEmpresaDTO";
+import { JSONOfertaLaboralRepositorio } from "../../../ofertaLaboral/infraestructura/JSON/JSONOfertaLaboral.repositorio";
+import { ObtenerOfertaLaboral } from "../../../ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertaLaboralDetalle.cu";
+import { ObtenerOfertasLaboralesActivas } from "../../../ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertasLaboralesActivas.cu";
+import { CrearOfertaLaboral } from "../../../ofertaLaboral/aplicacion/casoDeUso/CrearOfertaLaboral.cu";
+import { NUMERO_VACANTES_NO_VALIDA } from "../../../ofertaLaboral/dominio/excepciones/numeroVacantesOferta.excepcion";
 import {
     OperacionExitosaDTO,
     OPERACION_EXITOSA,
-} from "../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
-import { IServicioPersistencia } from "../../comun/aplicacion/IServicioPersistencia";
-import { LocalStoragePersistencia } from "../../ofertaLaboral/infraestructura/persistencia/LocalStorage.persistencia";
+} from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
+import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersistencia";
+import { LocalStoragePersistencia } from "../../../ofertaLaboral/infraestructura/persistencia/LocalStorage.persistencia";
 import {
     CREAR_OFERTA_LABORAL_DATOS_INTERFAZ_VALIDA,
     OFERTAS_LABORALES_RESPUESTA_CON_ERROR_VACANTES,
     OFERTA_LABORAL_RESPUESTA_VALIDA,
-} from "../../ofertaLaboral/infraestructura/JSON/respuestas/IndividualOfertaLaboral";
-import { OFERTAS_LABORALES_RESPUESTA_VALIDA } from "../../ofertaLaboral/infraestructura/JSON/respuestas/ListadoOfertasLaborales";
+} from "../../../ofertaLaboral/infraestructura/JSON/respuestas/IndividualOfertaLaboral";
+import { OFERTAS_LABORALES_RESPUESTA_VALIDA } from "../../../ofertaLaboral/infraestructura/JSON/respuestas/ListadoOfertasLaborales";
 
 jest.mock(
-    "../../ofertaLaboral/infraestructura/JSON/JSONOfertaLaboral.repositorio"
+    "../../../ofertaLaboral/infraestructura/JSON/JSONOfertaLaboral.repositorio"
 );
 
 describe("Obtener Ofertas Laborales Activas", () => {

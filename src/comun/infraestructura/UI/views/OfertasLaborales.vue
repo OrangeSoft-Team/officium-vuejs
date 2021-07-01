@@ -1,12 +1,13 @@
 <template>
     <v-container fluid class="grey lighten-5">
         <v-alert
+            id="alerta-exito"
             v-model="alertaExito"
             border="left"
             close-text="Cerrar"
             type="success"
             dismissible
-            >
+        >
             {{ mensajeExito }}
         </v-alert>
 
@@ -19,13 +20,12 @@
                     <v-card-title>
                         <v-row justify="space-between" class="pa-2">
                             <h3 class="">Ofertas Activas</h3>
-                                <!--Llamamos al componente de crear
+                            <!--Llamamos al componente de crear
                                 oferta laboral-->
-                                <modal-crear-oferta
-                                    :mensajeExito=mensajeExito
-                                    :alertaExito=alertaExito
-                                    v-on:alertexito="alertExito"
-                                ></modal-crear-oferta>
+                            <modal-crear-oferta
+                                :alertaExito="alertaExito"
+                                v-on:alertexito="alertExito"
+                            ></modal-crear-oferta>
                         </v-row>
                     </v-card-title>
                     <v-data-table
@@ -74,7 +74,7 @@ import ModalCrearOferta from "../components/ModalCrearOferta.vue";
 export default Vue.extend({
     components: {
         ModalOfertaDetalle,
-        ModalCrearOferta
+        ModalCrearOferta,
     },
     data() {
         return {
@@ -90,7 +90,7 @@ export default Vue.extend({
             ],
 
             //Para el manejo del mensaje de éxito
-            mensajeExito: '',
+            mensajeExito: "",
             alertaExito: false,
         };
     },
@@ -123,7 +123,7 @@ export default Vue.extend({
             this.alertaExito = true;
             this.mensajeExito = mensaje;
         },
-    }
+    },
 });
 </script>
 

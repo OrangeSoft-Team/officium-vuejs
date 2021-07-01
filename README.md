@@ -49,6 +49,7 @@ Adicionalmente, se utilizan las siguientes plantillas para el repositorio:
 | <img src="https://camo.githubusercontent.com/dff60c3322fc0645c42441b218ce565be5d14b528ac4d79247baa547b4977d1f/68747470733a2f2f70726574746965722e696f2f69636f6e2e706e67" width="24"> | Linter                    | Prettier             | https://prettier.io/docs/en/install.html | 7.1.1   |
 | <img src="https://avatars.githubusercontent.com/u/32196900?s=400&v=4" width="24">                                                                                                   | Testing                   | Jest                 | https://jestjs.io/docs/getting-started   | 27.0.5  |
 | <img src="https://miro.medium.com/max/3164/1*80J2Wa21DYXxMbbtBziJHg.png" width="48">                                                                                                | Cliente HTTP              | Axios                | https://axios-http.com/docs/intro        | 0.21.1  |
+| <img src="https://nightwatchjs.org/images/symbol-nightwatch.svg" width="24">                                                                                                        | Testin e2e                | Nightwatch.js        | https://nightwatchjs.org/                | 1.7.6   |
 
 ### :wrench: Instalación de la Aplicación
 
@@ -90,19 +91,19 @@ Esta aplicación consta de tres tipos de pruebas automatizables ejecutables, las
 
 -   Todas las pruebas (unitarias, integración, aceptación):
 
-    `por definir`
+    `npm run test-todos`
 
 -   Pruebas unitarias:
 
-    `por definir`
+    `npm run test-unitario`
 
 -   Pruebas de integración:
 
-    `por definir`
+    `npm run test-integracion`
 
 -   Pruebas de aceptación:
 
-    `por definir`
+    `npm run test-aceptacion`
 
 ### :mag_right: Referencias
 
