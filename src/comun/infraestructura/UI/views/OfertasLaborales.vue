@@ -96,32 +96,42 @@ export default Vue.extend({
     },
 
     mounted() {
-        //Inicializamos el controlador
-        const cuAEjecutar =
-            ControladorObtenerOfertasLaboralesActivas.inicializar();
-
-        //Ejecutamos el caso de uso
-        const respuestaCU = cuAEjecutar.ejecutarCU();
-        respuestaCU
-            .then((data) => {
-                if (data.esExitoso) {
-                    //Cambiamos el estado
-                    this.estaCargando = false;
-                    //Actualizamos
-                    this.ofertasLaborales = data.getValue();
-                } else {
-                    //TODO Manejo de caso con error al recuperar conjunto
-                    console.warn("Algo pasó", data.error);
-                }
-            })
-            .catch((e) => {
-                console.error(e);
-            });
+        this.ejecutarCU();
     },
     methods: {
         alertExito(mensaje: string) {
             this.alertaExito = true;
             this.mensajeExito = mensaje;
+
+            this.recargarTabla();
+        },
+        ejecutarCU() {
+            //Inicializamos el controlador
+            const cuAEjecutar =
+                ControladorObtenerOfertasLaboralesActivas.inicializar();
+
+            //Ejecutamos el caso de uso
+            const respuestaCU = cuAEjecutar.ejecutarCU();
+            respuestaCU
+                .then((data) => {
+                    if (data.esExitoso) {
+                        //Cambiamos el estado
+                        this.estaCargando = false;
+                        //Actualizamos
+                        this.ofertasLaborales = data.getValue();
+                    } else {
+                        //TODO Manejo de caso con error al recuperar conjunto
+                        console.warn("Algo pasó", data.error);
+                    }
+                })
+                .catch((e) => {
+                    console.error(e);
+                });
+        },
+        recargarTabla() {
+            this.ofertasLaborales = [];
+            this.estaCargando = false;
+            this.ejecutarCU();
         },
     },
 });

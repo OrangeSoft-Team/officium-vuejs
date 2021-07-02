@@ -10,7 +10,7 @@ import {
     OPERACION_EXITOSA,
 } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersistencia";
-import { LocalStoragePersistencia } from "../../../ofertaLaboral/infraestructura/persistencia/LocalStorage.persistencia";
+import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
 import {
     CREAR_OFERTA_LABORAL_DATOS_INTERFAZ_VALIDA,
     OFERTAS_LABORALES_RESPUESTA_CON_ERROR_VACANTES,

@@ -6,6 +6,7 @@ export const OFERTAS_LABORALES_RESPUESTA_VALIDA: OfertaLaboralEmpresaDTO[] = [
         titulo: "Desarrollador web para aplicación Officium",
         cargo: "Dev frontend",
         sueldo: 5000,
+        fechaPublicacion: "24/06/2021",
         duracionEstimadaValor: 6,
         duracionEstimadaEscala: "semana",
         turnoTrabajo: "diurno",
@@ -15,6 +16,7 @@ export const OFERTAS_LABORALES_RESPUESTA_VALIDA: OfertaLaboralEmpresaDTO[] = [
         idOfertaLaboral: "2",
         titulo: "Arquitecto de Software para aplicación Officium",
         cargo: "Arq. Software",
+        fechaPublicacion: "24/06/2021",
         sueldo: 69051.9,
         duracionEstimadaValor: 6,
         duracionEstimadaEscala: "día",
@@ -24,6 +26,7 @@ export const OFERTAS_LABORALES_RESPUESTA_VALIDA: OfertaLaboralEmpresaDTO[] = [
     {
         idOfertaLaboral: "3",
         titulo: "Encargado de tienda",
+        fechaPublicacion: "24/06/2021",
         cargo: "Encargado general de tienda IBM",
         sueldo: 65898,
         duracionEstimadaValor: 6,
