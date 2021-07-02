@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { LocalStoragePersistencia } from "../../../ofertaLaboral/infraestructura/persistencia/LocalStorage.persistencia";
+import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
 
 describe("Adaptador Persistencia Alterna: Local Storage", () => {
     let adaptadorLocalStorage: LocalStoragePersistencia;
@@ -85,8 +85,7 @@ describe("Adaptador Persistencia Alterna: Local Storage", () => {
         const respuestaObtenerOrError = adaptadorLocalStorage.obtener(
             CLAVE_TEST_ID_EMPRESA
         );
-        expect(respuestaObtenerOrError.esExitoso).toBeTruthy();
-        expect(respuestaObtenerOrError.esFallido).toBeFalsy();
-        expect(respuestaObtenerOrError.getValue()).toBeNull();
+        expect(respuestaObtenerOrError.esExitoso).toBeFalsy();
+        expect(respuestaObtenerOrError.esFallido).toBeTruthy();
     });
 });

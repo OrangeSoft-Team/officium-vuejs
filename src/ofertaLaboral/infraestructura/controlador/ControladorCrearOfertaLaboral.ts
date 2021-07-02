@@ -9,7 +9,7 @@ import { CrearOfertaLaboralDTO } from "../../aplicacion/dto/CrearOfertaLaboralDT
 */
 import { OperacionExitosaDTO } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 import { IOfertasLaboralesRepo } from "../../aplicacion/IOfertaLaboral.repositorio";
-import { LocalStoragePersistencia } from "../persistencia/LocalStorage.persistencia";
+import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
 
 //Controlador de CU Obtener detalle de Oferta Laboral
 export class ControladorCrearOfertaLaboral {

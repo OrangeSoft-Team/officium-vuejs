@@ -6,7 +6,7 @@ import {
 } from "../../aplicacion/casoDeUso/ObtenerOfertaLaboralDetalle.cu";
 import { OfertaLaboralEmpresaDTO } from "../../aplicacion/dto/OfertaLaboralEmpresaDTO";
 import { IOfertasLaboralesRepo } from "../../aplicacion/IOfertaLaboral.repositorio";
-import { LocalStoragePersistencia } from "../persistencia/LocalStorage.persistencia";
+import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
 
 //Controlador de CU Obtener detalle de Oferta Laboral
 export class ControladorDetalleOfertaLaboral {

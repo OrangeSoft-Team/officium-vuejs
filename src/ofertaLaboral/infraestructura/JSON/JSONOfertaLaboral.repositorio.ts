@@ -30,12 +30,33 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
         //Solicitamos ID de empresa para la petición
         const idEmpresaOrError =
             this.persistenciaAlterna.obtener(CLAVE_ID_EMPRESA);
-        if (idEmpresaOrError.esFallido)
-            return Resultado.falla<any>(OPERACION_FALLIDA);
+        //TODO: Habilitar cuando se tenga login
+        //if (idEmpresaOrError.esFallido)
+        //    return Resultado.falla<any>(OPERACION_FALLIDA);
 
         ofertaLaboral.uuidempresa = <string>idEmpresaOrError.getValue();
 
         //Esperamos respuesta
+        //Simulamos anexar
+        let arregloOfertas: OfertaLaboralEmpresaDTO[] = [];
+        const listadoOrError = this.persistenciaAlterna.obtener(
+            CLAVE_CONJUNTO_OFERTAS_LABORALES
+        );
+        //Anexamos a array
+        if (listadoOrError.esExitoso) {
+            arregloOfertas = <OfertaLaboralEmpresaDTO[]>(
+                listadoOrError.getValue()
+            );
+        }
+        arregloOfertas.push(ofertaLaboral);
+
+        //Guardamos de nuevo
+        const almacenarOrError = this.persistenciaAlterna.guardar(
+            CLAVE_CONJUNTO_OFERTAS_LABORALES,
+            arregloOfertas
+        );
+        if (almacenarOrError.esFallido)
+            return Resultado.falla<any>(almacenarOrError.error);
 
         //En caso de respuesta exitosa
         return Resultado.ok<OperacionExitosaDTO>({
@@ -46,14 +67,27 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     obtenerOfertasLaboralesActivas(
         id: SolicitudOfertasLaboralesActivasDTO
     ): Resultado<OfertaLaboralEmpresaDTO[]> {
-        const DATOS_RESPUESTA = OFERTAS_LABORALES_RESPUESTA_VALIDA;
+        let DATOS_RESPUESTA: OfertaLaboralEmpresaDTO[] = [];
         // OFERTAS_LABORALES_RESPUESTA_CON_ERROR_VACANTES
 
-        //Almacenamos en persitencia en respuesta exitosa
-        this.persistenciaAlterna.guardar(
-            CLAVE_CONJUNTO_OFERTAS_LABORALES,
-            DATOS_RESPUESTA
+        //Obtenemos de persitencia
+        const listadoOrError = this.persistenciaAlterna.obtener(
+            CLAVE_CONJUNTO_OFERTAS_LABORALES
         );
+        if (listadoOrError.esFallido) {
+            //Almacenamos en persitencia en respuesta exitosa
+            const A_RESPONDER_DEFAULT = OFERTAS_LABORALES_RESPUESTA_VALIDA;
+            this.persistenciaAlterna.guardar(
+                CLAVE_CONJUNTO_OFERTAS_LABORALES,
+                A_RESPONDER_DEFAULT
+            );
+            DATOS_RESPUESTA = A_RESPONDER_DEFAULT;
+        } else {
+            //Obtenemos almacenado
+            DATOS_RESPUESTA = <OfertaLaboralEmpresaDTO[]>(
+                listadoOrError.getValue()
+            );
+        }
 
         //Respondemos a la solicitud
         return Resultado.ok<OfertaLaboralEmpresaDTO[]>(DATOS_RESPUESTA);
