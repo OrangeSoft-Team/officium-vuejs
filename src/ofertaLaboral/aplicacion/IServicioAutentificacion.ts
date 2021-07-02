@@ -7,7 +7,7 @@ import {DatosInicioSesionDTO} from "./casoDeUso/IniciarSesion.cu";
 export interface IServicioAutentificacion {
     iniciarSesion(
         credencial: DatosInicioSesionDTO
-    ): Resultado<RespuestaInicioSesionDTO>;
+    ): Promise<Resultado<RespuestaInicioSesionDTO>>;
 
     cerrarSesion(    
     ): Resultado<any>;
