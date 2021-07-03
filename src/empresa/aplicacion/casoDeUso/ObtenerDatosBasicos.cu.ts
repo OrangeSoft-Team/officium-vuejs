@@ -16,10 +16,10 @@ export class ObtenerOfertaLaboral
         >
 {
     //Repositorio
-    private RepoOfertasLaborales: IEmpresaRepo;
+    private RepoEmpresa: IEmpresaRepo;
 
     constructor(RepoImplementacion: IEmpresaRepo) {
-        this.RepoOfertasLaborales = RepoImplementacion;
+        this.RepoEmpresa = RepoImplementacion;
     }
 
     //Query
@@ -28,7 +28,7 @@ export class ObtenerOfertaLaboral
     ): Promise<Resultado<DatosBasicosEmpresaDTO>> {
         //Llamamos al repositorio
         let datosBasicosOrError =
-            await this.RepoOfertasLaborales.obtenerDatosBasicos(
+            await this.RepoEmpresa.obtenerDatosBasicos(
                 solicitud
             );
         if (datosBasicosOrError.esFallido)

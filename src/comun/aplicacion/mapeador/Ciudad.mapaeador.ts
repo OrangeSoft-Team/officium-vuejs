@@ -29,4 +29,18 @@ export class CiudadMapeador {
         //Devolvemos entidad
         return Resultado.ok<Ciudad>(Ciudad.crear(ciudadProps).getValue());
     }
+    
+    public static aDTO(entidad: Ciudad): Resultado<CiudadDTO> {
+        //Extraemos valores de la entidad
+        let propsDTO: CiudadDTO = {
+            uuidCiudad: entidad.props.idCiudad.valor(),
+        };
+
+        //Opcionales
+        if (entidad.props.hasOwnProperty("nombreCiudad") && entidad.props.nombreCiudad != undefined) {
+            propsDTO.nombreCiudad = entidad.props.nombreCiudad.valor();
+        }
+
+        return Resultado.ok<CiudadDTO>(propsDTO);
+    }
 }

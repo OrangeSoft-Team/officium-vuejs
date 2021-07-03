@@ -29,4 +29,18 @@ export class EstadoMapeador {
         //Devolvemos entidad
         return Resultado.ok<Estado>(Estado.crear(estadoProps).getValue());
     }
+    
+    public static aDTO(entidad: Estado): Resultado<EstadoDTO> {
+        //Extraemos valores de la entidad
+        let propsDTO: EstadoDTO = {
+            uuidEstado: entidad.props.idEstado.valor(),
+        };
+
+        //Opcionales
+        if (entidad.props.hasOwnProperty("nombreEstado") && entidad.props.nombreEstado != undefined) {
+            propsDTO.nombreEstado = entidad.props.nombreEstado.valor();
+        }
+
+        return Resultado.ok<EstadoDTO>(propsDTO);
+    }
 }
