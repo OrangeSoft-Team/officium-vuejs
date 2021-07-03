@@ -17,7 +17,7 @@ export class EstadoMapeador {
 
         //Opcional
         let nombreEstadoOrError: Resultado<NombreEstado>;
-        if (dto.hasOwnProperty("nombreEstado")) {
+        if (dto.hasOwnProperty("nombreEstado") && dto.nombreEstado != undefined) {
             nombreEstadoOrError = NombreEstado.crear(dto.nombreEstado);
             if (nombreEstadoOrError.esFallido)
                 return Resultado.falla<any>(nombreEstadoOrError.error);

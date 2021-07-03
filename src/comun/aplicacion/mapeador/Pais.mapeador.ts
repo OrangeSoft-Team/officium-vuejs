@@ -17,7 +17,7 @@ export class PaisMapeador {
 
         //Opcional
         let nombrePaisOrError: Resultado<NombrePais>;
-        if (dto.hasOwnProperty("nombrePais")) {
+        if (dto.hasOwnProperty("nombrePais") && dto.nombrePais != undefined) {
             nombrePaisOrError = NombrePais.crear(dto.nombrePais);
             if (nombrePaisOrError.esFallido)
                 return Resultado.falla<any>(nombrePaisOrError.error);

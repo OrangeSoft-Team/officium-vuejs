@@ -56,7 +56,7 @@ export class DatosBasicosMapeador {
         };
 
         let idEmpresaOrError: Resultado<Identificador>;
-        if (dto.hasOwnProperty("uuidEmpresa")) {
+        if (dto.hasOwnProperty("uuidEmpresa") && dto.uuuidEmpresa != undefined) {
             idEmpresaOrError = Identificador.crear(dto.uuuidEmpresa);
             if (idEmpresaOrError.esFallido)
                 return Resultado.falla<any>(idEmpresaOrError.error);
@@ -81,7 +81,7 @@ export class DatosBasicosMapeador {
         };
 
         //Opcionales
-        if (entidad.props.hasOwnProperty("idEmpresa")) {
+        if (entidad.props.hasOwnProperty("idEmpresa") && entidad.props.idEmpresa != undefined) {
             propsDTO.uuuidEmpresa = entidad.props.idEmpresa.valor();
         }
 

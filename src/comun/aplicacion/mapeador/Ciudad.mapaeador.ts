@@ -17,7 +17,7 @@ export class CiudadMapeador {
 
         //Opcional
         let nombreCiudadOrError: Resultado<NombreCiudad>;
-        if (dto.hasOwnProperty("nombreCiudad")) {
+        if (dto.hasOwnProperty("nombreCiudad") && dto.nombreCiudad != undefined) {
             nombreCiudadOrError = NombreCiudad.crear(dto.nombreCiudad);
             if (nombreCiudadOrError.esFallido)
                 return Resultado.falla<any>(nombreCiudadOrError.error);
