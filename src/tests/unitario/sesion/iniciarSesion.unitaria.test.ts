@@ -1,13 +1,10 @@
-import { Resultado } from "../comun/dominio/resultado";
-import { RESPUESTA_INICIO_SESION_VALIDO } from "../sesion/infraestructura/respuesta/InicioSesion.json";
-import { AutentificacionBasica } from "../sesion/infraestructura/AutentificacionBasica";
-import { IServicioPersistencia } from "../comun/aplicacion/IServicioPersistencia";
-import { LocalStoragePersistencia } from "../ofertaLaboral/infraestructura/persistencia/LocalStorage.persistencia";
-import { IniciarSesion } from "../sesion/aplicacion/casoDeUso/IniciarSesion.cu";
-import { FORMATO_CONTRASENA_INVALIDA } from "../sesion/infraestructura/excepciones/contrasena.exepcion";
-import { FORMATO_CORREO_ELECTRONICO_NO_VALIDO } from "../sesion/infraestructura/excepciones/correoElectronico.excepcion";
+import { AutentificacionBasica } from "../../../sesion/infraestructura/AutentificacionBasica";
+import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersistencia";
+import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
+import { IniciarSesion } from "../../../sesion/aplicacion/casoDeUso/IniciarSesion.cu";
+import { FORMATO_CONTRASENA_INVALIDA } from "../../../sesion/infraestructura/excepciones/contrasena.exepcion";
 
-jest.mock("../sesion/infraestructura/AutentificacionBasica");
+jest.mock("../../../sesion/infraestructura/AutentificacionBasica");
 
 describe("Autentificación con credenciales básicas", () => {
     let Implementacion: AutentificacionBasica;
