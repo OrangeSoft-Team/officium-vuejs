@@ -1,5 +1,16 @@
 <template>
     <v-container fluid class="grey lighten-5">
+        <v-alert
+            id="alerta-exito"
+            v-model="alertaExito"
+            border="left"
+            close-text="Cerrar"
+            type="success"
+            dismissible
+        >
+            {{ mensajeExito }}
+        </v-alert>
+
         <v-row align="center" no-gutters style="height: 50px"> </v-row>
 
         <v-row align="center" no-gutters style="height: 150px">
@@ -9,9 +20,12 @@
                     <v-card-title>
                         <v-row justify="space-between" class="pa-2">
                             <h3 class="">Ofertas Activas</h3>
-                            <v-btn depressed color="primary">
-                                Agregar nueva oferta
-                            </v-btn>
+                            <!--Llamamos al componente de crear
+                                oferta laboral-->
+                            <modal-crear-oferta
+                                :alertaExito="alertaExito"
+                                v-on:alertexito="alertExito"
+                            ></modal-crear-oferta>
                         </v-row>
                     </v-card-title>
                     <v-data-table
@@ -55,10 +69,12 @@ import { ControladorObtenerOfertasLaboralesActivas } from "../../../../ofertaLab
 import { OfertaLaboralEmpresaDTO } from "../../../../ofertaLaboral/aplicacion/dto/OfertaLaboralEmpresaDTO";
 
 import ModalOfertaDetalle from "../components/ModalOfertaDetalle.vue";
+import ModalCrearOferta from "../components/ModalCrearOferta.vue";
 
 export default Vue.extend({
     components: {
         ModalOfertaDetalle,
+        ModalCrearOferta,
     },
     data() {
         return {
@@ -72,32 +88,51 @@ export default Vue.extend({
                 { text: "Turno de trabajo", value: "turnoTrabajo" },
                 { text: "Acciones", value: "acciones" },
             ],
+
+            //Para el manejo del mensaje de éxito
+            mensajeExito: "",
+            alertaExito: false,
         };
     },
 
     mounted() {
-        //Inicializamos el controlador
-        const cuAEjecutar =
-            ControladorObtenerOfertasLaboralesActivas.inicializar();
+        this.ejecutarCU();
+    },
+    methods: {
+        alertExito(mensaje: string) {
+            this.alertaExito = true;
+            this.mensajeExito = mensaje;
 
-        //Ejecutamos el caso de uso
-        const respuestaCU = cuAEjecutar.ejecutarCU();
-        respuestaCU
-            .then((data) => {
-                if (data.esExitoso) {
-                    //Cambiamos el estado
-                    this.estaCargando = false;
-                    //console.log("[RESPUESTA] ", data.getValue());
-                    //Actualizamos
-                    this.ofertasLaborales = data.getValue();
-                } else {
-                    //TODO Manejo de caso con error al recuperar conjunto
-                    console.warn("Algo pasó", data.error);
-                }
-            })
-            .catch((e) => {
-                console.error(e);
-            });
+            this.recargarTabla();
+        },
+        ejecutarCU() {
+            //Inicializamos el controlador
+            const cuAEjecutar =
+                ControladorObtenerOfertasLaboralesActivas.inicializar();
+
+            //Ejecutamos el caso de uso
+            const respuestaCU = cuAEjecutar.ejecutarCU();
+            respuestaCU
+                .then((data) => {
+                    if (data.esExitoso) {
+                        //Cambiamos el estado
+                        this.estaCargando = false;
+                        //Actualizamos
+                        this.ofertasLaborales = data.getValue();
+                    } else {
+                        //TODO Manejo de caso con error al recuperar conjunto
+                        console.warn("Algo pasó", data.error);
+                    }
+                })
+                .catch((e) => {
+                    console.error(e);
+                });
+        },
+        recargarTabla() {
+            this.ofertasLaborales = [];
+            this.estaCargando = false;
+            this.ejecutarCU();
+        },
     },
 });
 </script>

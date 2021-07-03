@@ -5,6 +5,7 @@
                 <v-card>
                     <v-card-actions>
                         <v-btn
+                            id="btn-login"
                             depressed
                             outlined
                             block
