@@ -4,14 +4,7 @@ import { Resultado } from "../../dominio/resultado";
 import { PaisDTO } from "../dto.geografico/PaisDTO";
 import { IServicioPais } from "../IServicioPais";
 
-
-export class ObtenerPais
-    implements
-        CasoUso<
-            null,
-            Resultado<PaisDTO[]>
-        >
-{
+export class ObtenerPais implements CasoUso<undefined, Resultado<PaisDTO[]>> {
     //Repositorio
     private ServicioPais: IServicioPais;
 
@@ -42,8 +35,6 @@ export class ObtenerPais
         if (ConjuntoRespuestaOrError.esFallido)
             return Resultado.falla<any>(ConjuntoRespuestaOrError.error);
 
-        return Resultado.ok<PaisDTO[]>(
-            ConjuntoRespuestaOrError.getValue()
-        );
+        return Resultado.ok<PaisDTO[]>(ConjuntoRespuestaOrError.getValue());
     }
 }

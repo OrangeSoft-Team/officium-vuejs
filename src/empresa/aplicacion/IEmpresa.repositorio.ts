@@ -1,15 +1,14 @@
 import { Resultado } from "../../comun/dominio/resultado";
-import { SolicitudDatosBasicosDTO } from "./casoDeUso/ObtenerDatosBasicos.cu";
-import { DatosBasicosEmpresaDTO } from "./dto/DatosBasicosEmpresaDTO";
 import { OperacionExitosaDTO } from "../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
+import { DatosBasicosEmpresaDTO } from "./dto/DatosBasicosEmpresaDTO";
+import { SolicitudDatosBasicosDTO } from "./casoDeUso/ObtenerDatosBasicos.cu";
 
 export interface IEmpresaRepo {
-
     obtenerDatosBasicos(
         id: SolicitudDatosBasicosDTO
     ): Resultado<DatosBasicosEmpresaDTO>;
 
     actualizarDatosBasicos(
-        ofertaLaboral: DatosBasicosEmpresaDTO
+        datosBasicos: DatosBasicosEmpresaDTO
     ): Resultado<OperacionExitosaDTO>;
 }

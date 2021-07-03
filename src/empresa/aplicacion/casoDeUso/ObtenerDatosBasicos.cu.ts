@@ -5,15 +5,12 @@ import { Resultado } from "../../../comun/dominio/resultado";
 import { DatosBasicosEmpresaDTO } from "../dto/DatosBasicosEmpresaDTO";
 
 export interface SolicitudDatosBasicosDTO {
-    idOfertaLaboral: string;
+    idEmpresa: string;
 }
 
 export class ObtenerOfertaLaboral
     implements
-        CasoUso<
-            SolicitudDatosBasicosDTO,
-            Resultado<DatosBasicosEmpresaDTO>
-        >
+        CasoUso<SolicitudDatosBasicosDTO, Resultado<DatosBasicosEmpresaDTO>>
 {
     //Repositorio
     private RepoEmpresa: IEmpresaRepo;
@@ -27,10 +24,9 @@ export class ObtenerOfertaLaboral
         solicitud: SolicitudDatosBasicosDTO
     ): Promise<Resultado<DatosBasicosEmpresaDTO>> {
         //Llamamos al repositorio
-        let datosBasicosOrError =
-            await this.RepoEmpresa.obtenerDatosBasicos(
-                solicitud
-            );
+        let datosBasicosOrError = await this.RepoEmpresa.obtenerDatosBasicos(
+            solicitud
+        );
         if (datosBasicosOrError.esFallido)
             return Resultado.falla<any>(datosBasicosOrError.error);
 
