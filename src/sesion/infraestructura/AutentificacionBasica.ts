@@ -22,7 +22,7 @@ export class AutentificacionBasica implements IServicioAutentificacion {
     public async iniciarSesion(
         credencial: DatosInicioSesionDTO
     ): Promise<Resultado<RespuestaInicioSesionDTO>> {
-        //Valida que el correo sea mayor a 10 caracteres
+        //Valida que la contraseña sea mayor a 10 caracteres
         if (credencial.contraseña.length < 10)
             return Resultado.falla<any>(FORMATO_CONTRASENA_INVALIDA);
 
