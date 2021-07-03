@@ -6,7 +6,7 @@ import { RespuestaInicioSesionDTO } from "../../../ofertaLaboral/aplicacion/dto/
 import { FORMATO_CORREO_ELECTRONICO_NO_VALIDO } from "../excepciones/correoElectronico.excepcion";
 import { FORMATO_CONTRASENA_INVALIDA } from "../excepciones/contrasena.exepcion";
 import { RESPUESTA_INICIO_SESION_VALIDO } from "../respuesta/InicioSesion.json";
-import {OperacionExitosaDTO} from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
+import { OperacionExitosaDTO } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 
 export class AutentificacionBasica implements IServicioAutentificacion {
     private persistenciaAlterna: IServicioPersistencia;
@@ -40,7 +40,7 @@ export class AutentificacionBasica implements IServicioAutentificacion {
 
         //Valida que el reg exp del correo
         if (
-            !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/.test(
+            !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
                 credencial.correoElectronico
             )
         )
@@ -67,6 +67,5 @@ export class AutentificacionBasica implements IServicioAutentificacion {
 
     obtenerUsuario(): Resultado<RespuestaInicioSesionDTO> {
         throw new Error("Method not implemented.");
-
     }
 }
