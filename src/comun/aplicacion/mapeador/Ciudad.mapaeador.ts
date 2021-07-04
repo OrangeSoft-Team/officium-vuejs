@@ -48,7 +48,7 @@ export class CiudadMapeador {
         dtos: CiudadDTO[]
     ): Resultado<Ciudad[]> {
         //Convertimos a dominio array
-        let arrayPaises: Ciudad[] = [];
+        let arrayCiudades: Ciudad[] = [];
 
         for (let oferta of dtos) {
             let paisOrError =
@@ -59,17 +59,17 @@ export class CiudadMapeador {
             }
 
             //En caso de ser valido
-            arrayPaises.push(paisOrError.getValue());
+            arrayCiudades.push(paisOrError.getValue());
         }
 
-        return Resultado.ok<Ciudad[]>(arrayPaises);
+        return Resultado.ok<Ciudad[]>(arrayCiudades);
     }
 
     public static aDTOConjunto(
         entidades: Ciudad[]
     ): Resultado<CiudadDTO[]> {
         //Array auxiliar
-        let arrayPaises: CiudadDTO[] = [];
+        let arrayCiudades: CiudadDTO[] = [];
 
         for (let oferta of entidades) {
             let ofertaDTOOrError = CiudadMapeador.aDTO(oferta);
@@ -77,11 +77,9 @@ export class CiudadMapeador {
             if (ofertaDTOOrError.esFallido)
                 return Resultado.falla<any>(ofertaDTOOrError.error);
 
-                arrayPaises.push(ofertaDTOOrError.getValue());
+                arrayCiudades.push(ofertaDTOOrError.getValue());
         }
 
-        return Resultado.ok<CiudadDTO[]>(
-            arrayPaises
-        );
+        return Resultado.ok<CiudadDTO[]>(arrayCiudades);
     }
 }

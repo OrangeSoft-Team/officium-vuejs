@@ -48,7 +48,7 @@ export class EstadoMapeador {
         dtos: EstadoDTO[]
     ): Resultado<Estado[]> {
         //Convertimos a dominio array
-        let arrayPaises: Estado[] = [];
+        let arrayEstados: Estado[] = [];
 
         for (let oferta of dtos) {
             let paisOrError =
@@ -59,17 +59,17 @@ export class EstadoMapeador {
             }
 
             //En caso de ser valido
-            arrayPaises.push(paisOrError.getValue());
+            arrayEstados.push(paisOrError.getValue());
         }
 
-        return Resultado.ok<Estado[]>(arrayPaises);
+        return Resultado.ok<Estado[]>(arrayEstados);
     }
 
     public static aDTOConjunto(
         entidades: Estado[]
     ): Resultado<EstadoDTO[]> {
         //Array auxiliar
-        let arrayPaises: EstadoDTO[] = [];
+        let arrayEstados: EstadoDTO[] = [];
 
         for (let oferta of entidades) {
             let ofertaDTOOrError = EstadoMapeador.aDTO(oferta);
@@ -77,11 +77,9 @@ export class EstadoMapeador {
             if (ofertaDTOOrError.esFallido)
                 return Resultado.falla<any>(ofertaDTOOrError.error);
 
-                arrayPaises.push(ofertaDTOOrError.getValue());
+                arrayEstados.push(ofertaDTOOrError.getValue());
         }
 
-        return Resultado.ok<EstadoDTO[]>(
-            arrayPaises
-        );
+        return Resultado.ok<EstadoDTO[]>(arrayEstados);
     }
 }

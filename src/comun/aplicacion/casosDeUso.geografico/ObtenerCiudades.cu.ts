@@ -26,23 +26,23 @@ export class ObtenerOfertaLaboral
         solicitud: SolicitudCiudadDTO
     ): Promise<Resultado<CiudadDTO[]>> {
         //Llamamos al repositorio
-        let ofertasLaboralesActivasOrError =
+        let ciudadesOrError =
             await this.ServicioCiudad.obtenerCiudades(
                 solicitud
             );
-        if (ofertasLaboralesActivasOrError.esFallido)
-            return Resultado.falla<any>(ofertasLaboralesActivasOrError.error);
+        if (ciudadesOrError.esFallido)
+            return Resultado.falla<any>(ciudadesOrError.error);
 
         //Convertimos a dominio array
-        let conjutoOfertasOrError = CiudadMapeador.aDominioConjunto(
-            ofertasLaboralesActivasOrError.getValue()
+        let conjuntoCiudadesOrError = CiudadMapeador.aDominioConjunto(
+            ciudadesOrError.getValue()
         );
-        if (conjutoOfertasOrError.esFallido)
-            return Resultado.falla<any>(conjutoOfertasOrError.error);
+        if (conjuntoCiudadesOrError.esFallido)
+            return Resultado.falla<any>(conjuntoCiudadesOrError.error);
 
         //Respondo con un arreglo segun estandar DTO
         let ConjuntoRespuestaOrError = CiudadMapeador.aDTOConjunto(
-            conjutoOfertasOrError.getValue()
+            conjuntoCiudadesOrError.getValue()
         );
 
         if (ConjuntoRespuestaOrError.esFallido)

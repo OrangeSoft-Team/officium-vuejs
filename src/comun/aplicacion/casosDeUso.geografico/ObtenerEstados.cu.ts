@@ -26,23 +26,23 @@ export class ObtenerEstados
         solicitud: SolicitudEstadoDTO
     ): Promise<Resultado<EstadoDTO[]>> {
         //Llamamos al repositorio
-        let ofertasLaboralesActivasOrError =
+        let estadosOrError =
             await this.ServicioEstado.obtenerEstados(
                 solicitud
             );
-        if (ofertasLaboralesActivasOrError.esFallido)
-            return Resultado.falla<any>(ofertasLaboralesActivasOrError.error);
+        if (estadosOrError.esFallido)
+            return Resultado.falla<any>(estadosOrError.error);
 
         //Convertimos a dominio array
-        let conjutoOfertasOrError = EstadoMapeador.aDominioConjunto(
-            ofertasLaboralesActivasOrError.getValue()
+        let conjuntoEstadosOrError = EstadoMapeador.aDominioConjunto(
+            estadosOrError.getValue()
         );
-        if (conjutoOfertasOrError.esFallido)
-            return Resultado.falla<any>(conjutoOfertasOrError.error);
+        if (conjuntoEstadosOrError.esFallido)
+            return Resultado.falla<any>(conjuntoEstadosOrError.error);
 
         //Respondo con un arreglo segun estandar DTO
         let ConjuntoRespuestaOrError = EstadoMapeador.aDTOConjunto(
-            conjutoOfertasOrError.getValue()
+            conjuntoEstadosOrError.getValue()
         );
 
         if (ConjuntoRespuestaOrError.esFallido)
