@@ -2,10 +2,10 @@ name: Pruebas unitarias, integración y aceptación
 on:
     push:
         branches:
-            - master
+            - main
     pull_request:
         branches:
-            - master
+            - main
 
 jobs:
     pruebas-unitarias:
