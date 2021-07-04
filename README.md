@@ -1,4 +1,5 @@
 [![Pruebas unitarias, integración y aceptación](https://github.com/OrangeSoft-Team/officium-vuejs/actions/workflows/ci.yml/badge.svg)](https://github.com/OrangeSoft-Team/officium-vuejs/actions/workflows/ci.yml)
+[![Despliegue a GH Pages](https://github.com/OrangeSoft-Team/officium-vuejs/actions/workflows/deploy.yml/badge.svg)](https://github.com/OrangeSoft-Team/officium-vuejs/actions/workflows/deploy.yml)
 
 <p align="center">
   <img src="https://i.imgur.com/peHiyrK.png" alt="logo" width="400">
