@@ -11,14 +11,14 @@ try {
 } catch (e) {}
 
 const userOptions = JSON.parse(process.env.VUE_NIGHTWATCH_USER_OPTIONS || "{}");
-const useSelenium = process.env.VUE_NIGHTWATCH_USE_SELENIUM === "1";
-const startHeadless = process.env.VUE_NIGHTWATCH_HEADLESS === "1";
+const useSelenium = false;
+const startHeadless = process.env.START_HEADLESS || false;
 const concurrentMode = process.env.VUE_NIGHTWATCH_CONCURRENT === "1";
-const chromeArgs = [];
+const chromeArgs = ["--no-sandbox", "--disable-gpu"];
 const geckoArgs = [];
 
 if (startHeadless) {
-    chromeArgs.push("headless");
+    chromeArgs.push("--headless");
     geckoArgs.push("--headless");
 }
 

@@ -1,3 +1,5 @@
+[![Pruebas unitarias, integración y aceptación](https://github.com/OrangeSoft-Team/officium-vuejs/actions/workflows/ci.yml/badge.svg)](https://github.com/OrangeSoft-Team/officium-vuejs/actions/workflows/ci.yml)
+
 <p align="center">
   <img src="https://i.imgur.com/peHiyrK.png" alt="logo" width="400">
 </p>
@@ -49,7 +51,8 @@ Adicionalmente, se utilizan las siguientes plantillas para el repositorio:
 | <img src="https://camo.githubusercontent.com/dff60c3322fc0645c42441b218ce565be5d14b528ac4d79247baa547b4977d1f/68747470733a2f2f70726574746965722e696f2f69636f6e2e706e67" width="24"> | Linter                    | Prettier             | https://prettier.io/docs/en/install.html | 7.1.1   |
 | <img src="https://avatars.githubusercontent.com/u/32196900?s=400&v=4" width="24">                                                                                                   | Testing                   | Jest                 | https://jestjs.io/docs/getting-started   | 27.0.5  |
 | <img src="https://miro.medium.com/max/3164/1*80J2Wa21DYXxMbbtBziJHg.png" width="48">                                                                                                | Cliente HTTP              | Axios                | https://axios-http.com/docs/intro        | 0.21.1  |
-| <img src="https://nightwatchjs.org/images/symbol-nightwatch.svg" width="24">                                                                                                        | Testin e2e                | Nightwatch.js        | https://nightwatchjs.org/                | 1.7.6   |
+| <img src="https://nightwatchjs.org/images/symbol-nightwatch.svg" width="24">                                                                                                        | Testing e2e               | Nightwatch.js        | https://nightwatchjs.org/                | 1.7.6   |
+| <img src="https://avatars.githubusercontent.com/u/44036562?s=280&v=4" width="32">                                                                                                   | CI / CD                   | GitHub Actions       | https://github.com/features/actions      | 1.0.0   |
 
 ### :wrench: Instalación de la Aplicación
 
@@ -77,7 +80,7 @@ Para llevar a cabo la puesta en producción de esta aplicación, debe realizar l
 
 ---
 
-Para la ejecución de la aplicación debe sencillamente escribir alguno de los siguientes dos comandos en una consola de comandos situada en la carpeta de la aplicación:
+Para la ejecución de la aplicación debe sencillamente escribir el siguiente comando en una consola de comandos situada en la carpeta de la aplicación:
 
 -   Aplicación en modo desarrollo (development):
 
@@ -127,3 +130,6 @@ Esta aplicación consta de tres tipos de pruebas automatizables ejecutables, las
 -   [Functional Error Handling with Express.js and DDD](https://khalilstemmler.com/articles/enterprise-typescript-nodejs/functional-error-handling/)
 -   [Command Query Separation | Object-Oriented Design Principles w/ TypeScript](https://khalilstemmler.com/articles/oop-design-principles/command-query-separation/#CQS-in-Domain-Driven-Design-Architecture-with-CQRS)
 -   [Partiendo el monolito a través de Bounded Context](https://adrianalonso.es/arquitectura-del-software/partiendo-monolito-bounded-context/)
+-   [Mocking TypeScript classes with Jest](https://medium.com/@davguij/mocking-typescript-classes-with-jest-8ef992170d1d)
+-   [Jest - Mock Local Storage](https://www.codeblocq.com/2021/01/Jest-Mock-Local-Storage/)
+-   [E2E Testing with Nightwatch](https://www.fullstacklabs.co/blog/e2e-testing-with-nightwatch-js)
