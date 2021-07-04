@@ -13,9 +13,11 @@ import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersis
 import {
     CLAVE_CONJUNTO_OFERTAS_LABORALES,
     CLAVE_ID_EMPRESA,
+    CLAVE_SESION_USUARIO,
     CLAVE_ULT_OFERTA_LABORAL,
 } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
 import { OFERTAS_LABORALES_RESPUESTA_VALIDA } from "./respuestas/ListadoOfertasLaborales";
+import { RespuestaInicioSesionDTO } from "../../aplicacion/dto/RespuestaInicioSesionDTO";
 
 export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     private persistenciaAlterna: IServicioPersistencia;
@@ -28,13 +30,17 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
         ofertaLaboral: SolicitudCreacionOfertaLaboralDTO
     ): Resultado<OperacionExitosaDTO> {
         //Solicitamos ID de empresa para la petición
-        const idEmpresaOrError =
-            this.persistenciaAlterna.obtener(CLAVE_ID_EMPRESA);
-        //TODO: Habilitar cuando se tenga login
-        //if (idEmpresaOrError.esFallido)
-        //    return Resultado.falla<any>(OPERACION_FALLIDA);
+        const datosEmpresaOrError =
+            this.persistenciaAlterna.obtener<RespuestaInicioSesionDTO>(
+                CLAVE_SESION_USUARIO
+            );
 
-        ofertaLaboral.uuidempresa = <string>idEmpresaOrError.getValue();
+        if (datosEmpresaOrError.esFallido)
+            return Resultado.falla<any>(OPERACION_FALLIDA);
+
+        ofertaLaboral.uuidempresa = <string>(
+            datosEmpresaOrError.getValue().uuidEmpresa
+        );
 
         //Esperamos respuesta
         //Simulamos anexar

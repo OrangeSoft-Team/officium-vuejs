@@ -8,7 +8,7 @@ export interface DatosInicioSesionDTO {
     contraseña: string;
 }
 
-export class IniciarSesion
+export class CasoUsoIniciarSesion
     implements
         CasoUso<DatosInicioSesionDTO, Resultado<RespuestaInicioSesionDTO>>
 {
