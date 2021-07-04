@@ -43,4 +43,45 @@ export class CiudadMapeador {
 
         return Resultado.ok<CiudadDTO>(propsDTO);
     }
+
+    public static aDominioConjunto(
+        dtos: CiudadDTO[]
+    ): Resultado<Ciudad[]> {
+        //Convertimos a dominio array
+        let arrayPaises: Ciudad[] = [];
+
+        for (let oferta of dtos) {
+            let paisOrError =
+            CiudadMapeador.aDominio(oferta);
+            //En caso de fallo
+            if (paisOrError.esFallido) {
+                return Resultado.falla<any>(paisOrError.error);
+            }
+
+            //En caso de ser valido
+            arrayPaises.push(paisOrError.getValue());
+        }
+
+        return Resultado.ok<Ciudad[]>(arrayPaises);
+    }
+
+    public static aDTOConjunto(
+        entidades: Ciudad[]
+    ): Resultado<CiudadDTO[]> {
+        //Array auxiliar
+        let arrayPaises: CiudadDTO[] = [];
+
+        for (let oferta of entidades) {
+            let ofertaDTOOrError = CiudadMapeador.aDTO(oferta);
+
+            if (ofertaDTOOrError.esFallido)
+                return Resultado.falla<any>(ofertaDTOOrError.error);
+
+                arrayPaises.push(ofertaDTOOrError.getValue());
+        }
+
+        return Resultado.ok<CiudadDTO[]>(
+            arrayPaises
+        );
+    }
 }

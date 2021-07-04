@@ -1,53 +1,53 @@
-import { EstadoMapeador } from "../mapeador/Estado.mapeador";
+import { CiudadMapeador } from "../mapeador/Ciudad.mapaeador";
 import { CasoUso } from "../casoUso";
 import { Resultado } from "../../dominio/resultado";
-import { EstadoDTO } from "../dto.geografico/EstadoDTO";
-import { IServicioEstado } from "../IServicioEstado";
+import { CiudadDTO } from "../dto.geografico/CiudadDTO";
+import { IServicioCiudad } from "../IServicioCiudad";
 
-export interface SolicitudEstadoDTO {
-    idEstado: string;
+export interface SolicitudCiudadDTO {
+    idCiudad: string;
 }
 
 
-export class ObtenerEstados
+export class ObtenerOfertaLaboral
     implements
-        CasoUso<SolicitudEstadoDTO, 
-        Resultado<EstadoDTO[]>>
+        CasoUso<SolicitudCiudadDTO, 
+        Resultado<CiudadDTO[]>>
 {
     //Repositorio
-    private ServicioEstado: IServicioEstado;
+    private ServicioCiudad: IServicioCiudad;
 
-    constructor(RepoImplementacion: IServicioEstado) {
-        this.ServicioEstado = RepoImplementacion;
+    constructor(RepoImplementacion: IServicioCiudad) {
+        this.ServicioCiudad = RepoImplementacion;
     }
 
     //Query
     public async ejecutar(
-        solicitud: SolicitudEstadoDTO
-    ): Promise<Resultado<EstadoDTO[]>> {
+        solicitud: SolicitudCiudadDTO
+    ): Promise<Resultado<CiudadDTO[]>> {
         //Llamamos al repositorio
         let ofertasLaboralesActivasOrError =
-            await this.ServicioEstado.obtenerEstados(
+            await this.ServicioCiudad.obtenerCiudades(
                 solicitud
             );
         if (ofertasLaboralesActivasOrError.esFallido)
             return Resultado.falla<any>(ofertasLaboralesActivasOrError.error);
 
         //Convertimos a dominio array
-        let conjutoOfertasOrError = EstadoMapeador.aDominioConjunto(
+        let conjutoOfertasOrError = CiudadMapeador.aDominioConjunto(
             ofertasLaboralesActivasOrError.getValue()
         );
         if (conjutoOfertasOrError.esFallido)
             return Resultado.falla<any>(conjutoOfertasOrError.error);
 
         //Respondo con un arreglo segun estandar DTO
-        let ConjuntoRespuestaOrError = EstadoMapeador.aDTOConjunto(
+        let ConjuntoRespuestaOrError = CiudadMapeador.aDTOConjunto(
             conjutoOfertasOrError.getValue()
         );
 
         if (ConjuntoRespuestaOrError.esFallido)
             return Resultado.falla<any>(ConjuntoRespuestaOrError.error);
 
-        return Resultado.ok<EstadoDTO[]>(ConjuntoRespuestaOrError.getValue());
+        return Resultado.ok<CiudadDTO[]>(ConjuntoRespuestaOrError.getValue());
     }
 }

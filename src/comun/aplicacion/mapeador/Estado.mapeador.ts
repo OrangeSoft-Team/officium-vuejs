@@ -43,4 +43,45 @@ export class EstadoMapeador {
 
         return Resultado.ok<EstadoDTO>(propsDTO);
     }
+
+    public static aDominioConjunto(
+        dtos: EstadoDTO[]
+    ): Resultado<Estado[]> {
+        //Convertimos a dominio array
+        let arrayPaises: Estado[] = [];
+
+        for (let oferta of dtos) {
+            let paisOrError =
+            EstadoMapeador.aDominio(oferta);
+            //En caso de fallo
+            if (paisOrError.esFallido) {
+                return Resultado.falla<any>(paisOrError.error);
+            }
+
+            //En caso de ser valido
+            arrayPaises.push(paisOrError.getValue());
+        }
+
+        return Resultado.ok<Estado[]>(arrayPaises);
+    }
+
+    public static aDTOConjunto(
+        entidades: Estado[]
+    ): Resultado<EstadoDTO[]> {
+        //Array auxiliar
+        let arrayPaises: EstadoDTO[] = [];
+
+        for (let oferta of entidades) {
+            let ofertaDTOOrError = EstadoMapeador.aDTO(oferta);
+
+            if (ofertaDTOOrError.esFallido)
+                return Resultado.falla<any>(ofertaDTOOrError.error);
+
+                arrayPaises.push(ofertaDTOOrError.getValue());
+        }
+
+        return Resultado.ok<EstadoDTO[]>(
+            arrayPaises
+        );
+    }
 }
