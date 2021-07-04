@@ -13,14 +13,18 @@ export class Correo extends ValueObject<correoProps> {
     private constructor(props: correoProps) {
         super(props);
     }
-    
+
     public valor(): string {
         return this.props.correo;
     }
 
     public static crear(correo: string): Resultado<Correo> {
         //Validamos formato correo@ejemplo.com
-         if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/.test(correo))
+        if (
+            !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+                correo
+            )
+        )
             return Resultado.falla<any>(FORMATO_CORREO_NO_VALIDA);
 
         //Valor tamaño del correo

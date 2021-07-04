@@ -4,7 +4,6 @@ import { Resultado } from "../../../comun/dominio/resultado";
 import { DatosBasicosMapeador } from "../DatosBasicos.mapeador";
 import { OperacionExitosaDTO } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 
-
 export interface SolicitudActualizarDatosBasicosDTO {
     uuuidEmpresa?: string;
     nombreEmpresa: string;
@@ -16,7 +15,7 @@ export interface SolicitudActualizarDatosBasicosDTO {
     uuidCiudad: string;
 }
 
-export class CrearOfertaLaboral
+export class ActualizarDatosBasicos
     implements
         CasoUso<
             SolicitudActualizarDatosBasicosDTO,

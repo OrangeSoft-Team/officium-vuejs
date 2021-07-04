@@ -5,7 +5,7 @@ export const DATOS_BASICOS_EMPRESA_VALIDOS: DatosBasicosEmpresaDTO = {
     correoElectronico: "ibm.servicios@ibm.com",
     direccionCalle: "Av. Principal Libertador",
     codigoPostal: "1020",
-    uuidPais: "00000000-0000-0000-C000-000000000046",
-    uuidEstado: "00000000-0000-0000-C000-000000000047",
-    uuidCiudad: "00000000-0000-0000-C000-000000000048",
+    uuidPais: "00000000-0000-0000-C000-000000000050",
+    uuidEstado: "00000000-0000-0000-C000-000000000051",
+    uuidCiudad: "00000000-0000-0000-C000-000000000152",
 };
