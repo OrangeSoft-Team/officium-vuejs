@@ -8,7 +8,11 @@ import { OfertaLaboralEmpresaDTO } from "../../aplicacion/dto/OfertaLaboralEmpre
 import { IOfertasLaboralesRepo } from "../../aplicacion/IOfertaLaboral.repositorio";
 import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersistencia";
 import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
-import { CLAVE_ID_EMPRESA } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
+import {
+    CLAVE_ID_EMPRESA,
+    CLAVE_SESION_USUARIO,
+} from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
+import { RespuestaInicioSesionDTO } from "../../aplicacion/dto/RespuestaInicioSesionDTO";
 
 //Controlador de CU Obtener Ofertas Laborales Activas
 export class ControladorObtenerOfertasLaboralesActivas {
@@ -41,17 +45,17 @@ export class ControladorObtenerOfertasLaboralesActivas {
             );
 
         //Obtenemos id empresa del empleador actual
-        const idEmpresaEmpleadorOrError =
-            this.ServicioPersistenciaLocal.obtener<SolicitudOfertasLaboralesActivasDTO>(
-                CLAVE_ID_EMPRESA
+        const datosEmpleadorOrError =
+            this.ServicioPersistenciaLocal.obtener<RespuestaInicioSesionDTO>(
+                CLAVE_SESION_USUARIO
             );
-        //TODO: Habilitar cuando se tenga login
-        //if (idEmpresaEmpleadorOrError.esFallido)
-        //    return Resultado.falla<any>(idEmpresaEmpleadorOrError.error);
 
-        const respuestaCU = await CasoUsoObtenerOfertasLaborales.ejecutar(
-            idEmpresaEmpleadorOrError.getValue()
-        );
+        if (datosEmpleadorOrError.esFallido)
+            return Resultado.falla<any>(datosEmpleadorOrError.error);
+
+        const respuestaCU = await CasoUsoObtenerOfertasLaborales.ejecutar({
+            idEmpresa: datosEmpleadorOrError.getValue().uuidEmpresa,
+        });
 
         if (respuestaCU.esExitoso) {
             return Resultado.ok<OfertaLaboralEmpresaDTO[]>(

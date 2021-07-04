@@ -1,7 +1,7 @@
 import { AutentificacionBasica } from "../../../sesion/infraestructura/AutentificacionBasica";
 import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersistencia";
 import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
-import { IniciarSesion } from "../../../sesion/aplicacion/casoDeUso/IniciarSesion.cu";
+import { CasoUsoIniciarSesion } from "../../../sesion/aplicacion/casoDeUso/IniciarSesion.cu";
 import { FORMATO_CONTRASENA_INVALIDA } from "../../../sesion/infraestructura/excepciones/contrasena.exepcion";
 
 jest.mock("../../../sesion/infraestructura/AutentificacionBasica");
@@ -17,7 +17,7 @@ describe("Autentificación con credenciales básicas", () => {
 
     it("Inicia de sesión con credenciales básicas válidas", () => {
         //Inicializamos Caso de Uso
-        const CU = new IniciarSesion(Implementacion);
+        const CU = new CasoUsoIniciarSesion(Implementacion);
         const resultadoCU = CU.ejecutar({
             correoElectronico: "test@test.com",
             contraseña: "Guaicaipuro1",
@@ -35,7 +35,7 @@ describe("Autentificación con credenciales básicas", () => {
 
     it("Intenta iniciar de sesión con credenciales básicas y clave inválida", () => {
         //Inicializamos Caso de Uso
-        const CU = new IniciarSesion(Implementacion);
+        const CU = new CasoUsoIniciarSesion(Implementacion);
         const resultadoCU = CU.ejecutar({
             correoElectronico: "test@test.com",
             contraseña: "guaicaipuro",

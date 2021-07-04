@@ -251,13 +251,10 @@ export default Vue.extend({
                             "¡La oferta laboral ha sido creada satisfactoriamente!"
                         );
                     } else {
-                        //TODO Manejo de caso con error al recuperar conjunto
                         console.warn("Algo pasó", data.error);
                         this.mensajeError = data.error;
 
                         this.snackbar = true;
-                        //¿Cómo le cambiaría el estado al componente hijo?
-                        //this.$refs.AlertaError.snackbar = true;
                     }
                 })
                 .catch((e) => {

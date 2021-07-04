@@ -21,7 +21,7 @@
                         v-bind="attrs"
                         v-on="on"
                     >
-                        ORANGESOFT
+                        {{ nombreEmpresa }}
                         <v-icon>mdi-chevron-down</v-icon>
                     </v-btn>
                 </template>
@@ -32,7 +32,7 @@
                         </v-list-item-icon>
                         <v-list-item-title>Editar perfil</v-list-item-title>
                     </v-list-item>
-                    <v-list-item :to="{ name: 'InicioSesion' }">
+                    <v-list-item @click="cerrarSesion">
                         <v-list-item-icon>
                             <v-icon>mdi-logout</v-icon>
                         </v-list-item-icon>
@@ -74,11 +74,14 @@
 </template>
 
 <script lang="ts">
+import { ControladorObtenerDatos } from "@/sesion/infraestructura/controlador/ControladorObtenerDatos";
+import { ControladorCerrarSesion } from "../../../../sesion/infraestructura/controlador/ControladorCerrarSesion";
 import Vue from "vue";
 
 export default Vue.extend({
     data() {
         return {
+            nombreEmpresa: "",
             opcionesMenu: [
                 {
                     opcion: "Inicio",
@@ -107,6 +110,31 @@ export default Vue.extend({
                 },
             ],
         };
+    },
+
+    methods: {
+        cargarDatos() {
+            const controladorOrError = ControladorObtenerDatos.inicialiar();
+            const usuarioOrError = controladorOrError.ejecutarServicio();
+
+            if (usuarioOrError.esExitoso)
+                this.nombreEmpresa = usuarioOrError.getValue().nombreEmpresa;
+        },
+        cerrarSesion() {
+            const controladorOrError = ControladorCerrarSesion.inicialiar();
+            const operacionOrError = controladorOrError.ejecutarServicio();
+
+            if (operacionOrError.esFallido) {
+                //TODO Manejar error
+                console.warn("Algo paso ", operacionOrError.error);
+            }
+
+            this.$router.replace({ name: "InicioSesion" });
+        },
+    },
+
+    mounted() {
+        this.cargarDatos();
     },
 });
 </script>
