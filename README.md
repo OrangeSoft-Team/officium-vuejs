@@ -1,3 +1,5 @@
+[![Pruebas unitarias, integración y aceptación](https://github.com/OrangeSoft-Team/officium-vuejs/actions/workflows/ci.yml/badge.svg)](https://github.com/OrangeSoft-Team/officium-vuejs/actions/workflows/ci.yml)
+
 <p align="center">
   <img src="https://i.imgur.com/peHiyrK.png" alt="logo" width="400">
 </p>
@@ -50,6 +52,7 @@ Adicionalmente, se utilizan las siguientes plantillas para el repositorio:
 | <img src="https://avatars.githubusercontent.com/u/32196900?s=400&v=4" width="24">                                                                                                   | Testing                   | Jest                 | https://jestjs.io/docs/getting-started   | 27.0.5  |
 | <img src="https://miro.medium.com/max/3164/1*80J2Wa21DYXxMbbtBziJHg.png" width="48">                                                                                                | Cliente HTTP              | Axios                | https://axios-http.com/docs/intro        | 0.21.1  |
 | <img src="https://nightwatchjs.org/images/symbol-nightwatch.svg" width="24">                                                                                                        | Testing e2e               | Nightwatch.js        | https://nightwatchjs.org/                | 1.7.6   |
+| <img src="https://avatars.githubusercontent.com/u/44036562?s=280&v=4" width="32">                                                                                                   | CI / CD                   | GitHub Actions       | https://github.com/features/actions      | 1.0.0   |
 
 ### :wrench: Instalación de la Aplicación
 
