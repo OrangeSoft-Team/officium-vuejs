@@ -2,11 +2,11 @@ import { EstadoDTO } from "../../../aplicacion/dto.geografico/EstadoDTO";
 
 export const LISTADO_ESTADO_VENEZUELA: EstadoDTO[] = [
     {
-        uuidEstado: "00000000-0000-0000-C000-000000000047",
+        uuidEstado: "00000000-0000-0000-C000-000000000051",
         nombreEstado: "Distrito Capital",
     },
     {
-        uuidEstado: "00000000-0000-0000-C000-000000000048",
+        uuidEstado: "00000000-0000-0000-C000-000000000052",
         nombreEstado: "Zulia",
     },
 ];

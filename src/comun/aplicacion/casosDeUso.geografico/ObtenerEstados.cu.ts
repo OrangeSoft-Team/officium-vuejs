@@ -5,14 +5,11 @@ import { EstadoDTO } from "../dto.geografico/EstadoDTO";
 import { IServicioEstado } from "../IServicioEstado";
 
 export interface SolicitudEstadoDTO {
-    idEstado: string;
+    idPais: string;
 }
 
-
 export class ObtenerEstados
-    implements
-        CasoUso<SolicitudEstadoDTO, 
-        Resultado<EstadoDTO[]>>
+    implements CasoUso<SolicitudEstadoDTO, Resultado<EstadoDTO[]>>
 {
     //Repositorio
     private ServicioEstado: IServicioEstado;
@@ -26,10 +23,9 @@ export class ObtenerEstados
         solicitud: SolicitudEstadoDTO
     ): Promise<Resultado<EstadoDTO[]>> {
         //Llamamos al repositorio
-        let estadosOrError =
-            await this.ServicioEstado.obtenerEstados(
-                solicitud
-            );
+        let estadosOrError = await this.ServicioEstado.obtenerEstados(
+            solicitud
+        );
         if (estadosOrError.esFallido)
             return Resultado.falla<any>(estadosOrError.error);
 

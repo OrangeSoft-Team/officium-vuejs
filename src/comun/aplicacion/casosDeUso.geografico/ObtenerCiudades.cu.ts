@@ -5,14 +5,11 @@ import { CiudadDTO } from "../dto.geografico/CiudadDTO";
 import { IServicioCiudad } from "../IServicioCiudad";
 
 export interface SolicitudCiudadDTO {
-    idCiudad: string;
+    idEstado: string;
 }
 
-
-export class ObtenerOfertaLaboral
-    implements
-        CasoUso<SolicitudCiudadDTO, 
-        Resultado<CiudadDTO[]>>
+export class ObtenerCiudades
+    implements CasoUso<SolicitudCiudadDTO, Resultado<CiudadDTO[]>>
 {
     //Repositorio
     private ServicioCiudad: IServicioCiudad;
@@ -26,10 +23,9 @@ export class ObtenerOfertaLaboral
         solicitud: SolicitudCiudadDTO
     ): Promise<Resultado<CiudadDTO[]>> {
         //Llamamos al repositorio
-        let ciudadesOrError =
-            await this.ServicioCiudad.obtenerCiudades(
-                solicitud
-            );
+        let ciudadesOrError = await this.ServicioCiudad.obtenerCiudades(
+            solicitud
+        );
         if (ciudadesOrError.esFallido)
             return Resultado.falla<any>(ciudadesOrError.error);
 

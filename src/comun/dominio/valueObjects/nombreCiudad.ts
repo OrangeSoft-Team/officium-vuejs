@@ -17,7 +17,7 @@ export class NombreCiudad extends ValueObject<NombreProps> {
 
     public static crear(nombre: string): Resultado<NombreCiudad> {
         //Valor tamaño del nombre
-        if (nombre.length >= 2 || nombre.length <= 128)
+        if (!(nombre.length >= 2 && nombre.length <= 128))
             return Resultado.falla<any>(NOMBRE_CIUDAD_LONGITUD_NO_VALIDA);
 
         return Resultado.ok<NombreCiudad>(new NombreCiudad({ nombre }));
