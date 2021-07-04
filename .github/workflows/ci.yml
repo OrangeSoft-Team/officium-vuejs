@@ -1,0 +1,56 @@
+name: Pruebas unitarias, integración y aceptación
+on:
+    push:
+        branches:
+            - master
+    pull_request:
+        branches:
+            - master
+
+jobs:
+    pruebas-unitarias:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  persist-credentials: false
+            - name: Usa Node.js '12.x'
+              uses: actions/setup-node@v1
+              with:
+                  node-version: "12.x"
+            - name: Instalamos dependencias
+              run: npm ci
+            - name: Ejecuta pruebas unitarias
+              run: npm run test-unitario
+
+    pruebas-integracion:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  persist-credentials: false
+            - name: Usa Node.js '12.x'
+              uses: actions/setup-node@v1
+              with:
+                  node-version: "12.x"
+            - name: Instalamos dependencias
+              run: npm ci
+            - name: Ejecuta pruebas integracion
+              run: npm run test-integracion
+
+    pruebas-aceptacion:
+        runs-on: ubuntu-latest
+        env:
+            START_HEADLESS: false
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  persist-credentials: false
+            - name: Usa Node.js '12.x'
+              uses: actions/setup-node@v1
+              with:
+                  node-version: "12.x"
+            - name: Instalamos dependencias
+              run: npm ci
+            - name: Ejecuta pruebas aceptacion
+              run: npm run test-aceptacion
