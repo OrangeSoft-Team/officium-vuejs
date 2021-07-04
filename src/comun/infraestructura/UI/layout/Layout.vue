@@ -21,7 +21,7 @@
                         v-bind="attrs"
                         v-on="on"
                     >
-                        ORANGESOFT
+                        {{ nombreEmpresa }}
                         <v-icon>mdi-chevron-down</v-icon>
                     </v-btn>
                 </template>
@@ -74,11 +74,13 @@
 </template>
 
 <script lang="ts">
+import { ControladorObtenerDatos } from "@/sesion/infraestructura/controlador/ControladorObtenerDatos";
 import Vue from "vue";
 
 export default Vue.extend({
     data() {
         return {
+            nombreEmpresa: "",
             opcionesMenu: [
                 {
                     opcion: "Inicio",
@@ -107,6 +109,20 @@ export default Vue.extend({
                 },
             ],
         };
+    },
+
+    methods: {
+        cargarDatos() {
+            const controladorOrError = ControladorObtenerDatos.inicialiar();
+            const usuarioOrError = controladorOrError.ejecutarServicio();
+
+            if (usuarioOrError.esExitoso)
+                this.nombreEmpresa = usuarioOrError.getValue().nombreEmpresa;
+        },
+    },
+
+    mounted() {
+        this.cargarDatos();
     },
 });
 </script>
