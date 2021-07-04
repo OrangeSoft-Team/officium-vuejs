@@ -1,5 +1,10 @@
 // For authoring Nightwatch tests, see
 // https://nightwatchjs.org/guide
+const CREDENCIALES_PRUEBA = {
+    correoElectronico: "test@test.com",
+    contrasena: "UcabJul2021",
+};
+
 const OFERTA_LABORAL = {
     idOfertaLaboral: "3",
     descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
@@ -21,6 +26,8 @@ module.exports = {
             .init()
             .waitForElementVisible("#app")
             .waitForElementVisible("#btn-login")
+            .setValue("#text-correo", CREDENCIALES_PRUEBA.correoElectronico)
+            .setValue("#text-contrasena", CREDENCIALES_PRUEBA.contrasena)
             .click("#btn-login");
         //Dashboard
         browser
