@@ -32,7 +32,8 @@ jobs:
             - name: Push cambios
               uses: s0/git-publish-subdir-action@develop
               env:
-                  REPO: ${{secrets.SSH_REPO_DESPLIEGUE}}
+                  REPO: git@github.com:Madot10/officium-vuejs.git
+                  SSH_PRIVATE_KEY: ${{secrets.SSH_REPO_DESPLIEGUE}}
                   BRANCH: gh-pages
                   FOLDER: dist
                   MESSAGE: "Despligue a GitHub Pages"
