@@ -1,7 +1,7 @@
 import { IEmpresaRepo } from "../../../empresa/aplicacion/IEmpresa.repositorio";
 import { JSONRepositorioDatosBasicos } from "../../../empresa/infraestructura/JSON/JSONRepositorioDatosBasicos";
 import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
-import { ObtenerOfertaLaboral } from "../../../empresa/aplicacion/casoDeUso/ObtenerDatosBasicos.cu";
+import { obtenerDatosBasicos } from "../../../empresa/aplicacion/casoDeUso/ObtenerDatosBasicos.cu";
 import { DATOS_BASICOS_EMPRESA_VALIDOS } from "../../../empresa/infraestructura/JSON/RespuestasDatosBasicos";
 import { ActualizarDatosBasicos } from "../../../empresa/aplicacion/casoDeUso/ActualizarDatosBasicos.cu";
 import { OperacionExitosaDTO } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
@@ -19,7 +19,7 @@ describe("Obtener datos básicos de una Empresa", () => {
     });
 
     it("Solicitamos datos básicos de una empresa", () => {
-        const CU = new ObtenerOfertaLaboral(respositorioEmpresa);
+        const CU = new obtenerDatosBasicos(respositorioEmpresa);
 
         const resultadoCU = CU.ejecutar({
             idEmpresa: "",

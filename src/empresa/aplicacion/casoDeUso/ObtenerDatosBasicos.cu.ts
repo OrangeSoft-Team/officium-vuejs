@@ -8,7 +8,7 @@ export interface SolicitudDatosBasicosDTO {
     idEmpresa: string;
 }
 
-export class ObtenerOfertaLaboral
+export class obtenerDatosBasicos
     implements
         CasoUso<SolicitudDatosBasicosDTO, Resultado<DatosBasicosEmpresaDTO>>
 {
