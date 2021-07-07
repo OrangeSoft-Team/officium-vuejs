@@ -119,6 +119,7 @@ export default Vue.extend({
                         this.estaCargando = false;
                         //Actualizamos
                         this.ofertasLaborales = data.getValue();
+                        console.log("Recibimos", data.getValue())
                     } else {
                         //TODO Manejo de caso con error al recuperar conjunto
                         console.warn("Algo pasó", data.error);

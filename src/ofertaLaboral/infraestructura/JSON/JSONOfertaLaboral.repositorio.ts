@@ -19,6 +19,20 @@ import {
 import { OFERTAS_LABORALES_RESPUESTA_VALIDA } from "./respuestas/ListadoOfertasLaborales";
 import { RespuestaInicioSesionDTO } from "../../aplicacion/dto/RespuestaInicioSesionDTO";
 
+interface auxiliarJSONCrearOfertaLaboralDTO {
+    idOfertaLaboral?: string;
+    fechaPublicacion?: string;
+    uuidempresa?: string;
+    titulo: string;
+    cargo: string;
+    sueldo: number;
+    duracionEstimadaValor: number;
+    duracionEstimadaEscala: string;
+    turnoTrabajo: string;
+    numeroVacantes: number;
+    descripcion: string;
+}
+
 export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     private persistenciaAlterna: IServicioPersistencia;
 
@@ -54,7 +68,13 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
                 listadoOrError.getValue()
             );
         }
-        arregloOfertas.push(ofertaLaboral);
+
+        //Generamos  y fecha fake
+        let auxiliarDTO: auxiliarJSONCrearOfertaLaboralDTO = ofertaLaboral;
+        auxiliarDTO.idOfertaLaboral = (Math.random() * 1000).toFixed(0);
+        auxiliarDTO.fechaPublicacion = "10/10/2020";
+        arregloOfertas.push(auxiliarDTO);
+        console.log(arregloOfertas);
 
         //Guardamos de nuevo
         const almacenarOrError = this.persistenciaAlterna.guardar(
@@ -102,15 +122,22 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     obtenerOfertaLaboralDetalle(
         id: SolicitudOfertaLaboralDTO
     ): Resultado<OfertaLaboralEmpresaDTO> {
-        let i: number = 0;
+        //Esperamos respuesta
+        let arregloOfertas: OfertaLaboralEmpresaDTO[] =
+            OFERTAS_LABORALES_RESPUESTA_VALIDA;
+        const listadoOrError = this.persistenciaAlterna.obtener(
+            CLAVE_CONJUNTO_OFERTAS_LABORALES
+        );
+        //Anexamos a array
+        if (listadoOrError.esExitoso) {
+            arregloOfertas = <OfertaLaboralEmpresaDTO[]>(
+                listadoOrError.getValue()
+            );
+        }
 
-        for (i = 0; i <= OFERTAS_LABORALES_RESPUESTA_VALIDA.length; i++) {
-            if (
-                OFERTAS_LABORALES_RESPUESTA_VALIDA[i].idOfertaLaboral ===
-                id.idOfertaLaboral
-            ) {
-                const respuesta: OfertaLaboralEmpresaDTO =
-                    OFERTAS_LABORALES_RESPUESTA_VALIDA[i];
+        for (let i: number = 0; i <= arregloOfertas.length; i++) {
+            if (arregloOfertas[i].idOfertaLaboral === id.idOfertaLaboral) {
+                const respuesta: OfertaLaboralEmpresaDTO = arregloOfertas[i];
 
                 this.persistenciaAlterna.guardar(
                     CLAVE_ULT_OFERTA_LABORAL,
