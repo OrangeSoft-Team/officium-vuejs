@@ -70,6 +70,8 @@
                     <v-select
                         v-model="datosEmpresa.uuidPais"
                         :items="paises"
+                        item-text="nombrePais"
+                        item-value="uuidPais"
                         :rules="[
                             (v) =>
                                 !!v || 'Este campo es obligatorio',
@@ -77,7 +79,38 @@
                         label="País"
                         required
                         id="inpt-pais"
-                        @change="actualizarEstadosCiudad()"
+                        @change="actualizarEstados()"
+                    ></v-select>
+                </v-row>
+                <v-row class="justify-center">
+                    <v-select
+                        v-model="datosEmpresa.uuidEstado"
+                        :items="estados"
+                        item-text="nombreEstado"
+                        item-value="uuidEstado"
+                        :rules="[
+                            (v) =>
+                                !!v || 'Este campo es obligatorio',
+                        ]"
+                        label="Estado"
+                        required
+                        id="inpt-estado"
+                        @change="actualizarCiudades()"
+                    ></v-select>
+                </v-row>
+                <v-row class="justify-center">
+                    <v-select
+                        v-model="datosEmpresa.uuidCiudad"
+                        :items="ciudades"
+                        item-text="nombreCiudad"
+                        item-value="uuidCiudad"
+                        :rules="[
+                            (v) =>
+                                !!v || 'Este campo es obligatorio',
+                        ]"
+                        label="Ciudad"
+                        required
+                        id="inpt-ciudad"
                     ></v-select>
                 </v-row>
                 <v-row class="justify-center">
@@ -89,9 +122,23 @@
                         id="inpt-direccion"
                     ></v-textarea>
                 </v-row>
+                <v-row class="justify-center">
+                    <v-btn class="ma-2" color="#00B592" v-on:click="actualizarDatos">
+                        <v-icon dark>
+                            mdi-pencil
+                        </v-icon>
+                        Guardar cambios
+                    </v-btn>
+                </v-row>
+                
             </v-col>
-            
             <v-col cols="12" sm="1" md="1" lg="1" xl="1"> </v-col>
+            
+            <alerta-error
+                :mensaje="mensajeError"
+                :snackbar="snackbar"
+                v-on:alertfin="alertaFin"
+            ></alerta-error>
         </v-row>
     </v-container>
 </template>
@@ -102,6 +149,7 @@ import { ControladorObtDatosBasicos } from "../../../../empresa/infraestructura/
 import { ControladorObtenerPaises } from "../../controlador/ControladorObtPaises";
 import { ControladorObtenerEstados } from "../../controlador/ControladorObtEstados";
 import { ControladorObtenerCiudades } from "../../controlador/ControladorObtCiudades";
+import { ControladorActualizarDatosBasicos } from "../../../../empresa/infraestructura/controlador/ControladorActualizarDatos";
 //Importamos la interface del DTO para que el objeto a mostrar en la tabla
 //sea del mismo tipo que el que se trae en la respuesta del CU
 import { DatosBasicosEmpresaDTO } from "../../../../empresa/aplicacion/dto/DatosBasicosEmpresaDTO";
@@ -109,8 +157,14 @@ import { PaisDTO } from "../../../aplicacion/dto.geografico/PaisDTO";
 import { EstadoDTO } from "../../../aplicacion/dto.geografico/EstadoDTO";
 import { CiudadDTO } from "../../../aplicacion/dto.geografico/CiudadDTO";
 
+import AlertaError from "../components/AlertaError.vue";
+import AlertaExito from "../components/AlertaExito.vue";
 
 export default Vue.extend({
+    components: {
+        AlertaError,
+        AlertaExito,
+    },
     data() {
         return {
             estaCargando: true,
@@ -130,6 +184,11 @@ export default Vue.extend({
             //Para el manejo del mensaje de éxito
             mensajeExito: "",
             alertaExito: false,
+            dialog: false,
+
+            //Para el manejo del mensaje
+            mensajeError: "",
+            snackbar: false,
         };
     },
 
@@ -164,8 +223,11 @@ export default Vue.extend({
                         //Actualizamos
                         this.datosEmpresa = data.getValue();
 
+                        console.log(this.datosEmpresa)
                         //Una vez obtenidos los datos del perfil, llamamos a los CU de país, estado y ciudad
-                        this.ejecutarCUPaisesEstadosCiudades();
+                        this.ejecutarCUPaises();
+                        this.ejecutarCUPEstados(this.datosEmpresa.uuidPais);
+                        this.ejecutarCUCiudades(this.datosEmpresa.uuidEstado);
 
                     } else {
                         //TODO Manejo de caso con error al recuperar conjunto
@@ -177,13 +239,11 @@ export default Vue.extend({
                 });
             
         },
-        ejecutarCUPaisesEstadosCiudades() {
-            //Inicializamos los controladores
+        ejecutarCUPaises() {
+            //Inicializamos controlador
             const cuPais = ControladorObtenerPaises.inicializar();
-            const cuEstado = ControladorObtenerEstados.inicializar();
-            const cuCiudad = ControladorObtenerCiudades.inicializar();
 
-            //Ejecutamos los casos de uso
+            //Ejecutamos el caso de uso
             const respuestaCUPais = cuPais.ejecutarCU();
             respuestaCUPais
                 .then((data) => {
@@ -200,9 +260,14 @@ export default Vue.extend({
                 .catch((e) => {
                     console.error(e);
                 });
+        },
+        ejecutarCUPEstados(uuidPais:string) {
+            //Inicializamos controlador
+            const cuEstado = ControladorObtenerEstados.inicializar();
 
+            //Ejecutamos el caso de uso
             const respuestaCUEstado = cuEstado.ejecutarCU({
-                idPais: this.datosEmpresa.uuidPais,
+                idPais: uuidPais,
             });
             respuestaCUEstado
                 .then((data) => {
@@ -220,8 +285,14 @@ export default Vue.extend({
                     console.error(e);
                 });
 
+        },
+        ejecutarCUCiudades(uuidEstado:string) {
+            //Inicializamos controlador
+            const cuCiudad = ControladorObtenerCiudades.inicializar();
+
+            //Ejecutamos el caso de uso
             const respuestaCUCiudad = cuCiudad.ejecutarCU({
-                idEstado: this.datosEmpresa.uuidEstado,
+                idEstado: uuidEstado
             });
             respuestaCUCiudad
                 .then((data) => {
@@ -241,24 +312,55 @@ export default Vue.extend({
         },
         
         recargarDatos() {
-            this.datosEmpresa = {
-                nombreEmpresa: '',
-                correoElectronico: '',
-                direccionCalle: '',
-                codigoPostal: '',
-                uuidPais: '',
-                uuidEstado: '',
-                uuidCiudad: '',
-            };
             this.estaCargando = false;
             this.ejecutarCU();
         },
-        actualizarEstadosCiudad(){
-            /**
-             * Función que llamará a los CU de ciudad y estado para actualizarlos de acuerdo al nuevo país escogido 
-             */
+        actualizarEstados(){
             console.log("País cambiado")
-        }
+            this.datosEmpresa.uuidEstado = "";
+            this.datosEmpresa.uuidCiudad = "";
+            this.ejecutarCUPEstados(this.datosEmpresa.uuidPais);
+        },
+        actualizarCiudades(){
+            console.log("Estado cambiado")
+            this.datosEmpresa.uuidCiudad = "";
+            this.ejecutarCUCiudades(this.datosEmpresa.uuidEstado)
+        },
+        actualizarDatos(){
+            console.log("Objeto a enviar: ");
+            console.log(this.datosEmpresa);
+            //Inicializamos el controlador
+            const cuAEjecutar = ControladorActualizarDatosBasicos.inicializar();
+
+            const respuestaCU = cuAEjecutar.ejecutarCU(this.datosEmpresa);
+            respuestaCU
+                .then((data: any) => {
+                    if (data.esExitoso) {
+                        //Cambiamos el estado
+                        this.estaCargando = false;
+
+                        console.log("[Datos actualizados satisfactoriamente]");
+
+                        //Si la oferta fue exitosamente creada, mostramos
+                        //mensaje de éxito y cerramos el modal
+                        this.dialog = false;
+
+                        //Mensaje del mensaje de éxito y se activa alerta por 5 segundos
+                        this.alertExito("¡Los datos básicos has sido actualizados satisfactoriamente!")
+
+                    } else {
+                        console.warn("Algo pasó", data.error);
+                        this.mensajeError = data.error;
+                        this.snackbar = true;
+                    }
+                })
+                .catch((e) => {
+                    console.error(e);
+                });
+        },
+        alertaFin() {
+            this.snackbar = false;
+        },
     },
 });
 </script>
