@@ -17,8 +17,7 @@
             <v-col cols="12" sm="1" md="1" lg="1" xl="1"> </v-col>
             <v-col cols="12" sm="4" md="4" lg="4" xl="4">
                 <v-row class="justify-center">
-                    <v-avatar
-                    size="250">
+                    <v-avatar size="250">
                         <v-img
                             :src="require('../assets/LogoPerfil.jpg')"
                         ></v-img>
@@ -28,10 +27,7 @@
                     <v-text-field
                         v-model="datosEmpresa.nombreEmpresa"
                         :counter="128"
-                        :rules="[
-                            (v) =>
-                                !!v || 'Este campo es obligatorio',
-                        ]"
+                        :rules="[(v) => !!v || 'Este campo es obligatorio']"
                         label="Ingrese el nombre de la empresa"
                         required
                         id="inpt-nombre"
@@ -41,10 +37,7 @@
                     <v-text-field
                         v-model="datosEmpresa.correoElectronico"
                         :counter="320"
-                        :rules="[
-                            (v) =>
-                                !!v || 'Este campo es obligatorio',
-                        ]"
+                        :rules="[(v) => !!v || 'Este campo es obligatorio']"
                         label="Ingrese el correo electrónico"
                         required
                         id="inpt-correo"
@@ -54,10 +47,7 @@
                     <v-text-field
                         v-model="datosEmpresa.codigoPostal"
                         :counter="10"
-                        :rules="[
-                            (v) =>
-                                !!v || 'Este campo es obligatorio',
-                        ]"
+                        :rules="[(v) => !!v || 'Este campo es obligatorio']"
                         label="Ingrese el código postal"
                         required
                         id="inpt-codigoPostal"
@@ -72,10 +62,7 @@
                         :items="paises"
                         item-text="nombrePais"
                         item-value="uuidPais"
-                        :rules="[
-                            (v) =>
-                                !!v || 'Este campo es obligatorio',
-                        ]"
+                        :rules="[(v) => !!v || 'Este campo es obligatorio']"
                         label="País"
                         required
                         id="inpt-pais"
@@ -88,10 +75,7 @@
                         :items="estados"
                         item-text="nombreEstado"
                         item-value="uuidEstado"
-                        :rules="[
-                            (v) =>
-                                !!v || 'Este campo es obligatorio',
-                        ]"
+                        :rules="[(v) => !!v || 'Este campo es obligatorio']"
                         label="Estado"
                         required
                         id="inpt-estado"
@@ -104,10 +88,7 @@
                         :items="ciudades"
                         item-text="nombreCiudad"
                         item-value="uuidCiudad"
-                        :rules="[
-                            (v) =>
-                                !!v || 'Este campo es obligatorio',
-                        ]"
+                        :rules="[(v) => !!v || 'Este campo es obligatorio']"
                         label="Ciudad"
                         required
                         id="inpt-ciudad"
@@ -123,17 +104,19 @@
                     ></v-textarea>
                 </v-row>
                 <v-row class="justify-center">
-                    <v-btn class="ma-2" color="#00B592" v-on:click="actualizarDatos">
-                        <v-icon dark>
-                            mdi-pencil
-                        </v-icon>
+                    <v-btn
+                        class="ma-5"
+                        color="primary"
+                        v-on:click="actualizarDatos"
+                        block
+                    >
+                        <v-icon dark> mdi-pencil </v-icon>
                         Guardar cambios
                     </v-btn>
                 </v-row>
-                
             </v-col>
             <v-col cols="12" sm="1" md="1" lg="1" xl="1"> </v-col>
-            
+
             <alerta-error
                 :mensaje="mensajeError"
                 :snackbar="snackbar"
@@ -169,13 +152,13 @@ export default Vue.extend({
         return {
             estaCargando: true,
             datosEmpresa: {
-                nombreEmpresa: '',
-                correoElectronico: '',
-                direccionCalle: '',
-                codigoPostal: '',
-                uuidPais: '',
-                uuidEstado: '',
-                uuidCiudad: '',
+                nombreEmpresa: "",
+                correoElectronico: "",
+                direccionCalle: "",
+                codigoPostal: "",
+                uuidPais: "",
+                uuidEstado: "",
+                uuidCiudad: "",
             } as DatosBasicosEmpresaDTO,
             paises: [] as PaisDTO[],
             estados: [] as EstadoDTO[],
@@ -204,17 +187,13 @@ export default Vue.extend({
         },
         ejecutarCU() {
             //Inicializamos el controlador
-            const cuAEjecutar =
-                ControladorObtDatosBasicos.inicializar();
-
+            const cuAEjecutar = ControladorObtDatosBasicos.inicializar();
 
             //Ejecutamos el caso de uso
             /**
              * Se deja temporalmente el id de la empresa como constante
              */
-            const respuestaCU = cuAEjecutar.ejecutarCU({
-                idEmpresa: "1",
-            });
+            const respuestaCU = cuAEjecutar.ejecutarCU();
             respuestaCU
                 .then((data) => {
                     if (data.esExitoso) {
@@ -223,21 +202,21 @@ export default Vue.extend({
                         //Actualizamos
                         this.datosEmpresa = data.getValue();
 
-                        console.log(this.datosEmpresa)
+                        //console.log(this.datosEmpresa);
                         //Una vez obtenidos los datos del perfil, llamamos a los CU de país, estado y ciudad
                         this.ejecutarCUPaises();
-                        this.ejecutarCUPEstados(this.datosEmpresa.uuidPais);
+                        this.ejecutarCUEstados(this.datosEmpresa.uuidPais);
                         this.ejecutarCUCiudades(this.datosEmpresa.uuidEstado);
-
                     } else {
                         //TODO Manejo de caso con error al recuperar conjunto
                         console.warn("Algo pasó", data.error);
+                        this.mensajeError = <string>data.error;
+                        this.snackbar = true;
                     }
                 })
                 .catch((e) => {
                     console.error(e);
                 });
-            
         },
         ejecutarCUPaises() {
             //Inicializamos controlador
@@ -261,7 +240,7 @@ export default Vue.extend({
                     console.error(e);
                 });
         },
-        ejecutarCUPEstados(uuidPais:string) {
+        ejecutarCUEstados(uuidPais: string) {
             //Inicializamos controlador
             const cuEstado = ControladorObtenerEstados.inicializar();
 
@@ -284,15 +263,14 @@ export default Vue.extend({
                 .catch((e) => {
                     console.error(e);
                 });
-
         },
-        ejecutarCUCiudades(uuidEstado:string) {
+        ejecutarCUCiudades(uuidEstado: string) {
             //Inicializamos controlador
             const cuCiudad = ControladorObtenerCiudades.inicializar();
 
             //Ejecutamos el caso de uso
             const respuestaCUCiudad = cuCiudad.ejecutarCU({
-                idEstado: uuidEstado
+                idEstado: uuidEstado,
             });
             respuestaCUCiudad
                 .then((data) => {
@@ -310,25 +288,24 @@ export default Vue.extend({
                     console.error(e);
                 });
         },
-        
+
         recargarDatos() {
             this.estaCargando = false;
             this.ejecutarCU();
         },
-        actualizarEstados(){
-            console.log("País cambiado")
+        actualizarEstados() {
+            //console.log("País cambiado");
             this.datosEmpresa.uuidEstado = "";
             this.datosEmpresa.uuidCiudad = "";
-            this.ejecutarCUPEstados(this.datosEmpresa.uuidPais);
+            this.ejecutarCUEstados(this.datosEmpresa.uuidPais);
         },
-        actualizarCiudades(){
-            console.log("Estado cambiado")
+        actualizarCiudades() {
+            //console.log("Estado cambiado");
             this.datosEmpresa.uuidCiudad = "";
-            this.ejecutarCUCiudades(this.datosEmpresa.uuidEstado)
+            this.ejecutarCUCiudades(this.datosEmpresa.uuidEstado);
         },
-        actualizarDatos(){
-            console.log("Objeto a enviar: ");
-            console.log(this.datosEmpresa);
+        actualizarDatos() {
+            //console.log("Objeto a enviar: ", this.datosEmpresa);
             //Inicializamos el controlador
             const cuAEjecutar = ControladorActualizarDatosBasicos.inicializar();
 
@@ -346,8 +323,9 @@ export default Vue.extend({
                         this.dialog = false;
 
                         //Mensaje del mensaje de éxito y se activa alerta por 5 segundos
-                        this.alertExito("¡Los datos básicos has sido actualizados satisfactoriamente!")
-
+                        this.alertExito(
+                            "¡Los datos básicos has sido actualizados satisfactoriamente!"
+                        );
                     } else {
                         console.warn("Algo pasó", data.error);
                         this.mensajeError = data.error;
