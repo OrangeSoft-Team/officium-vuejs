@@ -21,9 +21,7 @@ describe("Obtener datos básicos de una Empresa", () => {
     it("Solicitamos datos básicos de una empresa", () => {
         const CU = new obtenerDatosBasicos(respositorioEmpresa);
 
-        const resultadoCU = CU.ejecutar({
-            idEmpresa: "",
-        });
+        const resultadoCU = CU.ejecutar();
 
         return resultadoCU.then((respuesta) => {
             if (respuesta.esFallido) {

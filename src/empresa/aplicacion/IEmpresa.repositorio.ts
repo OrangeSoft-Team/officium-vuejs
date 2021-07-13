@@ -4,9 +4,7 @@ import { DatosBasicosEmpresaDTO } from "./dto/DatosBasicosEmpresaDTO";
 import { SolicitudDatosBasicosDTO } from "./casoDeUso/ObtenerDatosBasicos.cu";
 
 export interface IEmpresaRepo {
-    obtenerDatosBasicos(
-        id: SolicitudDatosBasicosDTO
-    ): Resultado<DatosBasicosEmpresaDTO>;
+    obtenerDatosBasicos(): Resultado<DatosBasicosEmpresaDTO>;
 
     actualizarDatosBasicos(
         datosBasicos: DatosBasicosEmpresaDTO

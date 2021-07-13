@@ -8,7 +8,12 @@ import { DatosBasicosEmpresaDTO } from "../../aplicacion/dto/DatosBasicosEmpresa
 import { IEmpresaRepo } from "../../aplicacion/IEmpresa.repositorio";
 import { DATOS_BASICOS_EMPRESA_VALIDOS } from "./RespuestasDatosBasicos";
 import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersistencia";
-import { CLAVE_DATOS_BASICOS_EMPRESA } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
+import {
+    CLAVE_DATOS_BASICOS_EMPRESA,
+    CLAVE_SESION_USUARIO,
+} from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
+import { RespuestaInicioSesionDTO } from "../../../ofertaLaboral/aplicacion/dto/RespuestaInicioSesionDTO";
+import { OPERACION_FALLIDA } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionFallida";
 
 export class JSONRepositorioDatosBasicos implements IEmpresaRepo {
     private persistenciaAlterna: IServicioPersistencia;
@@ -17,9 +22,18 @@ export class JSONRepositorioDatosBasicos implements IEmpresaRepo {
         this.persistenciaAlterna = implPersistencia;
     }
 
-    obtenerDatosBasicos(
-        id: SolicitudDatosBasicosDTO
-    ): Resultado<DatosBasicosEmpresaDTO> {
+    obtenerDatosBasicos(): Resultado<DatosBasicosEmpresaDTO> {
+        //Solicitamos ID de empresa para la petición
+        const datosEmpresaOrError =
+            this.persistenciaAlterna.obtener<RespuestaInicioSesionDTO>(
+                CLAVE_SESION_USUARIO
+            );
+
+        if (datosEmpresaOrError.esFallido)
+            return Resultado.falla<any>(OPERACION_FALLIDA);
+
+        //datosEmpresaOrError.getValue().uuidEmpresa
+
         //Hacemos peticion a backend
         //(fake) Recueperamos de persistencia
         const datosOrError =
@@ -39,13 +53,24 @@ export class JSONRepositorioDatosBasicos implements IEmpresaRepo {
         }
 
         //Respondemos
-        return Resultado.ok<DatosBasicosEmpresaDTO>(
-            DATOS_BASICOS_EMPRESA_VALIDOS
-        );
+        return Resultado.ok<DatosBasicosEmpresaDTO>(respuesta);
     }
     actualizarDatosBasicos(
         datosBasicos: DatosBasicosEmpresaDTO
     ): Resultado<OperacionExitosaDTO> {
+        //Solicitamos ID de empresa para la petición
+        const datosEmpresaOrError =
+            this.persistenciaAlterna.obtener<RespuestaInicioSesionDTO>(
+                CLAVE_SESION_USUARIO
+            );
+
+        if (datosEmpresaOrError.esFallido)
+            return Resultado.falla<any>(OPERACION_FALLIDA);
+
+        datosBasicos.uuidEmpresa = <string>(
+            datosEmpresaOrError.getValue().uuidEmpresa
+        );
+
         //Enviamos peticion a backend
         //(fake) Actualizamos persistencia
         this.persistenciaAlterna.guardar(

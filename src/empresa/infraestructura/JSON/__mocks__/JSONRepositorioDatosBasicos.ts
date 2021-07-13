@@ -17,9 +17,7 @@ export class JSONRepositorioDatosBasicos implements IEmpresaRepo {
         this.persistenciaAlterna = implPersistencia;
     }
 
-    obtenerDatosBasicos(
-        id: SolicitudDatosBasicosDTO
-    ): Resultado<DatosBasicosEmpresaDTO> {
+    obtenerDatosBasicos(): Resultado<DatosBasicosEmpresaDTO> {
         //Hacemos peticion a backend
 
         //Respondemos

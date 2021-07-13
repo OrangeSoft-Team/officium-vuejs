@@ -24,21 +24,15 @@ export class ControladorObtDatosBasicos {
         );
     }
 
-    public async ejecutarCU(
-        solicitud: SolicitudDatosBasicosDTO
-    ): Promise<Resultado<DatosBasicosEmpresaDTO>> {
+    public async ejecutarCU(): Promise<Resultado<DatosBasicosEmpresaDTO>> {
         const CasoUsoObtenerDatosBasicos = new obtenerDatosBasicos(
             this.RepositorioDatosBasicos
         );
 
-        const respuestaCU = await CasoUsoObtenerDatosBasicos.ejecutar(
-            solicitud
-        );
+        const respuestaCU = await CasoUsoObtenerDatosBasicos.ejecutar();
 
         if (respuestaCU.esExitoso) {
-            return Resultado.ok<DatosBasicosEmpresaDTO>(
-                respuestaCU.getValue()
-            );
+            return Resultado.ok<DatosBasicosEmpresaDTO>(respuestaCU.getValue());
         } else {
             return Resultado.falla<any>(respuestaCU.error);
         }
