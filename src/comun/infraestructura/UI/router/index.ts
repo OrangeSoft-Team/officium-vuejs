@@ -28,6 +28,11 @@ const routes: Array<RouteConfig> = [
                 name: "Ofertas laborales",
                 component: () => import("../views/OfertasLaborales.vue"),
             },
+            {
+                path: "/perfil",
+                name: "Perfil",
+                component: () => import("../views/Perfil.vue"),
+            },
         ],
     },
 ];

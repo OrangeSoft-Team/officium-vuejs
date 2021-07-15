@@ -27,23 +27,23 @@ export class DatosBasicosMapeador {
 
         let codigoPostalOrError = codigoPostal.crear(dto.codigoPostal);
         if (codigoPostalOrError.esFallido)
-            return Resultado.falla<any>(codigoPostalOrError.esFallido);
+            return Resultado.falla<any>(codigoPostalOrError.error);
 
         let paisOrError = PaisMapeador.aDominio({ uuidPais: dto.uuidPais });
         if (paisOrError.esFallido)
-            return Resultado.falla<any>(paisOrError.esFallido);
+            return Resultado.falla<any>(paisOrError.error);
 
         let estadoOrError = EstadoMapeador.aDominio({
             uuidEstado: dto.uuidEstado,
         });
         if (estadoOrError.esFallido)
-            return Resultado.falla<any>(estadoOrError.esFallido);
+            return Resultado.falla<any>(estadoOrError.error);
 
         let ciudadOrError = CiudadMapeador.aDominio({
             uuidCiudad: dto.uuidCiudad,
         });
         if (ciudadOrError.esFallido)
-            return Resultado.falla<any>(ciudadOrError.esFallido);
+            return Resultado.falla<any>(ciudadOrError.error);
 
         const empresaProps: EmpresaProps = {
             nombre: nombreOrError.getValue(),
@@ -56,8 +56,8 @@ export class DatosBasicosMapeador {
         };
 
         let idEmpresaOrError: Resultado<Identificador>;
-        if (dto.hasOwnProperty("uuidEmpresa") && dto.uuuidEmpresa != undefined) {
-            idEmpresaOrError = Identificador.crear(dto.uuuidEmpresa);
+        if (dto.hasOwnProperty("uuidEmpresa") && dto.uuidEmpresa != undefined) {
+            idEmpresaOrError = Identificador.crear(dto.uuidEmpresa);
             if (idEmpresaOrError.esFallido)
                 return Resultado.falla<any>(idEmpresaOrError.error);
 
@@ -81,8 +81,11 @@ export class DatosBasicosMapeador {
         };
 
         //Opcionales
-        if (entidad.props.hasOwnProperty("idEmpresa") && entidad.props.idEmpresa != undefined) {
-            propsDTO.uuuidEmpresa = entidad.props.idEmpresa.valor();
+        if (
+            entidad.props.hasOwnProperty("idEmpresa") &&
+            entidad.props.idEmpresa != undefined
+        ) {
+            propsDTO.uuidEmpresa = entidad.props.idEmpresa.valor();
         }
 
         return Resultado.ok<DatosBasicosEmpresaDTO>(propsDTO);

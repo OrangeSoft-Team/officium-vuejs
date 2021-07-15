@@ -1,5 +1,5 @@
 export interface DatosBasicosEmpresaDTO {
-    uuuidEmpresa?: string;
+    uuidEmpresa?: string;
     nombreEmpresa: string;
     correoElectronico: string;
     direccionCalle: string;

@@ -214,7 +214,6 @@ export default Vue.extend({
             //Inicializamos el controlador
             const cuAEjecutar = ControladorCrearOfertaLaboral.inicializar();
 
-            //¿Por qué colocar en respuesta la oferta laboral?
             const respuestaCU = cuAEjecutar.ejecutarCU(this.ofertaLaboralCrear);
             respuestaCU
                 .then((data: any) => {

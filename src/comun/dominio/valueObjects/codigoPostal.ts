@@ -10,14 +10,14 @@ export class codigoPostal extends ValueObject<codigoPostalProps> {
     private constructor(props: codigoPostalProps) {
         super(props);
     }
-    
+
     public valor(): string {
         return this.props.nombre;
     }
 
     public static crear(nombre: string): Resultado<codigoPostal> {
         //Validaciones de longitud
-        if (!(nombre.length >= 1 || nombre.length <= 10))
+        if (!(nombre.length >= 1 && nombre.length <= 10))
             return Resultado.falla<any>(CODIGO_POSTAL_LONGITUD_NO_VALIDA);
 
         return Resultado.ok<codigoPostal>(new codigoPostal({ nombre }));

@@ -1,7 +1,7 @@
 import { DatosBasicosEmpresaDTO } from "../../aplicacion/dto/DatosBasicosEmpresaDTO";
 
 export const DATOS_BASICOS_EMPRESA_VALIDOS: DatosBasicosEmpresaDTO = {
-    nombreEmpresa: "IBM",
+    nombreEmpresa: "IBM VE",
     correoElectronico: "ibm.servicios@ibm.com",
     direccionCalle: "Av. Principal Libertador",
     codigoPostal: "1020",

@@ -8,7 +8,7 @@ export interface SolicitudDatosBasicosDTO {
     idEmpresa: string;
 }
 
-export class ObtenerOfertaLaboral
+export class obtenerDatosBasicos
     implements
         CasoUso<SolicitudDatosBasicosDTO, Resultado<DatosBasicosEmpresaDTO>>
 {
@@ -20,13 +20,9 @@ export class ObtenerOfertaLaboral
     }
 
     //Query
-    public async ejecutar(
-        solicitud: SolicitudDatosBasicosDTO
-    ): Promise<Resultado<DatosBasicosEmpresaDTO>> {
+    public async ejecutar(): Promise<Resultado<DatosBasicosEmpresaDTO>> {
         //Llamamos al repositorio
-        let datosBasicosOrError = await this.RepoEmpresa.obtenerDatosBasicos(
-            solicitud
-        );
+        let datosBasicosOrError = await this.RepoEmpresa.obtenerDatosBasicos();
         if (datosBasicosOrError.esFallido)
             return Resultado.falla<any>(datosBasicosOrError.error);
 

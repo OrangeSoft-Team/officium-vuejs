@@ -5,7 +5,7 @@ import { DatosBasicosMapeador } from "../DatosBasicos.mapeador";
 import { OperacionExitosaDTO } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 
 export interface SolicitudActualizarDatosBasicosDTO {
-    uuuidEmpresa?: string;
+    uuidEmpresa?: string;
     nombreEmpresa: string;
     correoElectronico: string;
     direccionCalle: string;

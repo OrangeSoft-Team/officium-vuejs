@@ -26,7 +26,9 @@
                     </v-btn>
                 </template>
                 <v-list>
-                    <v-list-item link>
+                    <v-list-item 
+                    :to="{name: 'Perfil'}"
+                    link>
                         <v-list-item-icon>
                             <v-icon>mdi-account-box</v-icon>
                         </v-list-item-icon>
