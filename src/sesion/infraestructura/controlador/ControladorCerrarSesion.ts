@@ -6,7 +6,8 @@ import { OPERACION_FALLIDA } from "../../../comun/aplicacion/dto.respuestaOperac
 import { Resultado } from "../../../comun/dominio/resultado";
 import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
 import { IServicioAutentificacion } from "../../aplicacion/IServicioAutentificacion";
-import { AutentificacionFirebaseCorreoClaveJSON } from "../JSON/JSONAutentificacionFirebaseCorreoClave";
+import { AutentificacionFirebaseCorreoClave } from "../AutentificacionFirebaseCorreoClave";
+import { AutentificacionCorreoClaveJSON } from "../JSON/JSONAutentificacionCorreoClave";
 
 export class ControladorCerrarSesion {
     private servicioAutentificacion: IServicioAutentificacion;
@@ -18,7 +19,7 @@ export class ControladorCerrarSesion {
     //Método estático para inicializar controlador
     public static inicialiar(): ControladorCerrarSesion {
         return new ControladorCerrarSesion(
-            new AutentificacionFirebaseCorreoClaveJSON(
+            new AutentificacionFirebaseCorreoClave(
                 new LocalStoragePersistencia()
             )
         );

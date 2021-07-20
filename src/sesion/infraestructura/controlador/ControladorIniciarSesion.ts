@@ -6,7 +6,8 @@ import {
 } from "../../aplicacion/casoDeUso/IniciarSesionCorreoClave.cu";
 import { Resultado } from "../../../comun/dominio/resultado";
 import { RespuestaInicioSesionDTO } from "../../aplicacion/dto/RespuestaInicioSesionDTO";
-import { AutentificacionFirebaseCorreoClaveJSON } from "../JSON/JSONAutentificacionFirebaseCorreoClave";
+import { AutentificacionCorreoClaveJSON } from "../JSON/JSONAutentificacionCorreoClave";
+import { AutentificacionFirebaseCorreoClave } from "../AutentificacionFirebaseCorreoClave";
 import { IServicioValidacionCredencial } from "../../aplicacion/IServicioValidacionCredencial";
 import { IServicioSesion } from "../../aplicacion/IServicioSesion";
 import { ValidacionCredencial } from "../validarCredenciales/ValidacionCredencial";
@@ -31,7 +32,7 @@ export class ControladorIniciarSesion {
     public static inicialiar(): ControladorIniciarSesion {
         const persistenciaImpl = new LocalStoragePersistencia();
         return new ControladorIniciarSesion(
-            new AutentificacionFirebaseCorreoClaveJSON(persistenciaImpl),
+            new AutentificacionFirebaseCorreoClave(persistenciaImpl),
             new ValidacionCredencial(),
             new SesionBasicaJSON(persistenciaImpl)
         );

@@ -7,10 +7,17 @@ import { DatosInicioSesionDTO } from "../../../aplicacion/casoDeUso/IniciarSesio
 import { IServicioAutentificacion } from "../../../aplicacion/IServicioAutentificacion";
 import { RespuestaAutentifiacionDTO } from "../../../aplicacion/dto/RespuestaAutentificacionDTO";
 import { AUTENTIFICACION_VALIDA_REALIZADA } from ".././respuestas/firebase.json";
+import { IServicioPersistencia } from "../../../../comun/aplicacion/IServicioPersistencia";
 
-export class AutentificacionFirebaseCorreoClaveJSON
+export class AutentificacionCorreoClaveJSON
     implements IServicioAutentificacion
 {
+    private persistenciaAlterna: IServicioPersistencia;
+
+    constructor(implPersistencia: IServicioPersistencia) {
+        this.persistenciaAlterna = implPersistencia;
+    }
+
     cerrarSesion(): Promise<Resultado<OperacionExitosaDTO>> {
         return new Promise((resolve) => {
             resolve(

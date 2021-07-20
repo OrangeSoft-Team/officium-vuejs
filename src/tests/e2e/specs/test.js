@@ -2,7 +2,7 @@
 // https://nightwatchjs.org/guide
 const CREDENCIALES_PRUEBA = {
     correoElectronico: "test@test.com",
-    contrasena: "UcabJul2021",
+    contrasena: "123456QAZwsx",
 };
 
 const OFERTA_LABORAL = {

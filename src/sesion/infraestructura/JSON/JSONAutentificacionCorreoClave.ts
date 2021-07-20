@@ -10,7 +10,7 @@ import { AUTENTIFICACION_VALIDA_REALIZADA } from "./respuestas/firebase.json";
 import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersistencia";
 import { CLAVE_SESION_USUARIO } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
 
-export class AutentificacionFirebaseCorreoClaveJSON
+export class AutentificacionCorreoClaveJSON
     implements IServicioAutentificacion
 {
     private persistenciaAlterna: IServicioPersistencia;

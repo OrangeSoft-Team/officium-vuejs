@@ -2,7 +2,7 @@ import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersis
 import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
 import { CasoUsoIniciarSesionCorreoClave } from "../../../sesion/aplicacion/casoDeUso/IniciarSesionCorreoClave.cu";
 import { FORMATO_CONTRASENA_INVALIDA } from "../../../sesion/infraestructura/excepciones/contrasena.exepcion";
-import { AutentificacionFirebaseCorreoClaveJSON } from "../../../sesion/infraestructura/JSON/JSONAutentificacionFirebaseCorreoClave";
+import { AutentificacionCorreoClaveJSON } from "../../../sesion/infraestructura/JSON/JSONAutentificacionCorreoClave";
 import { IServicioAutentificacion } from "../../../sesion/aplicacion/IServicioAutentificacion";
 import { IServicioValidacionCredencial } from "../../../sesion/aplicacion/IServicioValidacionCredencial";
 import { IServicioSesion } from "../../../sesion/aplicacion/IServicioSesion";
@@ -10,7 +10,7 @@ import { ValidacionCredencial } from "../../../sesion/infraestructura/validarCre
 import { SesionBasicaJSON } from "../../../sesion/infraestructura/JSON/JSONSesionBasica";
 
 jest.mock(
-    "../../../sesion/infraestructura/JSON/JSONAutentificacionFirebaseCorreoClave"
+    "../../../sesion/infraestructura/JSON/JSONAutentificacionCorreoClave"
 );
 jest.mock("../../../sesion/infraestructura/JSON/JSONSesionBasica");
 
@@ -22,7 +22,7 @@ describe("Autentificación con credenciales básicas", () => {
 
     beforeEach(() => {
         persistenciaImplementacion = new LocalStoragePersistencia();
-        autentificacionImpl = new AutentificacionFirebaseCorreoClaveJSON(
+        autentificacionImpl = new AutentificacionCorreoClaveJSON(
             persistenciaImplementacion
         );
         validadorImpl = new ValidacionCredencial();
