@@ -1,23 +1,41 @@
-import { AutentificacionBasica } from "../../../sesion/infraestructura/AutentificacionBasica";
 import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersistencia";
 import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
-import { CasoUsoIniciarSesion } from "../../../sesion/aplicacion/casoDeUso/IniciarSesion.cu";
+import { CasoUsoIniciarSesionCorreoClave } from "../../../sesion/aplicacion/casoDeUso/IniciarSesionCorreoClave.cu";
 import { FORMATO_CONTRASENA_INVALIDA } from "../../../sesion/infraestructura/excepciones/contrasena.exepcion";
+import { AutentificacionFirebaseCorreoClaveJSON } from "../../../sesion/infraestructura/JSON/JSONAutentificacionFirebaseCorreoClave";
+import { IServicioAutentificacion } from "../../../sesion/aplicacion/IServicioAutentificacion";
+import { IServicioValidacionCredencial } from "../../../sesion/aplicacion/IServicioValidacionCredencial";
+import { IServicioSesion } from "../../../sesion/aplicacion/IServicioSesion";
+import { ValidacionCredencial } from "../../../sesion/infraestructura/validarCredenciales/ValidacionCredencial";
+import { SesionBasicaJSON } from "../../../sesion/infraestructura/JSON/JSONSesionBasica";
 
-jest.mock("../../../sesion/infraestructura/AutentificacionBasica");
+jest.mock(
+    "../../../sesion/infraestructura/JSON/JSONAutentificacionFirebaseCorreoClave"
+);
+jest.mock("../../../sesion/infraestructura/JSON/JSONSesionBasica");
 
 describe("Autentificación con credenciales básicas", () => {
-    let Implementacion: AutentificacionBasica;
+    let autentificacionImpl: IServicioAutentificacion;
+    let validadorImpl: IServicioValidacionCredencial;
+    let sesionImpl: IServicioSesion;
     let persistenciaImplementacion: IServicioPersistencia;
 
     beforeEach(() => {
         persistenciaImplementacion = new LocalStoragePersistencia();
-        Implementacion = new AutentificacionBasica(persistenciaImplementacion);
+        autentificacionImpl = new AutentificacionFirebaseCorreoClaveJSON(
+            persistenciaImplementacion
+        );
+        validadorImpl = new ValidacionCredencial();
+        sesionImpl = new SesionBasicaJSON(persistenciaImplementacion);
     });
 
     it("Inicia de sesión con credenciales básicas válidas", () => {
         //Inicializamos Caso de Uso
-        const CU = new CasoUsoIniciarSesion(Implementacion);
+        const CU = new CasoUsoIniciarSesionCorreoClave(
+            autentificacionImpl,
+            validadorImpl,
+            sesionImpl
+        );
         const resultadoCU = CU.ejecutar({
             correoElectronico: "test@test.com",
             contraseña: "Guaicaipuro1",
@@ -35,7 +53,11 @@ describe("Autentificación con credenciales básicas", () => {
 
     it("Intenta iniciar de sesión con credenciales básicas y clave inválida", () => {
         //Inicializamos Caso de Uso
-        const CU = new CasoUsoIniciarSesion(Implementacion);
+        const CU = new CasoUsoIniciarSesionCorreoClave(
+            autentificacionImpl,
+            validadorImpl,
+            sesionImpl
+        );
         const resultadoCU = CU.ejecutar({
             correoElectronico: "test@test.com",
             contraseña: "guaicaipuro",

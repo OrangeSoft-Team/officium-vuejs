@@ -55,9 +55,9 @@
 </template>
 
 <script lang="ts">
-import { DatosInicioSesionDTO } from "@/sesion/aplicacion/casoDeUso/IniciarSesion.cu";
 import { ControladorIniciarSesion } from "../../../../sesion/infraestructura/controlador/ControladorIniciarSesion";
 import Vue from "vue";
+import { DatosInicioSesionDTO } from "@/sesion/aplicacion/casoDeUso/IniciarSesionCorreoClave.cu";
 
 export default Vue.extend({
     data() {

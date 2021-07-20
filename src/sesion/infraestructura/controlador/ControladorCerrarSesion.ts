@@ -6,7 +6,7 @@ import { OPERACION_FALLIDA } from "../../../comun/aplicacion/dto.respuestaOperac
 import { Resultado } from "../../../comun/dominio/resultado";
 import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
 import { IServicioAutentificacion } from "../../aplicacion/IServicioAutentificacion";
-import { AutentificacionBasica } from "../AutentificacionBasica";
+import { AutentificacionFirebaseCorreoClaveJSON } from "../JSON/JSONAutentificacionFirebaseCorreoClave";
 
 export class ControladorCerrarSesion {
     private servicioAutentificacion: IServicioAutentificacion;
@@ -18,13 +18,15 @@ export class ControladorCerrarSesion {
     //Método estático para inicializar controlador
     public static inicialiar(): ControladorCerrarSesion {
         return new ControladorCerrarSesion(
-            new AutentificacionBasica(new LocalStoragePersistencia())
+            new AutentificacionFirebaseCorreoClaveJSON(
+                new LocalStoragePersistencia()
+            )
         );
     }
 
     //Ejecutar caso de uso
-    public ejecutarServicio(): Resultado<OperacionExitosaDTO> {
-        const datosOrError = this.servicioAutentificacion.cerrarSesion();
+    public async ejecutarServicio(): Promise<Resultado<OperacionExitosaDTO>> {
+        const datosOrError = await this.servicioAutentificacion.cerrarSesion();
         if (datosOrError.esFallido) {
             return Resultado.falla<any>(OPERACION_FALLIDA);
         }
