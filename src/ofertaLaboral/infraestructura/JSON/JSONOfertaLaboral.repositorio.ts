@@ -1,4 +1,3 @@
-import { SolicitudOfertasLaboralesActivasDTO } from "../../aplicacion/casoDeUso/ObtenerOfertasLaboralesActivas.cu";
 import { OfertaLaboralEmpresaDTO } from "../../aplicacion/dto/OfertaLaboralEmpresaDTO";
 import { Resultado } from "../../../comun/dominio/resultado";
 import { IOfertasLaboralesRepo } from "../../aplicacion/IOfertaLaboral.repositorio";
@@ -52,10 +51,6 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
         if (datosEmpresaOrError.esFallido)
             return Resultado.falla<any>(OPERACION_FALLIDA);
 
-        ofertaLaboral.uuidempresa = <string>(
-            datosEmpresaOrError.getValue().uuidEmpresa
-        );
-
         //Esperamos respuesta
         //Simulamos anexar
         let arregloOfertas: OfertaLaboralEmpresaDTO[] = [];
@@ -90,9 +85,7 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
         });
     }
 
-    obtenerOfertasLaboralesActivas(
-        id: SolicitudOfertasLaboralesActivasDTO
-    ): Resultado<OfertaLaboralEmpresaDTO[]> {
+    obtenerOfertasLaboralesActivas(): Resultado<OfertaLaboralEmpresaDTO[]> {
         let DATOS_RESPUESTA: OfertaLaboralEmpresaDTO[] = [];
         // OFERTAS_LABORALES_RESPUESTA_CON_ERROR_VACANTES
 

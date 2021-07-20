@@ -67,10 +67,6 @@ export class JSONRepositorioDatosBasicos implements IEmpresaRepo {
         if (datosEmpresaOrError.esFallido)
             return Resultado.falla<any>(OPERACION_FALLIDA);
 
-        datosBasicos.uuidEmpresa = <string>(
-            datosEmpresaOrError.getValue().uuidEmpresa
-        );
-
         //Enviamos peticion a backend
         //(fake) Actualizamos persistencia
         this.persistenciaAlterna.guardar(
