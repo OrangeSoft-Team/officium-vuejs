@@ -13,7 +13,7 @@ import { IServicioAutentificacion } from "../aplicacion/IServicioAutentificacion
 import {
     COMBINACION_INCORRECTA,
     USUARIO_NO_EXISTE,
-} from "./excepciones/firebase.exepcion";
+} from "./excepciones/firebase.excepcion";
 
 export class AutentificacionFirebaseCorreoClave
     implements IServicioAutentificacion
