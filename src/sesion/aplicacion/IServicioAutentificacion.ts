@@ -1,14 +1,12 @@
 import { OperacionExitosaDTO } from "../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 import { Resultado } from "../../comun/dominio/resultado";
-import { RespuestaInicioSesionDTO } from "../../ofertaLaboral/aplicacion/dto/RespuestaInicioSesionDTO";
-import { DatosInicioSesionDTO } from "./casoDeUso/IniciarSesion.cu";
+import { DatosInicioSesionDTO } from "./casoDeUso/IniciarSesionCorreoClave.cu";
+import { RespuestaAutentifiacionDTO } from "./dto/RespuestaAutentificacionDTO";
 
 export interface IServicioAutentificacion {
-    iniciarSesion(
+    autentificar(
         credencial: DatosInicioSesionDTO
-    ): Promise<Resultado<RespuestaInicioSesionDTO>>;
+    ): Promise<Resultado<RespuestaAutentifiacionDTO>>;
 
-    cerrarSesion(): Resultado<OperacionExitosaDTO>;
-
-    obtenerUsuario(): Resultado<RespuestaInicioSesionDTO>;
+    cerrarSesion(): Promise<Resultado<OperacionExitosaDTO>>;
 }

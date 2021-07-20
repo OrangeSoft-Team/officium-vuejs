@@ -1,23 +1,17 @@
-import { IServicioAutentificacion } from "../../aplicacion/IServicioAutentificacion";
+import {
+    OperacionExitosaDTO,
+    OPERACION_EXITOSA,
+} from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 import { Resultado } from "../../../comun/dominio/resultado";
-import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersistencia";
-import { DatosInicioSesionDTO } from "../../aplicacion/casoDeUso/IniciarSesion.cu";
-import { RespuestaInicioSesionDTO } from "../../../ofertaLaboral/aplicacion/dto/RespuestaInicioSesionDTO";
-import { FORMATO_CORREO_ELECTRONICO_NO_VALIDO } from "../excepciones/correoElectronico.excepcion";
+import { DatosInicioSesionDTO } from "../../aplicacion/casoDeUso/IniciarSesionCorreoClave.cu";
+import { IServicioValidacionCredencial } from "../../aplicacion/IServicioValidacionCredencial";
 import { FORMATO_CONTRASENA_INVALIDA } from "../excepciones/contrasena.exepcion";
-import { RESPUESTA_INICIO_SESION_VALIDO } from "../respuesta/InicioSesion.json";
-import { OperacionExitosaDTO } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
+import { FORMATO_CORREO_ELECTRONICO_NO_VALIDO } from "../excepciones/correoElectronico.excepcion";
 
-export class AutentificacionBasica implements IServicioAutentificacion {
-    private persistenciaAlterna: IServicioPersistencia;
-
-    constructor(implPersistencia: IServicioPersistencia) {
-        this.persistenciaAlterna = implPersistencia;
-    }
-
-    public async iniciarSesion(
+export class ValidacionCredencial implements IServicioValidacionCredencial {
+    public validar(
         credencial: DatosInicioSesionDTO
-    ): Promise<Resultado<RespuestaInicioSesionDTO>> {
+    ): Resultado<OperacionExitosaDTO> {
         //Valida que la contraseña sea mayor a 10 caracteres
         if (credencial.contraseña.length < 10)
             return Resultado.falla<any>(FORMATO_CONTRASENA_INVALIDA);
@@ -54,18 +48,9 @@ export class AutentificacionBasica implements IServicioAutentificacion {
         if (credencial.correoElectronico.length > 320)
             return Resultado.falla<any>(FORMATO_CORREO_ELECTRONICO_NO_VALIDO);
 
-        //Respuesta fake
-        const respuesta: RespuestaInicioSesionDTO =
-            RESPUESTA_INICIO_SESION_VALIDO;
-
-        return Resultado.ok<RespuestaInicioSesionDTO>(respuesta);
-    }
-
-    cerrarSesion(): Resultado<OperacionExitosaDTO> {
-        throw new Error("Method not implemented.");
-    }
-
-    obtenerUsuario(): Resultado<RespuestaInicioSesionDTO> {
-        throw new Error("Method not implemented.");
+        //Todo bien
+        return Resultado.ok<OperacionExitosaDTO>({
+            mensaje: OPERACION_EXITOSA,
+        });
     }
 }

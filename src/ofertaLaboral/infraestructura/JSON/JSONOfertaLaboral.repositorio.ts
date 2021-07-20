@@ -17,7 +17,7 @@ import {
     CLAVE_ULT_OFERTA_LABORAL,
 } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
 import { OFERTAS_LABORALES_RESPUESTA_VALIDA } from "./respuestas/ListadoOfertasLaborales";
-import { RespuestaInicioSesionDTO } from "../../aplicacion/dto/RespuestaInicioSesionDTO";
+import { RespuestaInicioSesionDTO } from "../../../sesion/aplicacion/dto/RespuestaInicioSesionDTO";
 
 interface auxiliarJSONCrearOfertaLaboralDTO {
     idOfertaLaboral?: string;

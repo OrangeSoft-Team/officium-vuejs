@@ -12,7 +12,7 @@ import {
     CLAVE_ID_EMPRESA,
     CLAVE_SESION_USUARIO,
 } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
-import { RespuestaInicioSesionDTO } from "../../aplicacion/dto/RespuestaInicioSesionDTO";
+import { RespuestaInicioSesionDTO } from "../../../sesion/aplicacion/dto/RespuestaInicioSesionDTO";
 
 //Controlador de CU Obtener Ofertas Laborales Activas
 export class ControladorObtenerOfertasLaboralesActivas {

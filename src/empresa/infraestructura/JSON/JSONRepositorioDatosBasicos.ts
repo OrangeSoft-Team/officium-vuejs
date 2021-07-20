@@ -12,7 +12,7 @@ import {
     CLAVE_DATOS_BASICOS_EMPRESA,
     CLAVE_SESION_USUARIO,
 } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
-import { RespuestaInicioSesionDTO } from "../../../ofertaLaboral/aplicacion/dto/RespuestaInicioSesionDTO";
+import { RespuestaInicioSesionDTO } from "../../../sesion/aplicacion/dto/RespuestaInicioSesionDTO";
 import { OPERACION_FALLIDA } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionFallida";
 
 export class JSONRepositorioDatosBasicos implements IEmpresaRepo {
