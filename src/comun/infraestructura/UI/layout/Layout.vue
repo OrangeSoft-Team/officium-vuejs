@@ -26,9 +26,7 @@
                     </v-btn>
                 </template>
                 <v-list>
-                    <v-list-item 
-                    :to="{name: 'Perfil'}"
-                    link>
+                    <v-list-item :to="{ name: 'Perfil' }" link>
                         <v-list-item-icon>
                             <v-icon>mdi-account-box</v-icon>
                         </v-list-item-icon>
@@ -125,13 +123,19 @@ export default Vue.extend({
         cerrarSesion() {
             const controladorOrError = ControladorCerrarSesion.inicialiar();
             const operacionOrError = controladorOrError.ejecutarServicio();
+            operacionOrError
+                .then((respuesta) => {
+                    if (respuesta.esFallido) {
+                        //TODO Manejar error
+                        console.warn("Algo paso ", respuesta.error);
+                    }
 
-            if (operacionOrError.esFallido) {
-                //TODO Manejar error
-                console.warn("Algo paso ", operacionOrError.error);
-            }
-
-            this.$router.replace({ name: "InicioSesion" });
+                    this.$router.replace({ name: "InicioSesion" });
+                })
+                .catch((e) => {
+                    //TODO Manejar error
+                    console.warn("Algo paso ", e);
+                });
         },
     },
 

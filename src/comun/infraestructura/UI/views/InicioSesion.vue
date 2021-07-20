@@ -35,6 +35,10 @@
                                 type="password"
                                 required
                             ></v-text-field>
+                            <v-progress-linear
+                                indeterminate
+                                v-show="estaCargando"
+                            ></v-progress-linear>
                         </v-card-text>
                         <v-card-actions>
                             <v-btn
@@ -55,14 +59,18 @@
 </template>
 
 <script lang="ts">
-import { DatosInicioSesionDTO } from "@/sesion/aplicacion/casoDeUso/IniciarSesion.cu";
 import { ControladorIniciarSesion } from "../../../../sesion/infraestructura/controlador/ControladorIniciarSesion";
 import Vue from "vue";
-
+import { DatosInicioSesionDTO } from "@/sesion/aplicacion/casoDeUso/IniciarSesionCorreoClave.cu";
+/*
+   correoElectronico: "test@test.com",
+                contraseña: "123456QAZwsx",
+*/
 export default Vue.extend({
     data() {
         return {
             formValido: true,
+            estaCargando: false,
             datosInicioSesion: {
                 correoElectronico: "",
                 contraseña: "",
@@ -83,15 +91,17 @@ export default Vue.extend({
                 );
 
                 this.error.estado = false;
+                this.estaCargando = true;
 
                 respuestaCU
                     .then((respuesta) => {
                         if (respuesta.esExitoso) {
                             //console.log("Llega a exito");
+                            this.estaCargando = false;
                             this.$router.replace({ name: "Inicio" });
                         } else {
                             //console.log("Llega a fallo");
-
+                            this.estaCargando = false;
                             this.error.mensaje = <string>respuesta.error;
                             this.error.estado = true;
                         }
@@ -101,6 +111,7 @@ export default Vue.extend({
 
                         this.error.mensaje = "Ha ocurrido un error";
                         this.error.estado = true;
+                        this.estaCargando = false;
                     });
             }
         },

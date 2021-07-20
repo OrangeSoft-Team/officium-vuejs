@@ -44,9 +44,7 @@ describe("Obtener Ofertas Laborales Activas", () => {
 
         //Inicializamos Caso de Uso
         const CU = new ObtenerOfertasLaboralesActivas(repoImplementacion);
-        const resultadoCU = CU.ejecutar({
-            idEmpresa: "",
-        });
+        const resultadoCU = CU.ejecutar();
 
         return resultadoCU.then((data) => {
             if (data.esFallido) {
@@ -69,9 +67,7 @@ describe("Obtener Ofertas Laborales Activas", () => {
 
         //Inicializamos Caso de Uso
         const CU = new ObtenerOfertasLaboralesActivas(repoImplementacion);
-        const resultadoCU = CU.ejecutar({
-            idEmpresa: "",
-        });
+        const resultadoCU = CU.ejecutar();
 
         return resultadoCU.then((data) => {
             if (data.esFallido) {

@@ -1,9 +1,6 @@
 import { JSONOfertaLaboralRepositorio } from "../../infraestructura/JSON/JSONOfertaLaboral.repositorio";
 import { Resultado } from "../../../comun/dominio/resultado";
-import {
-    ObtenerOfertasLaboralesActivas,
-    SolicitudOfertasLaboralesActivasDTO,
-} from "../../aplicacion/casoDeUso/ObtenerOfertasLaboralesActivas.cu";
+import { ObtenerOfertasLaboralesActivas } from "../../aplicacion/casoDeUso/ObtenerOfertasLaboralesActivas.cu";
 import { OfertaLaboralEmpresaDTO } from "../../aplicacion/dto/OfertaLaboralEmpresaDTO";
 import { IOfertasLaboralesRepo } from "../../aplicacion/IOfertaLaboral.repositorio";
 import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersistencia";
@@ -12,7 +9,7 @@ import {
     CLAVE_ID_EMPRESA,
     CLAVE_SESION_USUARIO,
 } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
-import { RespuestaInicioSesionDTO } from "../../aplicacion/dto/RespuestaInicioSesionDTO";
+import { RespuestaInicioSesionDTO } from "../../../sesion/aplicacion/dto/RespuestaInicioSesionDTO";
 
 //Controlador de CU Obtener Ofertas Laborales Activas
 export class ControladorObtenerOfertasLaboralesActivas {
@@ -53,9 +50,7 @@ export class ControladorObtenerOfertasLaboralesActivas {
         if (datosEmpleadorOrError.esFallido)
             return Resultado.falla<any>(datosEmpleadorOrError.error);
 
-        const respuestaCU = await CasoUsoObtenerOfertasLaborales.ejecutar({
-            idEmpresa: datosEmpleadorOrError.getValue().uuidEmpresa,
-        });
+        const respuestaCU = await CasoUsoObtenerOfertasLaborales.ejecutar();
 
         if (respuestaCU.esExitoso) {
             return Resultado.ok<OfertaLaboralEmpresaDTO[]>(

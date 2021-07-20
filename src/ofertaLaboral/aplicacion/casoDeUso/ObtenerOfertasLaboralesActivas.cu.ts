@@ -5,16 +5,8 @@ import { CasoUso } from "../../../comun/aplicacion/casoUso";
 import { Resultado } from "../../../comun/dominio/resultado";
 import { OfertaLaboralEmpresaDTO } from "../dto/OfertaLaboralEmpresaDTO";
 
-export interface SolicitudOfertasLaboralesActivasDTO {
-    idEmpresa: string;
-}
-
 export class ObtenerOfertasLaboralesActivas
-    implements
-        CasoUso<
-            SolicitudOfertasLaboralesActivasDTO,
-            Resultado<OfertaLaboralEmpresaDTO[]>
-        >
+    implements CasoUso<null, Resultado<OfertaLaboralEmpresaDTO[]>>
 {
     //Repositorio
     private RepoOfertasLaborales: IOfertasLaboralesRepo;
@@ -24,14 +16,10 @@ export class ObtenerOfertasLaboralesActivas
     }
 
     //Query
-    public async ejecutar(
-        solicitud: SolicitudOfertasLaboralesActivasDTO
-    ): Promise<Resultado<OfertaLaboralEmpresaDTO[]>> {
+    public async ejecutar(): Promise<Resultado<OfertaLaboralEmpresaDTO[]>> {
         //Llamamos al repositorio
         let ofertasLaboralesActivasOrError =
-            await this.RepoOfertasLaborales.obtenerOfertasLaboralesActivas(
-                solicitud
-            );
+            await this.RepoOfertasLaborales.obtenerOfertasLaboralesActivas();
         if (ofertasLaboralesActivasOrError.esFallido)
             return Resultado.falla<any>(ofertasLaboralesActivasOrError.error);
 
