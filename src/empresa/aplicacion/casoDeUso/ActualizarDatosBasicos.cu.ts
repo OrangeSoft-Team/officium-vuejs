@@ -8,8 +8,9 @@ export interface SolicitudActualizarDatosBasicosDTO {
     uuidEmpresa?: string;
     nombreEmpresa: string;
     correoElectronico: string;
-    direccionCalle: string;
-    codigoPostal: string;
+    //calleUno: string;
+    //calleDos?: string;
+    //codigoPostal: string;
     uuidPais: string;
     uuidEstado: string;
     uuidCiudad: string;
