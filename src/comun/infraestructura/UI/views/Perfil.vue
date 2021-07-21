@@ -96,7 +96,7 @@
                 </v-row>
                 <v-row class="justify-center">
                     <v-textarea
-                        v-model="datosEmpresa.direccionCalle"
+                        v-model="datosEmpresa.calleUno"
                         label="Ingrese la dirección de la calle"
                         hint="La dirección no debería ser mayor a 256 caracteres"
                         :rules="[(v) => !!v || 'Este campo es obligatorio']"
@@ -154,8 +154,9 @@ export default Vue.extend({
             datosEmpresa: {
                 nombreEmpresa: "",
                 correoElectronico: "",
-                direccionCalle: "",
-                codigoPostal: "",
+                //calleUno: "",
+                //calleDos: "",
+                //codigoPostal: "",
                 uuidPais: "",
                 uuidEstado: "",
                 uuidCiudad: "",
