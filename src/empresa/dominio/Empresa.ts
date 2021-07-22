@@ -17,7 +17,7 @@ export interface EmpresaProps {
     nombre: NombreEmpresa;
     correoElectronico: Correo;
     requisitosEspeciales?: requisitosEspeciales;
-    direccion?: Direccion;
+    direccion: Direccion;
     //calleUno: DireccionCalle;
     //calleDos?: DireccionCalle;
     //codigoPostal: codigoPostal;

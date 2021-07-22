@@ -13,6 +13,8 @@ import { Direccion } from "../../comun/dominio/entidades/Direccion";
 import { Empresa, EmpresaProps } from "../dominio/Empresa";
 import { NombreEmpresa } from "../dominio/valueObjects/nombreEmpresa";
 import { DatosBasicosEmpresaDTO } from "./dto/DatosBasicosEmpresaDTO";
+import { DireccionMapeador } from "../../comun/aplicacion/mapeador/Direccion.mapaeador";
+import { DireccionDTO } from "../../comun/aplicacion/dtos/DireccionDTO";
 
 export class DatosBasicosMapeador {
     public static aDominio(dto: DatosBasicosEmpresaDTO): Resultado<Empresa> {
@@ -23,19 +25,6 @@ export class DatosBasicosMapeador {
         let correoOrError = Correo.crear(dto.correoElectronico);
         if (correoOrError.esFallido)
             return Resultado.falla<any>(correoOrError.error);
-
-        /*
-        let direccionOrError = Direccion.crear(dto.direccion);
-        if (direccionOrError.esFallido)
-            return Resultado.falla<any>(direccionOrError.error);
-        let calleUnoOrError = DireccionCalle.crear(dto.calleUno);
-        if (calleUnoOrError.esFallido)
-            return Resultado.falla<any>(calleUnoOrError.error);
-
-        let codigoPostalOrError = codigoPostal.crear(dto.codigoPostal);
-        if (codigoPostalOrError.esFallido)
-            return Resultado.falla<any>(codigoPostalOrError.error);
-        */
 
         let paisOrError = PaisMapeador.aDominio({ uuidPais: dto.uuidPais });
         if (paisOrError.esFallido)
@@ -52,7 +41,7 @@ export class DatosBasicosMapeador {
         });
         if (ciudadOrError.esFallido)
             return Resultado.falla<any>(ciudadOrError.error);
-            
+
         /*
         let habilidadesOrError = HabilidadMapeador.aDominioConjunto({
             dtos: dto.habilidad
@@ -61,11 +50,22 @@ export class DatosBasicosMapeador {
             return Resultado.falla<any>(ciudadOrError.error);
         */
 
+        //Entidad direccion
+        let direccionDTO: DireccionDTO = {
+            calleUno: dto.calleUno,
+            codigoPostal: dto.codigoPostal,
+        };
+        if (dto.hasOwnProperty("calleDos") && dto.calleDos != undefined)
+            direccionDTO.calleDos = dto.calleDos;
+
+        const direccionOrError = DireccionMapeador.aDominio(direccionDTO);
+        if (direccionOrError.esFallido)
+            return Resultado.falla<any>(direccionOrError.error);
+
         const empresaProps: EmpresaProps = {
             nombre: nombreOrError.getValue(),
             correoElectronico: correoOrError.getValue(),
-            //calleUno: calleUnoOrError.getValue(),
-            //codigoPostal: codigoPostalOrError.getValue(),
+            direccion: direccionOrError.getValue(),
             pais: paisOrError.getValue(),
             estado: estadoOrError.getValue(),
             ciudad: ciudadOrError.getValue(),
@@ -80,17 +80,22 @@ export class DatosBasicosMapeador {
             //Agregamos al ser valido
             empresaProps.idEmpresa = idEmpresaOrError.getValue();
         }
-        
+
         let reqEspecialesOrError: Resultado<requisitosEspeciales>;
-        if (dto.hasOwnProperty("requisitosEspeciales") && dto.requisitosEspeciales != undefined) {
-            reqEspecialesOrError = requisitosEspeciales.crear(dto.requisitosEspeciales);
+        if (
+            dto.hasOwnProperty("requisitosEspeciales") &&
+            dto.requisitosEspeciales != undefined
+        ) {
+            reqEspecialesOrError = requisitosEspeciales.crear(
+                dto.requisitosEspeciales
+            );
             if (reqEspecialesOrError.esFallido)
                 return Resultado.falla<any>(reqEspecialesOrError.error);
 
             //Agregamos al ser valido
             empresaProps.requisitosEspeciales = reqEspecialesOrError.getValue();
         }
-        
+
         /*
         let calleDosOrError: Resultado<DireccionCalle>;
         if (dto.hasOwnProperty("calleDos") && dto.calleDos != undefined) {
@@ -111,8 +116,8 @@ export class DatosBasicosMapeador {
         let propsDTO: DatosBasicosEmpresaDTO = {
             nombreEmpresa: entidad.props.nombre.valor(),
             correoElectronico: entidad.props.correoElectronico.valor(),
-            //calleUno: entidad.props.calleUno.valor(),
-            //codigoPostal: entidad.props.codigoPostal.valor(),
+            calleUno: entidad.props.direccion.props.calleUno.valor(),
+            codigoPostal: entidad.props.direccion.props.codigoPostal.valor(),
             uuidPais: entidad.props.pais.props.idPais.valor(),
             uuidEstado: entidad.props.estado.props.idEstado.valor(),
             uuidCiudad: entidad.props.ciudad.props.idCiudad.valor(),
@@ -129,17 +134,16 @@ export class DatosBasicosMapeador {
             entidad.props.hasOwnProperty("requisitosEspeciales") &&
             entidad.props.requisitosEspeciales != undefined
         ) {
-            propsDTO.requisitosEspeciales = entidad.props.requisitosEspeciales.valor();
+            propsDTO.requisitosEspeciales =
+                entidad.props.requisitosEspeciales.valor();
         }
-        /*
         if (
             entidad.props.hasOwnProperty("calleDos") &&
-            entidad.props.calleDos != undefined
+            entidad.props.direccion.props.calleDos != undefined
         ) {
-            propsDTO.calleDos = entidad.props.calleDos.valor();
+            propsDTO.calleDos = entidad.props.direccion.props.calleDos.valor();
         }
-        */
-       
+
         return Resultado.ok<DatosBasicosEmpresaDTO>(propsDTO);
     }
 }

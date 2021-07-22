@@ -6,10 +6,10 @@ export interface DatosBasicosEmpresaDTO {
     nombreEmpresa: string;
     correoElectronico: string;
     requisitosEspeciales?: string;
-    direccion?: Direccion;
-    //calleUno: string;
-    //calleDos?: string;
-    //codigoPostal: string;
+    //direccion: Direccion;
+    calleUno: string;
+    calleDos?: string;
+    codigoPostal: string;
     uuidPais: string;
     uuidEstado: string;
     uuidCiudad: string;
