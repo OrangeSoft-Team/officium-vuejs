@@ -43,19 +43,29 @@
                         id="inpt-correo"
                     ></v-text-field>
                 </v-row>
-                <v-row>
-                    <v-text-field
-                        v-model="datosEmpresa.codigoPostal"
-                        :counter="10"
+                <v-row class="justify-center">
+                    <v-textarea
+                    
+                        label="Ingrese los requisitos especiales que requiere de los empleados (campo opcional)"
+                        hint="Los requisitos especiales no deberían ser mayores a 256 caracteres"
                         :rules="[(v) => !!v || 'Este campo es obligatorio']"
-                        label="Ingrese el código postal"
-                        required
-                        id="inpt-codigoPostal"
-                    ></v-text-field>
+                        id="inpt-req-especiales"
+                    ></v-textarea>
                 </v-row>
             </v-col>
             <v-col cols="12" sm="2" md="2" lg="2" xl="2"> </v-col>
             <v-col cols="12" sm="4" md="4" lg="4" xl="4">
+                <v-row class="justify-center">
+                    <v-btn
+                        class="ma-5"
+                        color="primary"
+                        v-on:click="actualizarDatos"
+                        block
+                    >
+                        <v-icon dark> mdi-pencil </v-icon>
+                        Guardar cambios
+                    </v-btn>
+                </v-row>
                 <v-row class="justify-center">
                     <v-select
                         v-model="datosEmpresa.uuidPais"
@@ -94,28 +104,108 @@
                         id="inpt-ciudad"
                     ></v-select>
                 </v-row>
+                <v-row>
+                    <v-text-field
+                        v-model="datosEmpresa.codigoPostal"
+                        :counter="10"
+                        :rules="[(v) => !!v || 'Este campo es obligatorio']"
+                        label="Ingrese el código postal"
+                        required
+                        id="inpt-codigoPostal"
+                    ></v-text-field>
+                </v-row>
                 <v-row class="justify-center">
                     <v-textarea
                         v-model="datosEmpresa.calleUno"
-                        label="Ingrese la dirección de la calle"
+                        label="Ingrese la dirección de la calle 1"
                         hint="La dirección no debería ser mayor a 256 caracteres"
                         :rules="[(v) => !!v || 'Este campo es obligatorio']"
                         id="inpt-direccion"
                     ></v-textarea>
                 </v-row>
                 <v-row class="justify-center">
-                    <v-btn
-                        class="ma-5"
-                        color="primary"
-                        v-on:click="actualizarDatos"
-                        block
-                    >
-                        <v-icon dark> mdi-pencil </v-icon>
-                        Guardar cambios
-                    </v-btn>
+                    <v-textarea
+                        v-model="datosEmpresa.calleDos"
+                        label="Ingrese la dirección de la calle 2 (opcional)"
+                        hint="La dirección no debería ser mayor a 256 caracteres"
+                        :rules="[(v) => !!v || 'Este campo es obligatorio']"
+                        id="inpt-direccion"
+                    ></v-textarea>
                 </v-row>
             </v-col>
             <v-col cols="12" sm="1" md="1" lg="1" xl="1"> </v-col>
+
+            <v-row align="center" no-gutters style="height: 50px"> </v-row>
+
+            <v-row class="justify-center">
+                <v-col cols="12" sm="10" md="10" lg="10" xl="10">
+                    <v-card>
+                        
+                        <v-row class="justify-center">
+                            <v-col cols="12" sm="1" md="1" lg="1" xl="1"> </v-col>
+                            <v-col cols="12" sm="4" md="4" lg="4" xl="4">
+                                <v-row class="justify-center">
+                                    <v-select
+                                        v-model="uuidHabilidad"
+                                        :items="listaHabilidades"
+                                        item-text="nombreHabilidad"
+                                        item-value="uuidHabilidad"
+                                        label="Lista de habilidades"
+                                        required
+                                        id="inpt-habilidad"
+                                    ></v-select>
+                                </v-row>
+                            </v-col>
+                            <v-col cols="12" sm="2" md="2" lg="2" xl="2"> </v-col>
+                            <v-col cols="12" sm="4" md="4" lg="4" xl="4">
+                                <v-row class="justify-center">
+                                    <v-btn
+                                        class="ma-5"
+                                        color="primary"
+                                        v-on:click="agregarHabilidad"
+                                        block
+                                    >
+                                    <v-icon dark> mdi-checkbox-marked-circle </v-icon>
+                                        Agregar habilidad a la tabla
+                                    </v-btn>
+                                </v-row>
+                            </v-col>
+                            <v-col cols="12" sm="1" md="1" lg="1" xl="1"> </v-col>
+                        </v-row>
+
+                        <v-card-title>
+                            <v-row justify="space-between" class="pa-2">
+                                Habilidades que solicita la empresa
+                            </v-row>
+                        </v-card-title>
+                        <v-data-table
+                            :headers="headersTableHabilidades"
+                            :items="habilidadesEmpresa"
+                            :items-per-page="3"
+                            class="elevation-1"
+                            locale="es"
+                        >
+                            <template v-slot:item="row">
+                                <tr>
+                                    <td>{{ row.item.nombreHabilidad }}</td>
+                                    <td>{{ row.item.categoriaHabilidad }}</td>
+                                    <td>
+                                        <v-btn
+                                            x-small
+                                            color="red"
+                                            v-on:click="quitarHabilidad(row.item.uuidHabilidad)"
+                                            block
+                                        >
+                                        <v-icon dark> mdi-cancel </v-icon>
+                                            eliminar
+                                        </v-btn>
+                                    </td>
+                                </tr>
+                            </template>
+                        </v-data-table>
+                    </v-card>
+                </v-col>
+            </v-row>
 
             <alerta-error
                 :mensaje="mensajeError"
@@ -139,6 +229,9 @@ import { DatosBasicosEmpresaDTO } from "../../../../empresa/aplicacion/dto/Datos
 import { PaisDTO } from "../../../aplicacion/dto.geografico/PaisDTO";
 import { EstadoDTO } from "../../../aplicacion/dto.geografico/EstadoDTO";
 import { CiudadDTO } from "../../../aplicacion/dto.geografico/CiudadDTO";
+
+//DTO para las habilidades
+import { HabilidadDTO } from "../../../../comun/aplicacion/dtos/HabilidadDTO";
 
 import AlertaError from "../components/AlertaError.vue";
 import AlertaExito from "../components/AlertaExito.vue";
@@ -164,6 +257,26 @@ export default Vue.extend({
             paises: [] as PaisDTO[],
             estados: [] as EstadoDTO[],
             ciudades: [] as CiudadDTO[],
+            
+            headersTableHabilidades: [
+                { text: "Nombre", value: "nombreHabilidad" },
+                { text: "Categoría", value: "categoriaHabilidad" },
+                { text: "Acciones", value: "acciones" },
+            ],
+            habilidadesEmpresa: [] as HabilidadDTO[],
+            listaHabilidades: [
+                {
+                    uuidHabilidad: "1",
+                    nombreHabilidad: "habilidad1",
+                    categoriaHabilidad: "cat1"
+                },
+                {
+                    uuidHabilidad: "2",
+                    nombreHabilidad: "habilidad2",
+                    categoriaHabilidad: "cat2"
+                }
+            ] as HabilidadDTO[],
+            uuidHabilidad: "",
 
             //Para el manejo del mensaje de éxito
             mensajeExito: "",
@@ -336,6 +449,22 @@ export default Vue.extend({
                 .catch((e) => {
                     console.error(e);
                 });
+        },
+        agregarHabilidad() {
+            for(let i = 0; i < this.listaHabilidades.length; i++){
+                if(this.listaHabilidades[i].uuidHabilidad == this.uuidHabilidad) {
+                    this.habilidadesEmpresa.push(this.listaHabilidades[i]);
+                    break;
+                }
+            }
+        },
+        quitarHabilidad(uuidHab:string) {
+            for(let i = 0; i < this.habilidadesEmpresa.length; i++){
+                if(this.habilidadesEmpresa[i].uuidHabilidad == uuidHab) {
+                    this.habilidadesEmpresa.splice(i, 1);
+                    break;
+                }
+            }
         },
         alertaFin() {
             this.snackbar = false;
