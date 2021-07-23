@@ -46,7 +46,6 @@
             dark
             color="primary"
             clipped
-            absolute
             permanent
             expand-on-hover
         >
@@ -88,11 +87,11 @@ export default Vue.extend({
                     icono: "mdi-view-dashboard",
                     toDato: "Inicio",
                 },
-                {
+                /*  {
                     opcion: "Delegados",
                     icono: "mdi-account-multiple",
                     toDato: "InicioSesion",
-                },
+                }, */
                 {
                     opcion: "Ofertas laborales",
                     icono: "mdi-view-list",
@@ -103,11 +102,11 @@ export default Vue.extend({
                     icono: "mdi-briefcase",
                     toDato: "InicioSesion",
                 },
-                {
+                /*   {
                     opcion: "Pagos",
                     icono: "mdi-currency-usd",
                     toDato: "InicioSesion",
-                },
+                }, */
             ],
         };
     },

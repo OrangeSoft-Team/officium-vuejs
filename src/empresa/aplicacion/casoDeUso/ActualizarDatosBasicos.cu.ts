@@ -3,16 +3,20 @@ import { CasoUso } from "../../../comun/aplicacion/casoUso";
 import { Resultado } from "../../../comun/dominio/resultado";
 import { DatosBasicosMapeador } from "../DatosBasicos.mapeador";
 import { OperacionExitosaDTO } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
+import { Direccion } from "../../../comun/dominio/entidades/Direccion";
+import { HabilidadDTO } from "../../../comun/aplicacion/dtos/HabilidadDTO";
 
 export interface SolicitudActualizarDatosBasicosDTO {
     uuidEmpresa?: string;
     nombreEmpresa: string;
     correoElectronico: string;
-    direccionCalle: string;
+    calleUno: string;
+    calleDos?: string;
     codigoPostal: string;
     uuidPais: string;
     uuidEstado: string;
     uuidCiudad: string;
+    habilidad: HabilidadDTO[];
 }
 
 export class ActualizarDatosBasicos

@@ -1,9 +1,6 @@
 import { JSONRepositorioDatosBasicos } from "../../infraestructura/JSON/JSONRepositorioDatosBasicos";
 import { Resultado } from "../../../comun/dominio/resultado";
-import {
-    obtenerDatosBasicos,
-    SolicitudDatosBasicosDTO,
-} from "../../aplicacion/casoDeUso/ObtenerDatosBasicos.cu";
+import { obtenerDatosBasicos } from "../../aplicacion/casoDeUso/ObtenerDatosBasicos.cu";
 import { DatosBasicosEmpresaDTO } from "../../aplicacion/dto/DatosBasicosEmpresaDTO";
 import { IEmpresaRepo } from "../../aplicacion/IEmpresa.repositorio";
 import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";

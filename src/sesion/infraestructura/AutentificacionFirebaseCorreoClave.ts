@@ -13,6 +13,7 @@ import { RestablecerContrasenaDTO } from "../aplicacion/dto/RestablecerContrasen
 import { IServicioAutentificacion } from "../aplicacion/IServicioAutentificacion";
 import {
     COMBINACION_INCORRECTA,
+    FALLO_CONEXION,
     USUARIO_NO_EXISTE,
 } from "./excepciones/firebase.excepcion";
 
@@ -57,7 +58,11 @@ export class AutentificacionFirebaseCorreoClave
                     if (error.code == "auth/wrong-password")
                         resolve(Resultado.falla<any>(COMBINACION_INCORRECTA));
 
+                    if (error.code == "auth/network-request-failed")
+                        resolve(Resultado.falla<any>(FALLO_CONEXION));
+
                     reject(Resultado.falla<any>(error));
+
                 });
         });
     }
@@ -104,6 +109,9 @@ export class AutentificacionFirebaseCorreoClave
                 .catch((error) => {
                     if (error.code == "auth/user-not-found")
                         resolve(Resultado.falla<any>(USUARIO_NO_EXISTE));
+
+                    if (error.code == "auth/network-request-failed")
+                        resolve(Resultado.falla<any>(FALLO_CONEXION));
 
                     reject(Resultado.falla<any>(error));
                 });

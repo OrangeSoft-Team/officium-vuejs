@@ -39,5 +39,5 @@ describe("Autentificar con correo y clave en firebase", () => {
             expect(data.esFallido).toBeFalsy();
             expect(data.getValue()).not.toBeUndefined();
         });
-    });
+    }, 20000);
 });

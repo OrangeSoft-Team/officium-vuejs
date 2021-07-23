@@ -17,7 +17,7 @@ export class DireccionCalle extends ValueObject<direccionCalleProps> {
 
     public static crear(nombre: string): Resultado<DireccionCalle> {
         //Validaciones de longitud
-        if (!(nombre.length >= 4 && nombre.length <= 256))
+        if (!(nombre.length >= 2 && nombre.length <= 128))
             return Resultado.falla<any>(DIRECCION_LONGITUD_NO_VALIDA);
 
         return Resultado.ok<DireccionCalle>(new DireccionCalle({ nombre }));
