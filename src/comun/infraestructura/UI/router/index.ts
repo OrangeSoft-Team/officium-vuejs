@@ -12,6 +12,11 @@ const routes: Array<RouteConfig> = [
         component: InicioSesion,
     },
     {
+        path: "/restaurar",
+        name: "RestaurarContrasena",
+        component: () => import("../views/RestablecerContrasena.vue"),
+    },
+    {
         path: "/dashboard",
         name: "Dashboard",
 
@@ -49,13 +54,13 @@ router.beforeEach((to, from, next) => {
     const controladorOrError = ControladorObtenerDatos.inicialiar();
     const usuarioOrError = controladorOrError.ejecutarServicio();
 
-    if (to.path != "/") {
+    if (to.path != "/" && to.path != "/restaurar") {
         //Cualquier direccion diferente a login
 
         if (usuarioOrError.esExitoso) next();
 
         if (usuarioOrError.esFallido) next("/");
-    } else {
+    } else if (to.path == "/") {
         //Si tiene usuario y va login >> Inicio
         if (usuarioOrError.esExitoso) next({ name: "Inicio" });
     }

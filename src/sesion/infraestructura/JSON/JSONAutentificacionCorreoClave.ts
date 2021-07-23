@@ -18,6 +18,15 @@ export class AutentificacionCorreoClaveJSON
     constructor(implPersistencia: IServicioPersistencia) {
         this.persistenciaAlterna = implPersistencia;
     }
+    restablecerContrasena(): Promise<Resultado<OperacionExitosaDTO>> {
+        return new Promise((resolve) => {
+            resolve(
+                Resultado.ok<OperacionExitosaDTO>({
+                    mensaje: OPERACION_EXITOSA,
+                })
+            );
+        });
+    }
 
     autentificar(
         credencial: DatosInicioSesionDTO
