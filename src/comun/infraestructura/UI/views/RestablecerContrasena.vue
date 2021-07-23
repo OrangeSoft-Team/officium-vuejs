@@ -2,7 +2,11 @@
     <v-container fill-height fill-width class="fondo-primary" fluid>
         <v-row no-gutters justify="center">
             <v-col align-self="center" cols="6">
-                <v-form ref="formSesion" v-model="formValido" lazy-validation>
+                <v-form
+                    ref="formRestablecer"
+                    v-model="formValido"
+                    lazy-validation
+                >
                     <v-card>
                         <v-card-title class="d-flex justify-center mb-6">
                             <v-img
@@ -12,12 +16,16 @@
                             ></v-img>
                         </v-card-title>
                         <v-card-text>
-                            <v-alert dense type="error" v-model="error.estado">
+                            <v-alert
+                                dense
+                                :type="error.tipo"
+                                v-model="error.estado"
+                            >
                                 {{ error.mensaje }}
                             </v-alert>
 
                             <v-text-field
-                                v-model="datosInicioSesion.correoElectronico"
+                                v-model="datosRestablecer.correoElectronico"
                                 :rules="[
                                     (v) => !!v || 'Este campo es obligatorio',
                                 ]"
@@ -25,16 +33,7 @@
                                 label="Correo electrónico"
                                 required
                             ></v-text-field>
-                            <v-text-field
-                                v-model="datosInicioSesion.contraseña"
-                                :rules="[
-                                    (v) => !!v || 'Este campo es obligatorio',
-                                ]"
-                                id="text-contrasena"
-                                label="Contraseña"
-                                type="password"
-                                required
-                            ></v-text-field>
+
                             <v-progress-linear
                                 indeterminate
                                 v-show="estaCargando"
@@ -45,17 +44,13 @@
                                 id="btn-login"
                                 block
                                 depressed
+                                outlined
                                 color="primary"
-                                @click="iniciarSesion"
+                                @click="restablecerContrasena"
                             >
-                                Iniciar sesión
+                                Restablecer contraseña
                             </v-btn>
                         </v-card-actions>
-                        <v-row class="pt-4 pb-2" justify="center">
-                            <router-link :to="{ name: 'RestaurarContrasena' }"
-                                >¿Olvidaste tu contraseña?</router-link
-                            ></v-row
-                        >
                     </v-card>
                 </v-form>
             </v-col>
@@ -64,9 +59,9 @@
 </template>
 
 <script lang="ts">
-import { ControladorIniciarSesion } from "../../../../sesion/infraestructura/controlador/ControladorIniciarSesion";
+import { ControladorRestablecerContrasena } from "@/sesion/infraestructura/controlador/ControladorRestablecerContrasena";
 import Vue from "vue";
-import { DatosInicioSesionDTO } from "@/sesion/aplicacion/casoDeUso/IniciarSesionCorreoClave.cu";
+
 /*
    correoElectronico: "test@test.com",
                 contraseña: "123456QAZwsx",
@@ -76,24 +71,25 @@ export default Vue.extend({
         return {
             formValido: true,
             estaCargando: false,
-            datosInicioSesion: {
+            datosRestablecer: {
                 correoElectronico: "",
-                contraseña: "",
-            } as DatosInicioSesionDTO,
+            },
             error: {
                 estado: false,
                 mensaje: "",
+                tipo: "error",
             },
         };
     },
     methods: {
-        iniciarSesion() {
+        restablecerContrasena() {
             if (this.validar()) {
-                const controlador = ControladorIniciarSesion.inicialiar();
+                const controlador =
+                    ControladorRestablecerContrasena.inicialiar();
 
-                const respuestaCU = controlador.ejecutarCU(
-                    this.datosInicioSesion
-                );
+                const respuestaCU = controlador.ejecutarServicio({
+                    email: this.datosRestablecer.correoElectronico,
+                });
 
                 this.error.estado = false;
                 this.estaCargando = true;
@@ -101,21 +97,30 @@ export default Vue.extend({
                 respuestaCU
                     .then((respuesta) => {
                         if (respuesta.esExitoso) {
-                            //console.log("Llega a exito");
-                            this.estaCargando = false;
-                            this.$router.replace({ name: "Inicio" });
-                        } else {
-                            //console.log("Llega a fallo");
-                            this.estaCargando = false;
-                            this.error.mensaje = <string>respuesta.error;
                             this.error.estado = true;
+                            this.error.tipo = "success";
+                            this.error.mensaje =
+                                "¡Revisar tu correo electrónico!";
+
+                            //Redirige a inicio
+                            setTimeout(() => {
+                                this.$router.replace({ name: "InicioSesion" });
+                            }, 3000);
+                        } else {
+                            this.error.estado = true;
+                            this.error.tipo = "error";
+                            this.error.mensaje = <string>respuesta.error;
                         }
                     })
                     .catch((e) => {
-                        console.error("Error fatal");
+                        //Error faltal
+                        console.error("Erro faltal, no debió pasar", e);
 
-                        this.error.mensaje = "Ha ocurrido un error";
                         this.error.estado = true;
+                        this.error.tipo = "error";
+                        this.error.mensaje = "¡Ha ocurrido un error!";
+                    })
+                    .finally(() => {
                         this.estaCargando = false;
                     });
             }
@@ -125,9 +130,9 @@ export default Vue.extend({
                 validate(): boolean;
             }
 
-            if (this.$refs.formSesion != undefined) {
-                const formSesion = this.$refs.formSesion as VForm;
-                return formSesion.validate();
+            if (this.$refs.formRestablecer != undefined) {
+                const formRestablecer = this.$refs.formRestablecer as VForm;
+                return formRestablecer.validate();
             }
 
             return false;
