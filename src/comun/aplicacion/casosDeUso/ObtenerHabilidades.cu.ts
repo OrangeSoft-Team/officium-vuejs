@@ -4,7 +4,9 @@ import { Resultado } from "../../dominio/resultado";
 import { HabilidadDTO } from "../dtos/HabilidadDTO";
 import { IServicioHabilidades } from "../IServicioHabilidades";
 
-export class obtenerHabilidades implements CasoUso<undefined, Resultado<HabilidadDTO[]>> {
+export class obtenerHabilidades
+    implements CasoUso<null, Resultado<HabilidadDTO[]>>
+{
     //Repositorio
     private ServicioHabilidad: IServicioHabilidades;
 
@@ -15,10 +17,8 @@ export class obtenerHabilidades implements CasoUso<undefined, Resultado<Habilida
     //Query
     public async ejecutar(): Promise<Resultado<HabilidadDTO[]>> {
         //Llamamos al repositorio
-        let habOrError =
-            await this.ServicioHabilidad.obtenerHabilidades();
-        if (habOrError.esFallido)
-            return Resultado.falla<any>(habOrError.error);
+        let habOrError = await this.ServicioHabilidad.obtenerHabilidades();
+        if (habOrError.esFallido) return Resultado.falla<any>(habOrError.error);
 
         //Convertimos a dominio array
         let conjutoOfertasOrError = HabilidadMapeador.aDominioConjunto(
@@ -35,6 +35,8 @@ export class obtenerHabilidades implements CasoUso<undefined, Resultado<Habilida
         if (ConjuntoRespuestaOrError.esFallido)
             return Resultado.falla<any>(ConjuntoRespuestaOrError.error);
 
-        return Resultado.ok<HabilidadDTO[]>(ConjuntoRespuestaOrError.getValue());
+        return Resultado.ok<HabilidadDTO[]>(
+            ConjuntoRespuestaOrError.getValue()
+        );
     }
 }

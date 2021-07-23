@@ -48,24 +48,12 @@
                         v-model="datosEmpresa.requisitosEspeciales"
                         label="Ingrese los requisitos especiales que requiere de los empleados (campo opcional)"
                         hint="Los requisitos especiales no deberían ser mayores a 256 caracteres"
-                        :rules="[(v) => !!v || 'Este campo es obligatorio']"
                         id="inpt-req-especiales"
                     ></v-textarea>
                 </v-row>
             </v-col>
             <v-col cols="12" sm="2" md="2" lg="2" xl="2"> </v-col>
             <v-col cols="12" sm="4" md="4" lg="4" xl="4">
-                <v-row class="justify-center">
-                    <v-btn
-                        class="ma-5"
-                        color="primary"
-                        v-on:click="actualizarDatos"
-                        block
-                    >
-                        <v-icon dark> mdi-pencil </v-icon>
-                        Guardar cambios
-                    </v-btn>
-                </v-row>
                 <v-row class="justify-center">
                     <v-select
                         v-model="datosEmpresa.uuidPais"
@@ -128,7 +116,6 @@
                         v-model="datosEmpresa.calleDos"
                         label="Ingrese la dirección de la calle 2 (opcional)"
                         hint="La dirección no debería ser mayor a 256 caracteres"
-                        :rules="[(v) => !!v || 'Este campo es obligatorio']"
                         id="inpt-direccion"
                     ></v-textarea>
                 </v-row>
@@ -163,6 +150,7 @@
                                     <v-btn
                                         class="ma-5"
                                         color="primary"
+                                        outlined
                                         v-on:click="agregarHabilidad"
                                         block
                                     >
@@ -202,7 +190,9 @@
                                             "
                                             block
                                         >
-                                            <v-icon dark> mdi-cancel </v-icon>
+                                            <v-icon dark small>
+                                                mdi-cancel
+                                            </v-icon>
                                             eliminar
                                         </v-btn>
                                     </td>
@@ -211,13 +201,25 @@
                         </v-data-table>
                     </v-card>
                 </v-col>
+
+                <alerta-error
+                    :mensaje="mensajeError"
+                    :snackbar="snackbar"
+                    v-on:alertfin="alertaFin"
+                ></alerta-error>
             </v-row>
 
-            <alerta-error
-                :mensaje="mensajeError"
-                :snackbar="snackbar"
-                v-on:alertfin="alertaFin"
-            ></alerta-error>
+            <v-btn
+                class="mt-4 mb-4"
+                color="primary"
+                v-on:click="actualizarDatos"
+                block
+            >
+                <v-icon dark> mdi-pencil </v-icon>
+                Guardar cambios
+            </v-btn>
+
+            <hr />
         </v-row>
     </v-container>
 </template>
@@ -262,7 +264,7 @@ export default Vue.extend({
                 uuidPais: "",
                 uuidEstado: "",
                 uuidCiudad: "",
-                habilidad: []
+                habilidad: [],
             } as DatosBasicosEmpresaDTO,
             paises: [] as PaisDTO[],
             estados: [] as EstadoDTO[],
@@ -320,6 +322,7 @@ export default Vue.extend({
                         this.ejecutarCUEstados(this.datosEmpresa.uuidPais);
                         this.ejecutarCUCiudades(this.datosEmpresa.uuidEstado);
                         this.ejecutarCUHabilidades();
+                        this.habilidadesEmpresa = this.datosEmpresa.habilidad;
                     } else {
                         //TODO Manejo de caso con error al recuperar conjunto
                         console.warn("Algo pasó", data.error);
@@ -458,6 +461,10 @@ export default Vue.extend({
                         this.estaCargando = false;
 
                         console.log("[Datos actualizados satisfactoriamente]");
+                        window.scrollTo({
+                            top: 0,
+                            behavior: "smooth",
+                        });
 
                         //Si la oferta fue exitosamente creada, mostramos
                         //mensaje de éxito y cerramos el modal
@@ -479,13 +486,17 @@ export default Vue.extend({
         },
         agregarHabilidad() {
             //Validar que el elemento no esté dentro del array
-            if(!this.habilidadesEmpresa.find(i => i.uuid === this.uuidHabilidad)){    
+            if (
+                !this.habilidadesEmpresa.find(
+                    (i) => i.uuid === this.uuidHabilidad
+                )
+            ) {
                 for (let i = 0; i < this.listaHabilidades.length; i++) {
                     if (this.listaHabilidades[i].uuid == this.uuidHabilidad) {
                         this.habilidadesEmpresa.push(this.listaHabilidades[i]);
                         break;
                     }
-                }       
+                }
             }
         },
         quitarHabilidad(uuidHab: string) {
