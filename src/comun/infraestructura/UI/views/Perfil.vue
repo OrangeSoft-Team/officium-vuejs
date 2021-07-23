@@ -45,6 +45,7 @@
                 </v-row>
                 <v-row class="justify-center">
                     <v-textarea
+                        v-model="datosEmpresa.requisitosEspeciales"
                         label="Ingrese los requisitos especiales que requiere de los empleados (campo opcional)"
                         hint="Los requisitos especiales no deberían ser mayores a 256 caracteres"
                         :rules="[(v) => !!v || 'Este campo es obligatorio']"
@@ -145,7 +146,7 @@
                             <v-col cols="12" sm="4" md="4" lg="4" xl="4">
                                 <v-row class="justify-center">
                                     <v-select
-                                        v-model="uuid"
+                                        v-model="uuidHabilidad"
                                         :items="listaHabilidades"
                                         item-text="nombre"
                                         item-value="uuid"
@@ -227,6 +228,7 @@ import { ControladorObtDatosBasicos } from "../../../../empresa/infraestructura/
 import { ControladorObtenerPaises } from "../../controlador/ControladorObtPaises";
 import { ControladorObtenerEstados } from "../../controlador/ControladorObtEstados";
 import { ControladorObtenerCiudades } from "../../controlador/ControladorObtCiudades";
+import { ControladorObtenerHabilidades } from "../../controlador/ControladorObtHabilidades";
 import { ControladorActualizarDatosBasicos } from "../../../../empresa/infraestructura/controlador/ControladorActualizarDatos";
 //Importamos la interface del DTO para que el objeto a mostrar en la tabla
 //sea del mismo tipo que el que se trae en la respuesta del CU
@@ -240,6 +242,7 @@ import { HabilidadDTO } from "../../../../comun/aplicacion/dtos/HabilidadDTO";
 
 import AlertaError from "../components/AlertaError.vue";
 import AlertaExito from "../components/AlertaExito.vue";
+import { Console } from "console";
 
 export default Vue.extend({
     components: {
@@ -252,12 +255,14 @@ export default Vue.extend({
             datosEmpresa: {
                 nombreEmpresa: "",
                 correoElectronico: "",
-                //calleUno: "",
-                //calleDos: "",
-                //codigoPostal: "",
+                requisitosEspeciales: "",
+                calleUno: "",
+                calleDos: "",
+                codigoPostal: "",
                 uuidPais: "",
                 uuidEstado: "",
                 uuidCiudad: "",
+                habilidad: []
             } as DatosBasicosEmpresaDTO,
             paises: [] as PaisDTO[],
             estados: [] as EstadoDTO[],
@@ -269,19 +274,8 @@ export default Vue.extend({
                 { text: "Acciones", value: "acciones" },
             ],
             habilidadesEmpresa: [] as HabilidadDTO[],
-            listaHabilidades: [
-                {
-                    uuid: "1",
-                    nombre: "habilidad1",
-                    categoria: "cat1",
-                },
-                {
-                    uuid: "2",
-                    nombre: "habilidad2",
-                    categoria: "cat2",
-                },
-            ] as HabilidadDTO[],
-            uuid: "",
+            listaHabilidades: [] as HabilidadDTO[],
+            uuidHabilidad: "",
 
             //Para el manejo del mensaje de éxito
             mensajeExito: "",
@@ -321,11 +315,11 @@ export default Vue.extend({
                         //Actualizamos
                         this.datosEmpresa = data.getValue();
 
-                        //console.log(this.datosEmpresa);
-                        //Una vez obtenidos los datos del perfil, llamamos a los CU de país, estado y ciudad
+                        //Una vez obtenidos los datos del perfil, llamamos a los CU de país, estado, ciudad y habilidades
                         this.ejecutarCUPaises();
                         this.ejecutarCUEstados(this.datosEmpresa.uuidPais);
                         this.ejecutarCUCiudades(this.datosEmpresa.uuidEstado);
+                        this.ejecutarCUHabilidades();
                     } else {
                         //TODO Manejo de caso con error al recuperar conjunto
                         console.warn("Algo pasó", data.error);
@@ -407,6 +401,28 @@ export default Vue.extend({
                     console.error(e);
                 });
         },
+        ejecutarCUHabilidades() {
+            //Inicializamos controlador
+            const cuHab = ControladorObtenerHabilidades.inicializar();
+
+            //Ejecutamos el caso de uso
+            const respuestaCUPais = cuHab.ejecutarCU();
+            respuestaCUPais
+                .then((data) => {
+                    if (data.esExitoso) {
+                        //Cambiamos el estado
+                        this.estaCargando = false;
+                        //Actualizamos
+                        this.listaHabilidades = data.getValue();
+                    } else {
+                        //TODO Manejo de caso con error al recuperar conjunto
+                        console.warn("Algo pasó", data.error);
+                    }
+                })
+                .catch((e) => {
+                    console.error(e);
+                });
+        },
 
         recargarDatos() {
             this.estaCargando = false;
@@ -427,6 +443,12 @@ export default Vue.extend({
             //console.log("Objeto a enviar: ", this.datosEmpresa);
             //Inicializamos el controlador
             const cuAEjecutar = ControladorActualizarDatosBasicos.inicializar();
+
+            //Asociamos las habilidades de la tabla al array de habilidades de la empresa
+            this.datosEmpresa.habilidad = this.habilidadesEmpresa;
+
+            console.log("Datos a enviar de la empresa:");
+            console.log(this.datosEmpresa);
 
             const respuestaCU = cuAEjecutar.ejecutarCU(this.datosEmpresa);
             respuestaCU
@@ -456,11 +478,14 @@ export default Vue.extend({
                 });
         },
         agregarHabilidad() {
-            for (let i = 0; i < this.listaHabilidades.length; i++) {
-                if (this.listaHabilidades[i].uuid == this.uuid) {
-                    this.habilidadesEmpresa.push(this.listaHabilidades[i]);
-                    break;
-                }
+            //Validar que el elemento no esté dentro del array
+            if(!this.habilidadesEmpresa.find(i => i.uuid === this.uuidHabilidad)){    
+                for (let i = 0; i < this.listaHabilidades.length; i++) {
+                    if (this.listaHabilidades[i].uuid == this.uuidHabilidad) {
+                        this.habilidadesEmpresa.push(this.listaHabilidades[i]);
+                        break;
+                    }
+                }       
             }
         },
         quitarHabilidad(uuidHab: string) {
