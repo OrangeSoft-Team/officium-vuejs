@@ -1,29 +1,30 @@
 import { Habilidad, HabilidadProps } from "../../dominio/entidades/habilidad";
 import { Resultado } from "../../dominio/resultado";
 import { Identificador } from "../../dominio/valueObjects/Identificador";
-import { NombreHabilidad } from "../../dominio/valueObjects/nombreHabilidad";
-import { CategoriaHabilidad } from "../../dominio/valueObjects/categoriaHabilidad";
+import { nombreHabilidad } from "../../dominio/valueObjects/nombreHabilidad";
+import { categoriaHabilidad } from "../../dominio/valueObjects/categoriaHabilidad";
 import { HabilidadDTO } from "../dtos/HabilidadDTO";
 
 export class HabilidadMapeador {
     public static aDominio(dto: HabilidadDTO): Resultado<Habilidad> {
-        let nombreHabilidadOrError = NombreHabilidad.crear(dto.nombreHabilidad);
-        if (nombreHabilidadOrError.esFallido)
-            return Resultado.falla<any>(nombreHabilidadOrError.error);
-        let categoriaHabilidadOrError = CategoriaHabilidad.crear(dto.categoriaHabilidad);
-        if (categoriaHabilidadOrError.esFallido)
-            return Resultado.falla<any>(categoriaHabilidadOrError.error);
+        let nombreOrError = nombreHabilidad.crear(dto.nombre);
+        if (nombreOrError.esFallido)
+            return Resultado.falla<any>(nombreOrError.error);
+
+        let categoriaOrError = categoriaHabilidad.crear(dto.categoria);
+        if (categoriaOrError.esFallido)
+            return Resultado.falla<any>(categoriaOrError.error);
 
         //Propiedades de la entidad
         let paisProps: HabilidadProps = {
-            nombre: nombreHabilidadOrError.getValue(),
-            categoria: categoriaHabilidadOrError.getValue()
+            nombre: nombreOrError.getValue(),
+            categoria: categoriaOrError.getValue(),
         };
 
         //Opcional
         let idHabilidadOrError: Resultado<Identificador>;
-        if (dto.hasOwnProperty("uuidHabilidad") && dto.uuidHabilidad != undefined) {
-            idHabilidadOrError = Identificador.crear(dto.uuidHabilidad);
+        if (dto.hasOwnProperty("uuid") && dto.uuid != undefined) {
+            idHabilidadOrError = Identificador.crear(dto.uuid);
             if (idHabilidadOrError.esFallido)
                 return Resultado.falla<any>(idHabilidadOrError.error);
 
@@ -34,23 +35,25 @@ export class HabilidadMapeador {
         //Devolvemos entidad
         return Resultado.ok<Habilidad>(Habilidad.crear(paisProps).getValue());
     }
-    
+
     public static aDTO(entidad: Habilidad): Resultado<HabilidadDTO> {
         //Extraemos valores de la entidad
         let propsDTO: HabilidadDTO = {
-            nombreHabilidad: entidad.props.nombre.valor(),
-            categoriaHabilidad: entidad.props.categoria.valor(),
+            nombre: entidad.props.nombre.valor(),
+            categoria: entidad.props.categoria.valor(),
         };
 
         //Opcionales
-        if (entidad.props.hasOwnProperty("idHabilidad") && entidad.props.idHabilidad != undefined) {
-            propsDTO.uuidHabilidad = entidad.props.idHabilidad.valor();
+        if (
+            entidad.props.hasOwnProperty("idHabilidad") &&
+            entidad.props.idHabilidad != undefined
+        ) {
+            propsDTO.uuid = entidad.props.idHabilidad.valor();
         }
 
         return Resultado.ok<HabilidadDTO>(propsDTO);
     }
 
-    
     public static aDominioConjunto(
         dtos: HabilidadDTO[]
     ): Resultado<Habilidad[]> {
@@ -58,8 +61,7 @@ export class HabilidadMapeador {
         let arrayPaises: Habilidad[] = [];
 
         for (let hab of dtos) {
-            let habilidadOrError =
-            HabilidadMapeador.aDominio(hab);
+            let habilidadOrError = HabilidadMapeador.aDominio(hab);
             //En caso de fallo
             if (habilidadOrError.esFallido) {
                 return Resultado.falla<any>(habilidadOrError.error);
@@ -84,12 +86,9 @@ export class HabilidadMapeador {
             if (ofertaDTOOrError.esFallido)
                 return Resultado.falla<any>(ofertaDTOOrError.error);
 
-                arrayHabilidades.push(ofertaDTOOrError.getValue());
+            arrayHabilidades.push(ofertaDTOOrError.getValue());
         }
 
-        return Resultado.ok<HabilidadDTO[]>(
-            arrayHabilidades
-        );
+        return Resultado.ok<HabilidadDTO[]>(arrayHabilidades);
     }
-
 }

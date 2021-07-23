@@ -24,7 +24,7 @@ export interface EmpresaProps {
     pais: Pais;
     estado: Estado;
     ciudad: Ciudad;
-    //habilidades: Habilidad[];
+    habilidades: Habilidad[];
 }
 
 export class Empresa extends Entidad<EmpresaProps> {

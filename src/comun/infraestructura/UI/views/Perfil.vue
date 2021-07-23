@@ -45,7 +45,6 @@
                 </v-row>
                 <v-row class="justify-center">
                     <v-textarea
-                    
                         label="Ingrese los requisitos especiales que requiere de los empleados (campo opcional)"
                         hint="Los requisitos especiales no deberían ser mayores a 256 caracteres"
                         :rules="[(v) => !!v || 'Este campo es obligatorio']"
@@ -140,23 +139,24 @@
             <v-row class="justify-center">
                 <v-col cols="12" sm="10" md="10" lg="10" xl="10">
                     <v-card>
-                        
                         <v-row class="justify-center">
-                            <v-col cols="12" sm="1" md="1" lg="1" xl="1"> </v-col>
+                            <v-col cols="12" sm="1" md="1" lg="1" xl="1">
+                            </v-col>
                             <v-col cols="12" sm="4" md="4" lg="4" xl="4">
                                 <v-row class="justify-center">
                                     <v-select
-                                        v-model="uuidHabilidad"
+                                        v-model="uuid"
                                         :items="listaHabilidades"
-                                        item-text="nombreHabilidad"
-                                        item-value="uuidHabilidad"
+                                        item-text="nombre"
+                                        item-value="uuid"
                                         label="Lista de habilidades"
                                         required
                                         id="inpt-habilidad"
                                     ></v-select>
                                 </v-row>
                             </v-col>
-                            <v-col cols="12" sm="2" md="2" lg="2" xl="2"> </v-col>
+                            <v-col cols="12" sm="2" md="2" lg="2" xl="2">
+                            </v-col>
                             <v-col cols="12" sm="4" md="4" lg="4" xl="4">
                                 <v-row class="justify-center">
                                     <v-btn
@@ -165,12 +165,15 @@
                                         v-on:click="agregarHabilidad"
                                         block
                                     >
-                                    <v-icon dark> mdi-checkbox-marked-circle </v-icon>
+                                        <v-icon dark>
+                                            mdi-checkbox-marked-circle
+                                        </v-icon>
                                         Agregar habilidad a la tabla
                                     </v-btn>
                                 </v-row>
                             </v-col>
-                            <v-col cols="12" sm="1" md="1" lg="1" xl="1"> </v-col>
+                            <v-col cols="12" sm="1" md="1" lg="1" xl="1">
+                            </v-col>
                         </v-row>
 
                         <v-card-title>
@@ -187,16 +190,18 @@
                         >
                             <template v-slot:item="row">
                                 <tr>
-                                    <td>{{ row.item.nombreHabilidad }}</td>
-                                    <td>{{ row.item.categoriaHabilidad }}</td>
+                                    <td>{{ row.item.nombre }}</td>
+                                    <td>{{ row.item.categoria }}</td>
                                     <td>
                                         <v-btn
                                             x-small
                                             color="red"
-                                            v-on:click="quitarHabilidad(row.item.uuidHabilidad)"
+                                            v-on:click="
+                                                quitarHabilidad(row.item.uuid)
+                                            "
                                             block
                                         >
-                                        <v-icon dark> mdi-cancel </v-icon>
+                                            <v-icon dark> mdi-cancel </v-icon>
                                             eliminar
                                         </v-btn>
                                     </td>
@@ -257,26 +262,26 @@ export default Vue.extend({
             paises: [] as PaisDTO[],
             estados: [] as EstadoDTO[],
             ciudades: [] as CiudadDTO[],
-            
+
             headersTableHabilidades: [
-                { text: "Nombre", value: "nombreHabilidad" },
-                { text: "Categoría", value: "categoriaHabilidad" },
+                { text: "Nombre", value: "nombre" },
+                { text: "Categoría", value: "categoria" },
                 { text: "Acciones", value: "acciones" },
             ],
             habilidadesEmpresa: [] as HabilidadDTO[],
             listaHabilidades: [
                 {
-                    uuidHabilidad: "1",
-                    nombreHabilidad: "habilidad1",
-                    categoriaHabilidad: "cat1"
+                    uuid: "1",
+                    nombre: "habilidad1",
+                    categoria: "cat1",
                 },
                 {
-                    uuidHabilidad: "2",
-                    nombreHabilidad: "habilidad2",
-                    categoriaHabilidad: "cat2"
-                }
+                    uuid: "2",
+                    nombre: "habilidad2",
+                    categoria: "cat2",
+                },
             ] as HabilidadDTO[],
-            uuidHabilidad: "",
+            uuid: "",
 
             //Para el manejo del mensaje de éxito
             mensajeExito: "",
@@ -451,16 +456,16 @@ export default Vue.extend({
                 });
         },
         agregarHabilidad() {
-            for(let i = 0; i < this.listaHabilidades.length; i++){
-                if(this.listaHabilidades[i].uuidHabilidad == this.uuidHabilidad) {
+            for (let i = 0; i < this.listaHabilidades.length; i++) {
+                if (this.listaHabilidades[i].uuid == this.uuid) {
                     this.habilidadesEmpresa.push(this.listaHabilidades[i]);
                     break;
                 }
             }
         },
-        quitarHabilidad(uuidHab:string) {
-            for(let i = 0; i < this.habilidadesEmpresa.length; i++){
-                if(this.habilidadesEmpresa[i].uuidHabilidad == uuidHab) {
+        quitarHabilidad(uuidHab: string) {
+            for (let i = 0; i < this.habilidadesEmpresa.length; i++) {
+                if (this.habilidadesEmpresa[i].uuid == uuidHab) {
                     this.habilidadesEmpresa.splice(i, 1);
                     break;
                 }

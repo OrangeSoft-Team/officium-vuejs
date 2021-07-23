@@ -6,7 +6,7 @@ export interface NombreProps {
     nombre: string;
 }
 
-export class NombreHabilidad extends ValueObject<NombreProps> {
+export class nombreHabilidad extends ValueObject<NombreProps> {
     private constructor(props: NombreProps) {
         super(props);
     }
@@ -15,11 +15,11 @@ export class NombreHabilidad extends ValueObject<NombreProps> {
         return this.props.nombre;
     }
 
-    public static crear(nombre: string): Resultado<NombreHabilidad> {
+    public static crear(nombre: string): Resultado<nombreHabilidad> {
         //Valor tamaño del nombre
         if (!(nombre.length >= 4 && nombre.length <= 64))
             return Resultado.falla<any>(NOMBRE_HABILIDAD_LONGITUD_NO_VALIDA);
 
-        return Resultado.ok<NombreHabilidad>(new NombreHabilidad({ nombre }));
+        return Resultado.ok<nombreHabilidad>(new nombreHabilidad({ nombre }));
     }
 }

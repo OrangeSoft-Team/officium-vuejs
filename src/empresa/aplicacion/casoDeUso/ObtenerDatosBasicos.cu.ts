@@ -4,13 +4,8 @@ import { CasoUso } from "../../../comun/aplicacion/casoUso";
 import { Resultado } from "../../../comun/dominio/resultado";
 import { DatosBasicosEmpresaDTO } from "../dto/DatosBasicosEmpresaDTO";
 
-export interface SolicitudDatosBasicosDTO {
-    idEmpresa: string;
-}
-
 export class obtenerDatosBasicos
-    implements
-        CasoUso<SolicitudDatosBasicosDTO, Resultado<DatosBasicosEmpresaDTO>>
+    implements CasoUso<null, Resultado<DatosBasicosEmpresaDTO>>
 {
     //Repositorio
     private RepoEmpresa: IEmpresaRepo;

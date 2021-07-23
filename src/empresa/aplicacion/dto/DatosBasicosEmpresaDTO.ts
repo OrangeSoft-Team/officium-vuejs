@@ -13,5 +13,5 @@ export interface DatosBasicosEmpresaDTO {
     uuidPais: string;
     uuidEstado: string;
     uuidCiudad: string;
-    //habilidad: HabilidadDTO[]
+    habilidad: HabilidadDTO[];
 }

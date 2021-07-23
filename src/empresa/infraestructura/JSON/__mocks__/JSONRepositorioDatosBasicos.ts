@@ -3,7 +3,6 @@ import {
     OPERACION_EXITOSA,
 } from "../../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 import { Resultado } from "../../../../comun/dominio/resultado";
-import { SolicitudDatosBasicosDTO } from "../../../aplicacion/casoDeUso/ObtenerDatosBasicos.cu";
 import { DatosBasicosEmpresaDTO } from "../../../aplicacion/dto/DatosBasicosEmpresaDTO";
 import { IEmpresaRepo } from "../../../aplicacion/IEmpresa.repositorio";
 import { DATOS_BASICOS_EMPRESA_VALIDOS } from "../RespuestasDatosBasicos";

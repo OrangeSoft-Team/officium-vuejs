@@ -42,13 +42,11 @@ export class DatosBasicosMapeador {
         if (ciudadOrError.esFallido)
             return Resultado.falla<any>(ciudadOrError.error);
 
-        /*
-        let habilidadesOrError = HabilidadMapeador.aDominioConjunto({
-            dtos: dto.habilidad
-        });
-        if (ciudadOrError.esFallido)
-            return Resultado.falla<any>(ciudadOrError.error);
-        */
+        let habilidadesOrError = HabilidadMapeador.aDominioConjunto(
+            dto.habilidad
+        );
+        if (habilidadesOrError.esFallido)
+            return Resultado.falla<any>(habilidadesOrError.error);
 
         //Entidad direccion
         let direccionDTO: DireccionDTO = {
@@ -69,6 +67,7 @@ export class DatosBasicosMapeador {
             pais: paisOrError.getValue(),
             estado: estadoOrError.getValue(),
             ciudad: ciudadOrError.getValue(),
+            habilidades: habilidadesOrError.getValue(),
         };
 
         let idEmpresaOrError: Resultado<Identificador>;
@@ -112,6 +111,13 @@ export class DatosBasicosMapeador {
     }
 
     public static aDTO(entidad: Empresa): Resultado<DatosBasicosEmpresaDTO> {
+        //Transformacion de habilidad
+        const habilidadesOrError = HabilidadMapeador.aDTOConjunto(
+            entidad.props.habilidades
+        );
+        if (habilidadesOrError.esFallido)
+            return Resultado.falla<any>(habilidadesOrError.error);
+
         //Extraemos valores de la entidad
         let propsDTO: DatosBasicosEmpresaDTO = {
             nombreEmpresa: entidad.props.nombre.valor(),
@@ -121,6 +127,7 @@ export class DatosBasicosMapeador {
             uuidPais: entidad.props.pais.props.idPais.valor(),
             uuidEstado: entidad.props.estado.props.idEstado.valor(),
             uuidCiudad: entidad.props.ciudad.props.idCiudad.valor(),
+            habilidad: habilidadesOrError.getValue(),
         };
 
         //Opcionales

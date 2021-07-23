@@ -2,24 +2,26 @@ import { Resultado } from "../resultado";
 import { ValueObject } from "../valueObject";
 import { CATEGORIA_HABILIDAD_LONGITUD_NO_VALIDA } from "../excepciones/categoriaHabilidad.excepcion";
 
-export interface NombreProps {
-    nombre: string;
+export interface CategoriaProps {
+    categoria: string;
 }
 
-export class CategoriaHabilidad extends ValueObject<NombreProps> {
-    private constructor(props: NombreProps) {
+export class categoriaHabilidad extends ValueObject<CategoriaProps> {
+    private constructor(props: CategoriaProps) {
         super(props);
     }
 
     public valor(): string {
-        return this.props.nombre;
+        return this.props.categoria;
     }
 
-    public static crear(nombre: string): Resultado<CategoriaHabilidad> {
-        //Valor tamaño del nombre
-        if (!(nombre.length >= 4 && nombre.length <= 64))
+    public static crear(categoria: string): Resultado<categoriaHabilidad> {
+        //Valor tamaño del categoria
+        if (!(categoria.length >= 4 && categoria.length <= 64))
             return Resultado.falla<any>(CATEGORIA_HABILIDAD_LONGITUD_NO_VALIDA);
 
-        return Resultado.ok<CategoriaHabilidad>(new CategoriaHabilidad({ nombre }));
+        return Resultado.ok<categoriaHabilidad>(
+            new categoriaHabilidad({ categoria })
+        );
     }
 }
