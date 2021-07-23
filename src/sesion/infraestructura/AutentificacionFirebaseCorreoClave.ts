@@ -9,6 +9,7 @@ import { Resultado } from "../../comun/dominio/resultado";
 import { CLAVE_SESION_USUARIO } from "../../comun/infraestructura/persistencia/ClavesLocalStorage";
 import { DatosInicioSesionDTO } from "../aplicacion/casoDeUso/IniciarSesionCorreoClave.cu";
 import { RespuestaAutentifiacionDTO } from "../aplicacion/dto/RespuestaAutentificacionDTO";
+import { RestablecerContrasenaDTO } from "../aplicacion/dto/RestablecerContrasenaDTO";
 import { IServicioAutentificacion } from "../aplicacion/IServicioAutentificacion";
 import {
     COMBINACION_INCORRECTA,
@@ -55,6 +56,8 @@ export class AutentificacionFirebaseCorreoClave
 
                     if (error.code == "auth/wrong-password")
                         resolve(Resultado.falla<any>(COMBINACION_INCORRECTA));
+
+                    reject(Resultado.falla<any>(error));
                 });
         });
     }
@@ -80,6 +83,29 @@ export class AutentificacionFirebaseCorreoClave
                 .catch((error) => {
                     console.log("[ERROR FB]", error);
                     resolve(Resultado.falla<any>(OPERACION_FALLIDA));
+                });
+        });
+    }
+
+    restablecerContrasena(
+        credencialPrincipal: RestablecerContrasenaDTO
+    ): Promise<Resultado<OperacionExitosaDTO>> {
+        return new Promise((resolve, reject) => {
+            firebase
+                .auth()
+                .sendPasswordResetEmail(credencialPrincipal.email)
+                .then(() => {
+                    resolve(
+                        Resultado.ok<OperacionExitosaDTO>({
+                            mensaje: OPERACION_EXITOSA,
+                        })
+                    );
+                })
+                .catch((error) => {
+                    if (error.code == "auth/user-not-found")
+                        resolve(Resultado.falla<any>(USUARIO_NO_EXISTE));
+
+                    reject(Resultado.falla<any>(error));
                 });
         });
     }
