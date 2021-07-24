@@ -11,3 +11,12 @@ export interface OfertaLaboralEmpresaDTO {
     descripcion?: string;
     estado?: string;
 }
+
+export interface OfertaLaboralTrabajoDTO {
+    titulo: string;
+    cargo: string;
+    duracionEstimadaValor?: number;
+    duracionEstimadaEscala?: string;
+    turnoTrabajo?: string;
+    descripcion?: string;
+}

@@ -16,10 +16,10 @@ export interface OfertaLaboralProps {
     titulo: TituloOferta;
     fechaPublicacion?: Fecha;
     cargo: CargoOferta;
-    sueldo: SueldoOferta;
-    duracionEstimada: DuracionEstimadaOferta;
-    turnoTrabajo: TurnoTrabajo;
-    numeroVacantes: NumeroVacantesOferta;
+    sueldo?: SueldoOferta;
+    duracionEstimada?: DuracionEstimadaOferta;
+    turnoTrabajo?: TurnoTrabajo;
+    numeroVacantes?: NumeroVacantesOferta;
     descripcion?: DescripcionOferta;
     estado?: EstadoOferta;
 }
