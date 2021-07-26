@@ -7,48 +7,61 @@ import { HabilidadDTO } from "../dtos/HabilidadDTO";
 
 export class HabilidadMapeador {
     public static aDominio(dto: HabilidadDTO): Resultado<Habilidad> {
-        let nombreOrError = nombreHabilidad.crear(dto.nombre);
-        if (nombreOrError.esFallido)
-            return Resultado.falla<any>(nombreOrError.error);
-
-        let categoriaOrError = categoriaHabilidad.crear(dto.categoria);
-        if (categoriaOrError.esFallido)
-            return Resultado.falla<any>(categoriaOrError.error);
+        const idHabilidadOrError = Identificador.crear(dto.uuid);
+        if (idHabilidadOrError.esFallido)
+            return Resultado.falla<any>(idHabilidadOrError.error);
 
         //Propiedades de la entidad
-        let paisProps: HabilidadProps = {
-            nombre: nombreOrError.getValue(),
-            categoria: categoriaOrError.getValue(),
+        let habilidadProps: HabilidadProps = {
+            idHabilidad: idHabilidadOrError.getValue(),
         };
 
-        //Opcional
-        let idHabilidadOrError: Resultado<Identificador>;
-        if (dto.hasOwnProperty("uuid") && dto.uuid != undefined) {
-            idHabilidadOrError = Identificador.crear(dto.uuid);
-            if (idHabilidadOrError.esFallido)
-                return Resultado.falla<any>(idHabilidadOrError.error);
+        //Opcionales
+        let nombreOrError: Resultado<nombreHabilidad>;
+        if (dto.hasOwnProperty("nombre") && dto.nombre != undefined) {
+            nombreOrError = nombreHabilidad.crear(dto.nombre);
+            if (nombreOrError.esFallido)
+                return Resultado.falla<any>(nombreOrError.error);
 
             //Agregamos al ser valido
-            paisProps.idHabilidad = idHabilidadOrError.getValue();
+            habilidadProps.nombre = nombreOrError.getValue();
+        }
+
+        let categoriaOrError: Resultado<categoriaHabilidad>;
+        if (dto.hasOwnProperty("categoria") && dto.categoria != undefined) {
+            categoriaOrError = categoriaHabilidad.crear(dto.categoria);
+            if (categoriaOrError.esFallido)
+                return Resultado.falla<any>(categoriaOrError.error);
+
+            //Agregamos al ser valido
+            habilidadProps.categoria = categoriaOrError.getValue();
         }
 
         //Devolvemos entidad
-        return Resultado.ok<Habilidad>(Habilidad.crear(paisProps).getValue());
+        return Resultado.ok<Habilidad>(
+            Habilidad.crear(habilidadProps).getValue()
+        );
     }
 
     public static aDTO(entidad: Habilidad): Resultado<HabilidadDTO> {
         //Extraemos valores de la entidad
         let propsDTO: HabilidadDTO = {
-            nombre: entidad.props.nombre.valor(),
-            categoria: entidad.props.categoria.valor(),
+            uuid: entidad.props.idHabilidad.valor(),
         };
 
         //Opcionales
         if (
-            entidad.props.hasOwnProperty("idHabilidad") &&
-            entidad.props.idHabilidad != undefined
+            entidad.props.hasOwnProperty("nombre") &&
+            entidad.props.nombre != undefined
         ) {
-            propsDTO.uuid = entidad.props.idHabilidad.valor();
+            propsDTO.nombre = entidad.props.nombre.valor();
+        }
+
+        if (
+            entidad.props.hasOwnProperty("categoria") &&
+            entidad.props.categoria != undefined
+        ) {
+            propsDTO.categoria = entidad.props.categoria.valor();
         }
 
         return Resultado.ok<HabilidadDTO>(propsDTO);
