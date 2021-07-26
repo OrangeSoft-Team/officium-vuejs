@@ -1,5 +1,8 @@
 import { CiudadDTO } from "../../aplicacion/dto.geografico/CiudadDTO";
-import { IServicioCiudad } from "../../aplicacion/IServicioCiudad";
+import {
+    IServicioCiudad,
+    SolicitudCiudadUnicaDTO,
+} from "../../aplicacion/IServicioCiudad";
 import { SolicitudCiudadDTO } from "../../aplicacion/casosDeUso.geografico/ObtenerCiudades.cu";
 import { Resultado } from "../../dominio/resultado";
 import {
@@ -13,6 +16,21 @@ import {
 import { OPERACION_FALLIDA } from "../../aplicacion/dto.respuestaOperaciones/OperacionFallida";
 
 export class JSONCiudadServicio implements IServicioCiudad {
+    obtenerCiudad(solicitud: SolicitudCiudadUnicaDTO): Resultado<CiudadDTO> {
+        const respuestaCiudades: Resultado<CiudadDTO[]> = this.obtenerCiudades({
+            idEstado: solicitud.idEstado,
+        });
+        if (respuestaCiudades.esFallido)
+            return Resultado.falla<any>(respuestaCiudades.error);
+
+        for (let ciudad of respuestaCiudades.getValue()) {
+            if (ciudad.uuidCiudad == solicitud.idCiudad) {
+                return Resultado.ok<CiudadDTO>(ciudad);
+            }
+        }
+
+        return Resultado.falla<any>(OPERACION_FALLIDA);
+    }
     obtenerCiudades(id: SolicitudCiudadDTO): Resultado<CiudadDTO[]> {
         //let DATOS_RESPUESTA: CiudadDTO[] = [];
 
