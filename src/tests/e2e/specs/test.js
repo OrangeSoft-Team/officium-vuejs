@@ -20,6 +20,18 @@ const OFERTA_LABORAL = {
 };
 
 module.exports = {
+    "[Aceptación] Iniciar sesión con credenciales básicas": (browser) => {
+        //Inicio de sesión
+        browser
+            .init()
+            .waitForElementVisible("#app")
+            .waitForElementVisible("#btn-login")
+            .setValue("#text-correo", CREDENCIALES_PRUEBA.correoElectronico)
+            .setValue("#text-contrasena", CREDENCIALES_PRUEBA.contrasena)
+            .click("#btn-login");
+        //Dashboard
+        browser.pause(3000).waitForElementVisible("#app").end();
+    },
     "[Aceptación] Crear oferta laboral": (browser) => {
         //Inicio de sesión
         browser
