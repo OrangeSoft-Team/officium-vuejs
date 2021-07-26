@@ -22,10 +22,6 @@ export class DatosBasicosMapeador {
         if (nombreOrError.esFallido)
             return Resultado.falla<any>(nombreOrError.error);
 
-        let correoOrError = Correo.crear(dto.correoElectronico);
-        if (correoOrError.esFallido)
-            return Resultado.falla<any>(correoOrError.error);
-
         let paisOrError = PaisMapeador.aDominio({ uuidPais: dto.uuidPais });
         if (paisOrError.esFallido)
             return Resultado.falla<any>(paisOrError.error);
@@ -62,7 +58,6 @@ export class DatosBasicosMapeador {
 
         const empresaProps: EmpresaProps = {
             nombre: nombreOrError.getValue(),
-            correoElectronico: correoOrError.getValue(),
             direccion: direccionOrError.getValue(),
             pais: paisOrError.getValue(),
             estado: estadoOrError.getValue(),
@@ -78,6 +73,19 @@ export class DatosBasicosMapeador {
 
             //Agregamos al ser valido
             empresaProps.idEmpresa = idEmpresaOrError.getValue();
+        }
+
+        let correoOrError: Resultado<Correo>;
+        if (
+            dto.hasOwnProperty("correoElectronico") &&
+            dto.correoElectronico != undefined
+        ) {
+            correoOrError = Correo.crear(dto.correoElectronico);
+            if (correoOrError.esFallido)
+                return Resultado.falla<any>(correoOrError.error);
+
+            //Agregamos al ser valido
+            empresaProps.correoElectronico = correoOrError.getValue();
         }
 
         let reqEspecialesOrError: Resultado<requisitosEspeciales>;
@@ -121,7 +129,6 @@ export class DatosBasicosMapeador {
         //Extraemos valores de la entidad
         let propsDTO: DatosBasicosEmpresaDTO = {
             nombreEmpresa: entidad.props.nombre.valor(),
-            correoElectronico: entidad.props.correoElectronico.valor(),
             calleUno: entidad.props.direccion.props.calleUno.valor(),
             codigoPostal: entidad.props.direccion.props.codigoPostal.valor(),
             uuidPais: entidad.props.pais.props.idPais.valor(),
@@ -136,6 +143,13 @@ export class DatosBasicosMapeador {
             entidad.props.idEmpresa != undefined
         ) {
             propsDTO.uuidEmpresa = entidad.props.idEmpresa.valor();
+        }
+        if (
+            entidad.props.hasOwnProperty("correoElectronico") &&
+            entidad.props.correoElectronico != undefined
+        ) {
+            propsDTO.correoElectronico =
+                entidad.props.correoElectronico.valor();
         }
         if (
             entidad.props.hasOwnProperty("requisitosEspeciales") &&

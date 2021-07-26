@@ -5,9 +5,9 @@ import { nombreHabilidad } from "../valueObjects/nombreHabilidad";
 import { categoriaHabilidad } from "../valueObjects/categoriaHabilidad";
 
 export interface HabilidadProps {
-    idHabilidad?: Identificador;
-    nombre: nombreHabilidad;
-    categoria: categoriaHabilidad;
+    idHabilidad: Identificador;
+    nombre?: nombreHabilidad;
+    categoria?: categoriaHabilidad;
 }
 
 export class Habilidad extends Entidad<HabilidadProps> {

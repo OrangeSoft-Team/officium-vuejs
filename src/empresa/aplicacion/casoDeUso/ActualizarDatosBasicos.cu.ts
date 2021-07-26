@@ -7,9 +7,7 @@ import { Direccion } from "../../../comun/dominio/entidades/Direccion";
 import { HabilidadDTO } from "../../../comun/aplicacion/dtos/HabilidadDTO";
 
 export interface SolicitudActualizarDatosBasicosDTO {
-    uuidEmpresa?: string;
     nombreEmpresa: string;
-    correoElectronico: string;
     calleUno: string;
     calleDos?: string;
     codigoPostal: string;

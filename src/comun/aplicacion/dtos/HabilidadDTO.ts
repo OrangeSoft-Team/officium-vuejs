@@ -1,5 +1,5 @@
 export interface HabilidadDTO {
-    uuid?: string;
-    nombre: string;
-    categoria: string;
+    uuid: string;
+    nombre?: string;
+    categoria?: string;
 }
