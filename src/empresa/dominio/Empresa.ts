@@ -15,7 +15,7 @@ import { Direccion } from "../../comun/dominio/entidades/Direccion";
 export interface EmpresaProps {
     idEmpresa?: Identificador;
     nombre: NombreEmpresa;
-    correoElectronico: Correo;
+    correoElectronico?: Correo;
     requisitosEspeciales?: requisitosEspeciales;
     direccion: Direccion;
     //calleUno: DireccionCalle;
