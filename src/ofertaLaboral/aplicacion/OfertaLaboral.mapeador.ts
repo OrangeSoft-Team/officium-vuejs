@@ -10,7 +10,10 @@ import { NumeroVacantesOferta } from "../dominio/valueObjects/numeroVacantesOfer
 import { SueldoOferta } from "../dominio/valueObjects/sueldoOferta";
 import { TituloOferta } from "../dominio/valueObjects/tituloOferta";
 import { TurnoTrabajo } from "../dominio/valueObjects/turnoTrabajoOferta";
-import { OfertaLaboralEmpresaDTO } from "./dto/OfertaLaboralEmpresaDTO";
+import {
+    OfertaLaboralEmpresaDTO,
+    OfertaLaboralTrabajoDTO,
+} from "./dto/OfertaLaboralEmpresaDTO";
 
 export class OfertasLaboralesMapeador {
     public static aDominio(
@@ -106,13 +109,15 @@ export class OfertasLaboralesMapeador {
         let propsDTO: OfertaLaboralEmpresaDTO = {
             titulo: entidad.props.titulo.valor(),
             cargo: entidad.props.cargo.valor(),
-            sueldo: entidad.props.sueldo.valor(),
-            duracionEstimadaEscala:
-                entidad.props.duracionEstimada.valor().escala,
-            duracionEstimadaValor:
-                entidad.props.duracionEstimada.valor().duracion,
-            turnoTrabajo: entidad.props.turnoTrabajo.valor(),
-            numeroVacantes: entidad.props.numeroVacantes.valor(),
+            sueldo: <number>entidad.props.sueldo!!.valor(),
+            duracionEstimadaEscala: <string>(
+                entidad.props.duracionEstimada!.valor().escala
+            ),
+            duracionEstimadaValor: <number>(
+                entidad.props.duracionEstimada!.valor().duracion
+            ),
+            turnoTrabajo: <string>entidad.props.turnoTrabajo!.valor(),
+            numeroVacantes: <number>entidad.props.numeroVacantes!.valor(),
         };
 
         //Opcionales
@@ -184,5 +189,98 @@ export class OfertasLaboralesMapeador {
         return Resultado.ok<OfertaLaboralEmpresaDTO[]>(
             arrayOfertasLaboralesDTO
         );
+    }
+
+    public static aDominioParaTrabajo(
+        dto: OfertaLaboralTrabajoDTO
+    ): Resultado<OfertaLaboral> {
+        //Value Objects principales
+        let tituloOrError = TituloOferta.crear(dto.titulo);
+        if (tituloOrError.esFallido)
+            return Resultado.falla<any>(tituloOrError.error);
+
+        let cargoOrError = CargoOferta.crear(dto.cargo);
+        if (cargoOrError.esFallido)
+            return Resultado.falla<any>(cargoOrError.error);
+
+        //Propiedades de entidad
+        let ofertaProps: OfertaLaboralProps = {
+            titulo: tituloOrError.getValue(),
+            cargo: cargoOrError.getValue(),
+            //duracionEstimada: duracionEstimadaOrError.getValue(),
+            //turnoTrabajo: turnoTrabajoOrError.getValue(),
+        };
+
+        //Opcionales
+        let duracionEstimadaOrError: Resultado<DuracionEstimadaOferta>;
+        if (
+            dto.hasOwnProperty("duracionEstimadaValor") &&
+            dto.hasOwnProperty("duracionEstimadaEscala")
+        ) {
+            duracionEstimadaOrError = DuracionEstimadaOferta.crear(
+                <number>dto.duracionEstimadaValor,
+                <string>dto.duracionEstimadaEscala
+            );
+            if (duracionEstimadaOrError.esFallido)
+                return Resultado.falla<any>(duracionEstimadaOrError.error);
+            ofertaProps.duracionEstimada = duracionEstimadaOrError.getValue();
+        }
+
+        let turnoTrabajoOrError: Resultado<TurnoTrabajo>;
+        if (dto.hasOwnProperty("turnoTrabajo")) {
+            turnoTrabajoOrError = TurnoTrabajo.crear(<string>dto.turnoTrabajo);
+            if (turnoTrabajoOrError.esFallido)
+                return Resultado.falla<any>(turnoTrabajoOrError.error);
+            ofertaProps.turnoTrabajo = turnoTrabajoOrError.getValue();
+        }
+
+        let descripcionOrError: Resultado<DescripcionOferta>;
+        if (dto.hasOwnProperty("descripcion")) {
+            descripcionOrError = DescripcionOferta.crear(
+                <string>dto.descripcion
+            );
+            if (descripcionOrError.esFallido)
+                return Resultado.falla<any>(descripcionOrError.error);
+            ofertaProps.descripcion = descripcionOrError.getValue();
+        }
+
+        return Resultado.ok<OfertaLaboral>(
+            OfertaLaboral.crear(ofertaProps).getValue()
+        );
+    }
+
+    public static aDTOParaTrabajo(
+        entidad: OfertaLaboral
+    ): Resultado<OfertaLaboralTrabajoDTO> {
+        //Extraemos de entidad
+        let propsDTO: OfertaLaboralTrabajoDTO = {
+            titulo: entidad.props.titulo.valor(),
+            cargo: entidad.props.cargo.valor(),
+        };
+
+        //opcionales
+        if (
+            entidad.props.hasOwnProperty("duracionEstimada") &&
+            entidad.props.duracionEstimada != undefined
+        ) {
+            propsDTO.duracionEstimadaEscala =
+                entidad.props.duracionEstimada.valor().escala;
+            propsDTO.duracionEstimadaValor =
+                entidad.props.duracionEstimada.valor().duracion;
+        }
+
+        if (
+            entidad.props.hasOwnProperty("turnoTrabajo") &&
+            entidad.props.turnoTrabajo != undefined
+        )
+            propsDTO.turnoTrabajo = entidad.props.turnoTrabajo.valor();
+
+        if (
+            entidad.props.hasOwnProperty("descripcion") &&
+            entidad.props.descripcion != undefined
+        )
+            propsDTO.descripcion = entidad.props.descripcion.valor();
+
+        return Resultado.ok<OfertaLaboralTrabajoDTO>(propsDTO);
     }
 }
