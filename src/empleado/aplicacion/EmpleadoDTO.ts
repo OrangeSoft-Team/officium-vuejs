@@ -10,6 +10,9 @@ export interface EmpleadoDTO {
     uuidPais?: string;
     uuidEstado?: string;
     uuidCiudad?: string;
+    nombrePais?: string;
+    nombreEstado?: string;
+    nombreCiudad?: string;
     correoElectronico?: string;
     telefono?: string;
 }

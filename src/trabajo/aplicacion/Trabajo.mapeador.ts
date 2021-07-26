@@ -3,7 +3,10 @@ import { Fecha } from "../../comun/dominio/valueObjects/fecha";
 import { Identificador } from "../../comun/dominio/valueObjects/Identificador";
 import { Trabajo, TrabajoProps } from "../dominio/Trabajo";
 import { EstadoTrabajo } from "../dominio/valueObjects/estadoTrabajo";
-import { TrabajoEmpresaDTO } from "./dto/TrabajoEmpresaDTO";
+import {
+    TrabajoEmpresaDTO,
+    TrabajoEmpresaResumidoDTO,
+} from "./dto/TrabajoEmpresaDTO";
 import { OfertaLaboralTrabajoDTO } from "../../ofertaLaboral/aplicacion/dto/OfertaLaboralEmpresaDTO";
 import { OfertasLaboralesMapeador } from "../../ofertaLaboral/aplicacion/OfertaLaboral.mapeador";
 import { EmpleadoDTO } from "../../empleado/aplicacion/EmpleadoDTO";
@@ -289,6 +292,212 @@ export class TrabajoEmpresaMapeador {
         return Resultado.ok<TrabajoEmpresaDTO[]>(arrayTrabajos);
     }
 
+    public static aDTOResumido(
+        entidad: Trabajo
+    ): Resultado<TrabajoEmpresaResumidoDTO> {
+        //Nombre
+        let nombreCompleto = entidad.props.empleado.props.primerNombre.valor();
+        if (
+            entidad.props.empleado.props.hasOwnProperty("segundoNombre") &&
+            entidad.props.empleado.props.segundoNombre != undefined
+        ) {
+            nombreCompleto +=
+                " " + entidad.props.empleado.props.segundoNombre.valor();
+        }
+        nombreCompleto +=
+            " " + entidad.props.empleado.props.primerApellido.valor();
+
+        if (
+            entidad.props.empleado.props.hasOwnProperty("segundoApellido") &&
+            entidad.props.empleado.props.segundoApellido != undefined
+        ) {
+            nombreCompleto +=
+                " " + entidad.props.empleado.props.segundoApellido.valor();
+        }
+
+        //Extraemos de entidad
+        let propsDTO: TrabajoEmpresaResumidoDTO = {
+            titulo: entidad.props.ofertaLaboral.props.titulo.valor(),
+            fechaInicioTrabajo: entidad.props.fechaInicio.valor(),
+            nombreCompletoEmpleado: nombreCompleto,
+            cargo: entidad.props.ofertaLaboral.props.cargo.valor(),
+            estatus: entidad.props.estado.valor(),
+        };
+
+        //Opcionales
+        if (
+            entidad.props.hasOwnProperty("identificadorTrabajo") &&
+            entidad.props.identificadorTrabajo != undefined
+        ) {
+            propsDTO.uuid = entidad.props.identificadorTrabajo.valor();
+        }
+
+        if (
+            entidad.props.empleado.props.hasOwnProperty(
+                "identificadorEmpleado"
+            ) &&
+            entidad.props.empleado.props.identificadorEmpleado != undefined
+        ) {
+            propsDTO.uuidEmpleado =
+                entidad.props.empleado.props.identificadorEmpleado.valor();
+        }
+
+        if (
+            entidad.props.empleado.props.hasOwnProperty("direccion") &&
+            entidad.props.empleado.props.direccion != undefined
+        ) {
+            let direccionCompleta = "";
+            if (
+                entidad.props.empleado.props.direccion.props.hasOwnProperty(
+                    "calleUno"
+                ) &&
+                entidad.props.empleado.props.direccion != undefined
+            ) {
+                direccionCompleta +=
+                    entidad.props.empleado.props.direccion.props.calleUno.valor();
+            }
+
+            if (
+                entidad.props.empleado.props.direccion.props.hasOwnProperty(
+                    "calleDos"
+                ) &&
+                entidad.props.empleado.props.direccion.props.calleDos !=
+                    undefined
+            ) {
+                direccionCompleta +=
+                    " " +
+                    entidad.props.empleado.props.direccion.props.calleDos.valor();
+            }
+
+            if (
+                entidad.props.empleado.props.direccion.props.hasOwnProperty(
+                    "codigoPostal"
+                ) &&
+                entidad.props.empleado.props.direccion.props.codigoPostal !=
+                    undefined
+            ) {
+                direccionCompleta +=
+                    " " +
+                    "(" +
+                    entidad.props.empleado.props.direccion.props.codigoPostal.valor() +
+                    ")";
+            }
+
+            propsDTO.direccionEmpleado = direccionCompleta;
+        }
+
+        if (
+            entidad.props.empleado.props.hasOwnProperty("pais") &&
+            entidad.props.empleado.props.pais != undefined &&
+            entidad.props.empleado.props.pais.props.hasOwnProperty(
+                "nombrePais"
+            ) &&
+            entidad.props.empleado.props.pais.props.nombrePais != undefined
+        ) {
+            propsDTO.nombrePais =
+                entidad.props.empleado.props.pais.props.nombrePais.valor();
+        }
+
+        if (
+            entidad.props.empleado.props.hasOwnProperty("estado") &&
+            entidad.props.empleado.props.estado != undefined &&
+            entidad.props.empleado.props.estado.props.hasOwnProperty(
+                "nombreEstado"
+            ) &&
+            entidad.props.empleado.props.estado.props.nombreEstado != undefined
+        ) {
+            propsDTO.nombreEstado =
+                entidad.props.empleado.props.estado.props.nombreEstado.valor();
+        }
+
+        if (
+            entidad.props.empleado.props.hasOwnProperty("ciudad") &&
+            entidad.props.empleado.props.ciudad != undefined &&
+            entidad.props.empleado.props.ciudad.props.hasOwnProperty(
+                "nombreCiudad"
+            ) &&
+            entidad.props.empleado.props.ciudad.props.nombreCiudad != undefined
+        ) {
+            propsDTO.nombreCiudad =
+                entidad.props.empleado.props.ciudad.props.nombreCiudad.valor();
+        }
+
+        if (
+            entidad.props.empleado.props.hasOwnProperty("telefono") &&
+            entidad.props.empleado.props.telefono != undefined
+        ) {
+            propsDTO.numeroTelefonicoEmpleadoEmpleado =
+                entidad.props.empleado.props.telefono.valor();
+        }
+
+        if (
+            entidad.props.empleado.props.hasOwnProperty("correoElectronico") &&
+            entidad.props.empleado.props.correoElectronico != undefined
+        ) {
+            propsDTO.correoElectronicoEmpleado =
+                entidad.props.empleado.props.correoElectronico.valor();
+        }
+
+        if (
+            entidad.props.ofertaLaboral.props.hasOwnProperty("descripcion") &&
+            entidad.props.ofertaLaboral.props.descripcion != undefined
+        ) {
+            propsDTO.descripcion =
+                entidad.props.ofertaLaboral.props.descripcion.valor();
+        }
+
+        if (
+            entidad.props.ofertaLaboral.props.hasOwnProperty(
+                "duracionEstimada"
+            ) &&
+            entidad.props.ofertaLaboral.props.duracionEstimada != undefined
+        ) {
+            propsDTO.valorDuracion =
+                entidad.props.ofertaLaboral.props.duracionEstimada.valor().duracion;
+            propsDTO.escalaDuracion =
+                entidad.props.ofertaLaboral.props.duracionEstimada.valor().escala;
+        }
+
+        if (
+            entidad.props.ofertaLaboral.props.hasOwnProperty("turnoTrabajo") &&
+            entidad.props.ofertaLaboral.props.turnoTrabajo != undefined
+        ) {
+            propsDTO.turnoTrabajo =
+                entidad.props.ofertaLaboral.props.turnoTrabajo.valor();
+        }
+
+        if (
+            entidad.props.hasOwnProperty("fechaCulminacion") &&
+            entidad.props.fechaCulminacion != undefined
+        ) {
+            propsDTO.fechaCulminacionTrabajo =
+                entidad.props.fechaCulminacion.valor();
+        }
+
+        return Resultado.ok<TrabajoEmpresaResumidoDTO>(propsDTO);
+    }
+
+    public static aDTOConjuntoResumido(
+        entidades: Trabajo[]
+    ): Resultado<TrabajoEmpresaResumidoDTO[]> {
+        //Convertimos a dominio array
+        let arrayTrabajos: TrabajoEmpresaResumidoDTO[] = [];
+
+        for (let trabajo of entidades) {
+            let trabajoEntidadOrError =
+                TrabajoEmpresaMapeador.aDTOResumido(trabajo);
+            //En caso de fallo
+            if (trabajoEntidadOrError.esFallido) {
+                return Resultado.falla<any>(trabajoEntidadOrError.error);
+            }
+
+            //En caso de ser valido
+            arrayTrabajos.push(trabajoEntidadOrError.getValue());
+        }
+
+        return Resultado.ok<TrabajoEmpresaResumidoDTO[]>(arrayTrabajos);
+    }
+
     private static prepararDominioOfertaLaboral(
         dto: TrabajoEmpresaDTO
     ): Resultado<OfertaLaboralTrabajoDTO> {
@@ -361,6 +570,18 @@ export class TrabajoEmpresaMapeador {
 
         if (dto.hasOwnProperty("uuidCiudad")) {
             empleadoProps.uuidCiudad = dto.uuidCiudad;
+        }
+
+        if (dto.hasOwnProperty("nombrePais")) {
+            empleadoProps.nombrePais = dto.nombrePais;
+        }
+
+        if (dto.hasOwnProperty("nombreEstado")) {
+            empleadoProps.nombreEstado = dto.nombreEstado;
+        }
+
+        if (dto.hasOwnProperty("nombreCiudad")) {
+            empleadoProps.nombreCiudad = dto.nombreCiudad;
         }
 
         if (dto.hasOwnProperty("correoElectronicoEmpleado")) {

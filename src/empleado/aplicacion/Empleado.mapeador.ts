@@ -17,6 +17,9 @@ import { Direccion } from "../../comun/dominio/entidades/Direccion";
 import { Pais } from "../../comun/dominio/entidades/Pais";
 import { Estado } from "../../comun/dominio/entidades/Estado";
 import { Ciudad } from "../../comun/dominio/entidades/Ciudad";
+import { PaisDTO } from "../../comun/aplicacion/dto.geografico/PaisDTO";
+import { EstadoDTO } from "../../comun/aplicacion/dto.geografico/EstadoDTO";
+import { CiudadDTO } from "../../comun/aplicacion/dto.geografico/CiudadDTO";
 
 export class EmpleadoMapeador {
     public static aDominio(dto: EmpleadoDTO): Resultado<Empleado> {
@@ -93,7 +96,11 @@ export class EmpleadoMapeador {
 
         let paisOrError: Resultado<Pais>;
         if (dto.hasOwnProperty("uuidPais") && dto.uuidPais != undefined) {
-            paisOrError = PaisMapeador.aDominio({ uuidPais: dto.uuidPais });
+            let paisDTO: PaisDTO = { uuidPais: dto.uuidPais };
+            if (dto.hasOwnProperty("nombrePais") && dto.nombrePais != undefined)
+                paisDTO.nombrePais = dto.nombrePais;
+
+            paisOrError = PaisMapeador.aDominio(paisDTO);
             if (paisOrError.esFallido)
                 return Resultado.falla<any>(paisOrError.error);
 
@@ -103,9 +110,16 @@ export class EmpleadoMapeador {
 
         let estadoOrError: Resultado<Estado>;
         if (dto.hasOwnProperty("uuidEstado") && dto.uuidEstado != undefined) {
-            estadoOrError = EstadoMapeador.aDominio({
+            let estadoDTO: EstadoDTO = {
                 uuidEstado: dto.uuidEstado,
-            });
+            };
+            if (
+                dto.hasOwnProperty("nombreEstado") &&
+                dto.nombreEstado != undefined
+            )
+                estadoDTO.nombreEstado = dto.nombreEstado;
+
+            estadoOrError = EstadoMapeador.aDominio(estadoDTO);
             if (estadoOrError.esFallido)
                 return Resultado.falla<any>(estadoOrError.error);
 
@@ -115,9 +129,16 @@ export class EmpleadoMapeador {
 
         let ciudadOrError: Resultado<Ciudad>;
         if (dto.hasOwnProperty("uuidCiudad") && dto.uuidCiudad != undefined) {
-            ciudadOrError = CiudadMapeador.aDominio({
+            let ciudadDTO: CiudadDTO = {
                 uuidCiudad: dto.uuidCiudad,
-            });
+            };
+            if (
+                dto.hasOwnProperty("nombreCiudad") &&
+                dto.nombreCiudad != undefined
+            )
+                ciudadDTO.nombreCiudad = dto.nombreCiudad;
+
+            ciudadOrError = CiudadMapeador.aDominio(ciudadDTO);
             if (ciudadOrError.esFallido)
                 return Resultado.falla<any>(ciudadOrError.error);
 
