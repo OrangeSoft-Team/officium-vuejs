@@ -36,26 +36,14 @@ export class ControladorObtenerTrabajos {
     }
 
     public async ejecutarCU(): Promise<Resultado<TrabajoEmpresaDTO[]>> {
-        const CasoUsoObtenerTrabajos =
-            new ObtenerTrabajos(
-                this.RepositorioTrabajos
-            );
-
-        //Obtenemos id empresa del empleador actual
-        const datosEmpleadorOrError =
-            this.ServicioPersistenciaLocal.obtener<RespuestaInicioSesionDTO>(
-                CLAVE_SESION_USUARIO
-            );
-
-        if (datosEmpleadorOrError.esFallido)
-            return Resultado.falla<any>(datosEmpleadorOrError.error);
+        const CasoUsoObtenerTrabajos = new ObtenerTrabajos(
+            this.RepositorioTrabajos
+        );
 
         const respuestaCU = await CasoUsoObtenerTrabajos.ejecutar();
 
         if (respuestaCU.esExitoso) {
-            return Resultado.ok<TrabajoEmpresaDTO[]>(
-                respuestaCU.getValue()
-            );
+            return Resultado.ok<TrabajoEmpresaDTO[]>(respuestaCU.getValue());
         } else {
             return Resultado.falla<any>(respuestaCU.error);
         }

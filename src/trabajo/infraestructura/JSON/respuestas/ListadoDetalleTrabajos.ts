@@ -63,5 +63,6 @@ export const LISTADO_TRABAJOS_DETALLE: TrabajoEmpresaDTO[] = [
         valorDuracion: 2,
         escalaDuracion: "semana",
         turnoTrabajo: "diurno",
+        fechaCulminacionTrabajo: "25/05/2021",
     },
 ];

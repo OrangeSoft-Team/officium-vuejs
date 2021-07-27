@@ -223,7 +223,7 @@
                                             ></v-list-item-title
                                         >
                                         <v-list-item-title>{{
-                                            trabajo.fechaCulminacionTrabajo
+                                            trabajo.fechaCulminacionTrabajo ? trabajo.fechaCulminacionTrabajo : "SIN CULMINAR"
                                         }}</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
