@@ -100,7 +100,7 @@ export default Vue.extend({
                 {
                     opcion: "Trabajos",
                     icono: "mdi-briefcase",
-                    toDato: "InicioSesion",
+                    toDato: "Trabajos",
                 },
                 /*   {
                     opcion: "Pagos",
