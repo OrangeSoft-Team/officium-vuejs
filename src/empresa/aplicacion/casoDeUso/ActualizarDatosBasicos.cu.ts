@@ -5,6 +5,7 @@ import { DatosBasicosMapeador } from "../DatosBasicos.mapeador";
 import { OperacionExitosaDTO } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 import { Direccion } from "../../../comun/dominio/entidades/Direccion";
 import { HabilidadDTO } from "../../../comun/aplicacion/dtos/HabilidadDTO";
+import { ActualizarDatosBasicosMapeador } from "../ActualizarDatosBasicos.mapeador";
 
 export interface SolicitudActualizarDatosBasicosDTO {
     nombreEmpresa: string;
@@ -41,7 +42,7 @@ export class ActualizarDatosBasicos
             return Resultado.falla<any>(datosEmpresaOrError.error);
 
         //Convertimos a DTO
-        let DTOActualizarDatosOrError = DatosBasicosMapeador.aDTO(
+        let DTOActualizarDatosOrError = ActualizarDatosBasicosMapeador.aDTO(
             datosEmpresaOrError.getValue()
         );
         if (DTOActualizarDatosOrError.esFallido)

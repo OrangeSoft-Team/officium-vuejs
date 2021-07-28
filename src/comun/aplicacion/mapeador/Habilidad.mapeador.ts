@@ -104,4 +104,14 @@ export class HabilidadMapeador {
 
         return Resultado.ok<HabilidadDTO[]>(arrayHabilidades);
     }
+
+    public static aArregloID(habilidades: HabilidadDTO[]): string[] {
+        let arregloRespuesta: string[] = [];
+
+        for (let had of habilidades) {
+            arregloRespuesta.push(had.uuid);
+        }
+
+        return arregloRespuesta;
+    }
 }

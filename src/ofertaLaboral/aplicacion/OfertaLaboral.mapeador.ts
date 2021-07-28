@@ -1,6 +1,9 @@
+import { HabilidadMapeador } from "../../comun/aplicacion/mapeador/Habilidad.mapeador";
+import { Habilidad } from "../../comun/dominio/entidades/habilidad";
 import { Resultado } from "../../comun/dominio/resultado";
 import { Fecha } from "../../comun/dominio/valueObjects/fecha";
 import { Identificador } from "../../comun/dominio/valueObjects/Identificador";
+import { requisitosEspeciales } from "../../comun/dominio/valueObjects/requisitosEspeciales";
 import { OfertaLaboral, OfertaLaboralProps } from "../dominio/OfertaLaboral";
 import { CargoOferta } from "../dominio/valueObjects/cargoOferta";
 import { DescripcionOferta } from "../dominio/valueObjects/descripcionOferta";
@@ -62,12 +65,32 @@ export class OfertasLaboralesMapeador {
         };
 
         //OPCIONALES
+        let idOrError: Resultado<Identificador>;
+        if (dto.hasOwnProperty("uuid")) {
+            idOrError = Identificador.crear(<string>dto.uuid);
+
+            if (idOrError.esFallido)
+                return Resultado.falla<any>(idOrError.error);
+            ofertaProps.idOfertaLaboral = idOrError.getValue();
+        }
+
         let fechaPublicacionOrError: Resultado<Fecha>;
         if (dto.hasOwnProperty("fechaPublicacion")) {
             fechaPublicacionOrError = Fecha.crear(<string>dto.fechaPublicacion);
             if (fechaPublicacionOrError.esFallido)
                 return Resultado.falla<any>(fechaPublicacionOrError.error);
             ofertaProps.fechaPublicacion = fechaPublicacionOrError.getValue();
+        }
+
+        let fechaModificacionOrError: Resultado<Fecha>;
+        if (dto.hasOwnProperty("fechaModificacion")) {
+            fechaModificacionOrError = Fecha.crear(
+                <string>dto.fechaModificacion
+            );
+            if (fechaModificacionOrError.esFallido)
+                return Resultado.falla<any>(fechaModificacionOrError.error);
+            ofertaProps.fechaUltimaModificacion =
+                fechaModificacionOrError.getValue();
         }
 
         let descripcionOrError: Resultado<DescripcionOferta>;
@@ -88,13 +111,30 @@ export class OfertasLaboralesMapeador {
             ofertaProps.estado = estadoOfertaOrError.getValue();
         }
 
-        let idOrError: Resultado<Identificador>;
-        if (dto.hasOwnProperty("idOfertaLaboral")) {
-            idOrError = Identificador.crear(<string>dto.idOfertaLaboral);
+        let reqEspecialesOrError: Resultado<requisitosEspeciales>;
+        if (
+            dto.hasOwnProperty("requisitosEspeciales") &&
+            dto.requisitosEspeciales != undefined
+        ) {
+            reqEspecialesOrError = requisitosEspeciales.crear(
+                dto.requisitosEspeciales
+            );
+            if (reqEspecialesOrError.esFallido)
+                return Resultado.falla<any>(reqEspecialesOrError.error);
 
-            if (idOrError.esFallido)
-                return Resultado.falla<any>(idOrError.error);
-            ofertaProps.idOfertaLaboral = idOrError.getValue();
+            //Agregamos al ser valido
+            ofertaProps.requisitosEspeciales = reqEspecialesOrError.getValue();
+        }
+
+        let habilidadesOrError: Resultado<Habilidad[]>;
+        if (dto.hasOwnProperty("habilidades") && dto.habilidades != undefined) {
+            habilidadesOrError = HabilidadMapeador.aDominioConjunto(
+                dto.habilidades
+            );
+            if (habilidadesOrError.esFallido)
+                return Resultado.falla<any>(habilidadesOrError.error);
+
+            ofertaProps.habilidades = habilidadesOrError.getValue();
         }
 
         return Resultado.ok<OfertaLaboral>(
@@ -122,18 +162,22 @@ export class OfertasLaboralesMapeador {
 
         //Opcionales
         if (
+            entidad.props.hasOwnProperty("idOfertaLaboral") &&
+            entidad.props.idOfertaLaboral != undefined
+        )
+            propsDTO.uuid = <string>entidad.props.idOfertaLaboral.valor();
+        if (
             entidad.props.hasOwnProperty("fechaPublicacion") &&
             entidad.props.fechaPublicacion != undefined
         )
             propsDTO.fechaPublicacion = entidad.props.fechaPublicacion.valor();
 
         if (
-            entidad.props.hasOwnProperty("idOfertaLaboral") &&
-            entidad.props.idOfertaLaboral != undefined
+            entidad.props.hasOwnProperty("fechaUltimaModificacion") &&
+            entidad.props.fechaUltimaModificacion != undefined
         )
-            propsDTO.idOfertaLaboral = <string>(
-                entidad.props.idOfertaLaboral.valor()
-            );
+            propsDTO.fechaModificacion =
+                entidad.props.fechaUltimaModificacion.valor();
 
         if (
             entidad.props.hasOwnProperty("descripcion") &&
@@ -146,6 +190,28 @@ export class OfertasLaboralesMapeador {
             entidad.props.estado != undefined
         )
             propsDTO.estado = <string>entidad.props.estado.valor();
+
+        if (
+            entidad.props.hasOwnProperty("requisitosEspeciales") &&
+            entidad.props.requisitosEspeciales != undefined
+        ) {
+            propsDTO.requisitosEspeciales =
+                entidad.props.requisitosEspeciales.valor();
+        }
+
+        if (
+            entidad.props.hasOwnProperty("habilidades") &&
+            entidad.props.habilidades
+        ) {
+            //Transformacion de habilidad
+            const habilidadesOrError = HabilidadMapeador.aDTOConjunto(
+                entidad.props.habilidades
+            );
+            if (habilidadesOrError.esFallido)
+                return Resultado.falla<any>(habilidadesOrError.error);
+
+            propsDTO.habilidades = habilidadesOrError.getValue();
+        }
 
         return Resultado.ok<OfertaLaboralEmpresaDTO>(propsDTO);
     }
