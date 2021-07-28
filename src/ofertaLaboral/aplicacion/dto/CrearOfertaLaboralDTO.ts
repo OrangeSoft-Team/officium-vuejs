@@ -7,4 +7,6 @@ export interface CrearOfertaLaboralDTO {
     turnoTrabajo: string;
     numeroVacantes: number;
     descripcion: string;
+    requisitosEspeciales?: string;
+    uuidHabilidades: string[];
 }
