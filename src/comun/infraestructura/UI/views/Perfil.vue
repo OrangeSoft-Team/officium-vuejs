@@ -305,9 +305,6 @@ export default Vue.extend({
             const cuAEjecutar = ControladorObtDatosBasicos.inicializar();
 
             //Ejecutamos el caso de uso
-            /**
-             * Se deja temporalmente el id de la empresa como constante
-             */
             const respuestaCU = cuAEjecutar.ejecutarCU();
             respuestaCU
                 .then((data) => {

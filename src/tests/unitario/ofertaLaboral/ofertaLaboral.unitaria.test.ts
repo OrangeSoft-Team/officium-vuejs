@@ -111,9 +111,7 @@ describe("Obtener Detalle de Oferta Laboral", () => {
             }
             expect(data.esExitoso).toBeTruthy();
             expect(data.esFallido).toBeFalsy();
-            expect(data.getValue().idOfertaLaboral).toBe(
-                DATOS_A_USAR.idOfertaLaboral
-            );
+            expect(data.getValue().uuid).toBe(DATOS_A_USAR.uuid);
         });
     });
 });

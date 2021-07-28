@@ -129,7 +129,7 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
         }
 
         for (let i: number = 0; i <= arregloOfertas.length; i++) {
-            if (arregloOfertas[i].idOfertaLaboral === id.idOfertaLaboral) {
+            if (arregloOfertas[i].uuid === id.idOfertaLaboral) {
                 const respuesta: OfertaLaboralEmpresaDTO = arregloOfertas[i];
 
                 this.persistenciaAlterna.guardar(

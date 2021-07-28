@@ -2,7 +2,7 @@ import { OfertaLaboralEmpresaDTO } from "../../../aplicacion/dto/OfertaLaboralEm
 //Listado simple
 export const OFERTAS_LABORALES_RESPUESTA_VALIDA: OfertaLaboralEmpresaDTO[] = [
     {
-        idOfertaLaboral: "1",
+        uuid: "1",
         titulo: "Desarrollador web para aplicación Officium",
         cargo: "Dev frontend",
         sueldo: 5000,
@@ -13,7 +13,7 @@ export const OFERTAS_LABORALES_RESPUESTA_VALIDA: OfertaLaboralEmpresaDTO[] = [
         numeroVacantes: 1,
     },
     {
-        idOfertaLaboral: "2",
+        uuid: "2",
         titulo: "Arquitecto de Software para aplicación Officium",
         cargo: "Arq. Software",
         fechaPublicacion: "24/06/2021",
@@ -24,7 +24,7 @@ export const OFERTAS_LABORALES_RESPUESTA_VALIDA: OfertaLaboralEmpresaDTO[] = [
         numeroVacantes: 15,
     },
     {
-        idOfertaLaboral: "3",
+        uuid: "3",
         titulo: "Encargado de tienda",
         fechaPublicacion: "24/06/2021",
         cargo: "Encargado general de tienda IBM",
@@ -39,7 +39,7 @@ export const OFERTAS_LABORALES_RESPUESTA_VALIDA: OfertaLaboralEmpresaDTO[] = [
 //Listado con detalle
 export const OFERTAS_LABORALES_DETALLADAS_VALIDAS: OfertaLaboralEmpresaDTO[] = [
     {
-        idOfertaLaboral: "1",
+        uuid: "1",
         descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
         titulo: "Desarrollador web para aplicación Officium",
         fechaPublicacion: "24/06/2021",
@@ -49,9 +49,24 @@ export const OFERTAS_LABORALES_DETALLADAS_VALIDAS: OfertaLaboralEmpresaDTO[] = [
         duracionEstimadaEscala: "semana",
         turnoTrabajo: "diurno",
         numeroVacantes: 1,
+        fechaModificacion: "24/06/2021",
+        estado: "publicado",
+        requisitosEspeciales: "Saber exprimir naranjas",
+        habilidades: [
+            {
+                uuid: "sa5d45s4d5sa",
+                nombre: "Hace nudos",
+                categoria: "manual",
+            },
+            {
+                uuid: "otrouuid",
+                nombre: "Nado sincronizado",
+                categoria: "deporte",
+            },
+        ],
     },
     {
-        idOfertaLaboral: "2",
+        uuid: "2",
         descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
         titulo: "Arquitecto de Software para aplicación Officium",
         fechaPublicacion: "10/06/2021",
@@ -61,9 +76,24 @@ export const OFERTAS_LABORALES_DETALLADAS_VALIDAS: OfertaLaboralEmpresaDTO[] = [
         duracionEstimadaEscala: "día",
         turnoTrabajo: "diurno",
         numeroVacantes: 15,
+        fechaModificacion: "24/06/2021",
+        estado: "publicado",
+        requisitosEspeciales: "Saber exprimir naranjas",
+        habilidades: [
+            {
+                uuid: "sa5d45s4d5sa",
+                nombre: "Hace nudos",
+                categoria: "manual",
+            },
+            {
+                uuid: "otrouuid",
+                nombre: "Nado sincronizado",
+                categoria: "deporte",
+            },
+        ],
     },
     {
-        idOfertaLaboral: "3",
+        uuid: "3",
         descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
         titulo: "Encargado de tienda",
         fechaPublicacion: "31/05/2021",
@@ -73,5 +103,20 @@ export const OFERTAS_LABORALES_DETALLADAS_VALIDAS: OfertaLaboralEmpresaDTO[] = [
         duracionEstimadaEscala: "mes",
         turnoTrabajo: "diurno",
         numeroVacantes: 4,
+        fechaModificacion: "24/06/2021",
+        estado: "publicado",
+        requisitosEspeciales: "Saber exprimir naranjas",
+        habilidades: [
+            {
+                uuid: "sa5d45s4d5sa",
+                nombre: "Hace nudos",
+                categoria: "manual",
+            },
+            {
+                uuid: "otrouuid",
+                nombre: "Nado sincronizado",
+                categoria: "deporte",
+            },
+        ],
     },
 ];

@@ -2,7 +2,7 @@ import { SolicitudCreacionOfertaLaboralDTO } from "../../../aplicacion/casoDeUso
 import { OfertaLaboralEmpresaDTO } from "../../../aplicacion/dto/OfertaLaboralEmpresaDTO";
 
 export const OFERTA_LABORAL_RESPUESTA_VALIDA: OfertaLaboralEmpresaDTO = {
-    idOfertaLaboral: "3",
+    uuid: "3",
     descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
     estado: "publicado",
     titulo: "Encargado de tienda",
