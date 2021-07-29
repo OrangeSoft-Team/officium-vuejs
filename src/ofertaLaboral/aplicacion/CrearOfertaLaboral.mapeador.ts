@@ -1,5 +1,5 @@
 import { requisitosEspeciales } from "@/comun/dominio/valueObjects/requisitosEspeciales";
-import { OPERACION_FALLIDA } from "../../comun/aplicacion/dto.respuestaOperaciones/OperacionFallida";
+import { HABILIDAD_REQUERIDO } from "../../comun/dominio/excepciones/requeridoHabilidad.excepcion";
 import { HabilidadDTO } from "../../comun/aplicacion/dtos/HabilidadDTO";
 import { HabilidadMapeador } from "../../comun/aplicacion/mapeador/Habilidad.mapeador";
 import { Habilidad } from "../../comun/dominio/entidades/habilidad";
@@ -38,7 +38,7 @@ export class CrearOfertaLaboralMapeador {
             if (habilidadesOrError.esFallido)
                 return Resultado.falla<any>(habilidadesOrError.error);
         } else {
-            return Resultado.falla<any>(OPERACION_FALLIDA);
+            return Resultado.falla<any>(HABILIDAD_REQUERIDO);
         }
 
         let dto: CrearOfertaLaboralDTO = {

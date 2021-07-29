@@ -15,7 +15,10 @@ import {
     CLAVE_SESION_USUARIO,
     CLAVE_ULT_OFERTA_LABORAL,
 } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
-import { OFERTAS_LABORALES_DETALLADAS_VALIDAS, OFERTAS_LABORALES_RESPUESTA_VALIDA } from "./respuestas/ListadoOfertasLaborales";
+import {
+    OFERTAS_LABORALES_DETALLADAS_VALIDAS,
+    OFERTAS_LABORALES_RESPUESTA_VALIDA,
+} from "./respuestas/ListadoOfertasLaborales";
 import { RespuestaInicioSesionDTO } from "../../../sesion/aplicacion/dto/RespuestaInicioSesionDTO";
 
 interface auxiliarJSONCrearOfertaLaboralDTO {
@@ -43,13 +46,13 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
         ofertaLaboral: SolicitudCreacionOfertaLaboralDTO
     ): Resultado<OperacionExitosaDTO> {
         //Solicitamos ID de empresa para la petición
-        const datosEmpresaOrError =
+        /*const datosEmpresaOrError =
             this.persistenciaAlterna.obtener<RespuestaInicioSesionDTO>(
                 CLAVE_SESION_USUARIO
             );
 
         if (datosEmpresaOrError.esFallido)
-            return Resultado.falla<any>(OPERACION_FALLIDA);
+            return Resultado.falla<any>(OPERACION_FALLIDA);*/
 
         //Esperamos respuesta
         //Simulamos anexar
