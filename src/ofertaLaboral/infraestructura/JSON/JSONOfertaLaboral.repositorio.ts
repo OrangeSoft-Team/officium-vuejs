@@ -15,7 +15,7 @@ import {
     CLAVE_SESION_USUARIO,
     CLAVE_ULT_OFERTA_LABORAL,
 } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
-import { OFERTAS_LABORALES_RESPUESTA_VALIDA } from "./respuestas/ListadoOfertasLaborales";
+import { OFERTAS_LABORALES_DETALLADAS_VALIDAS, OFERTAS_LABORALES_RESPUESTA_VALIDA } from "./respuestas/ListadoOfertasLaborales";
 import { RespuestaInicioSesionDTO } from "../../../sesion/aplicacion/dto/RespuestaInicioSesionDTO";
 
 interface auxiliarJSONCrearOfertaLaboralDTO {
@@ -95,7 +95,7 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
         );
         if (listadoOrError.esFallido) {
             //Almacenamos en persitencia en respuesta exitosa
-            const A_RESPONDER_DEFAULT = OFERTAS_LABORALES_RESPUESTA_VALIDA;
+            const A_RESPONDER_DEFAULT = OFERTAS_LABORALES_DETALLADAS_VALIDAS;
             this.persistenciaAlterna.guardar(
                 CLAVE_CONJUNTO_OFERTAS_LABORALES,
                 A_RESPONDER_DEFAULT
@@ -117,7 +117,7 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     ): Resultado<OfertaLaboralEmpresaDTO> {
         //Esperamos respuesta
         let arregloOfertas: OfertaLaboralEmpresaDTO[] =
-            OFERTAS_LABORALES_RESPUESTA_VALIDA;
+            OFERTAS_LABORALES_DETALLADAS_VALIDAS;
         const listadoOrError = this.persistenciaAlterna.obtener(
             CLAVE_CONJUNTO_OFERTAS_LABORALES
         );

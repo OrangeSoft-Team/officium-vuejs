@@ -12,7 +12,7 @@ export const OFERTA_LABORAL_RESPUESTA_VALIDA: OfertaLaboralEmpresaDTO = {
     duracionEstimadaValor: 6,
     duracionEstimadaEscala: "mes",
     turnoTrabajo: "diurno",
-    numeroVacantes: 4,
+    numeroVacantes: 4
 };
 
 export const OFERTAS_LABORALES_RESPUESTA_CON_ERROR_VACANTES: OfertaLaboralEmpresaDTO[] =
@@ -42,4 +42,5 @@ export const CREAR_OFERTA_LABORAL_DATOS_INTERFAZ_VALIDA: SolicitudCreacionOferta
         turnoTrabajo: "diurno",
         numeroVacantes: 4,
         descripcion: "Encargado general de tienda IBM Encargado de tienda",
+        uuidHabilidades: ["1","2"]
     };

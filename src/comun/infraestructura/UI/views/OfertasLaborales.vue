@@ -43,12 +43,12 @@
                                 <td>{{ row.item.cargo }}</td>
                                 <td>{{ row.item.fechaPublicacion }}</td>
                                 <td>{{ row.item.numeroVacantes }}</td>
-                                <td>{{ row.item.turnoTrabajo }}</td>
+                                <td>{{ row.item.estado }}</td>
                                 <td>
                                     <!--Llamamos al componente del detalle de
                                     oferta laboral-->
                                     <modal-oferta-detalle
-                                        :id-oferta="row.item.idOfertaLaboral"
+                                        :uuid="row.item.uuid"
                                     ></modal-oferta-detalle>
                                 </td>
                             </tr>
@@ -85,7 +85,7 @@ export default Vue.extend({
                 { text: "Cargo", value: "cargo" },
                 { text: "Fecha publicacion", value: "fechaPublicacion" },
                 { text: "Número de vacantes", value: "numeroVacantes" },
-                { text: "Turno de trabajo", value: "turnoTrabajo" },
+                { text: "Estatus", value: "estado" },
                 { text: "Acciones", value: "acciones" },
             ],
 
