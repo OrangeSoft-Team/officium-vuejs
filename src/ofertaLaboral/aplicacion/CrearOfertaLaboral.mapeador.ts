@@ -1,3 +1,4 @@
+import { requisitosEspeciales } from "@/comun/dominio/valueObjects/requisitosEspeciales";
 import { OPERACION_FALLIDA } from "../../comun/aplicacion/dto.respuestaOperaciones/OperacionFallida";
 import { HabilidadDTO } from "../../comun/aplicacion/dtos/HabilidadDTO";
 import { HabilidadMapeador } from "../../comun/aplicacion/mapeador/Habilidad.mapeador";
@@ -6,6 +7,7 @@ import { Resultado } from "../../comun/dominio/resultado";
 import { DESCRIPCION_OFERTA_LONGITUD_NO_VALIDA } from "../dominio/excepciones/descripcionOferta.excepcion";
 import { OfertaLaboral } from "../dominio/OfertaLaboral";
 import { DescripcionOferta } from "../dominio/valueObjects/descripcionOferta";
+
 import { CrearOfertaLaboralDTO } from "./dto/CrearOfertaLaboralDTO";
 
 export class CrearOfertaLaboralMapeador {

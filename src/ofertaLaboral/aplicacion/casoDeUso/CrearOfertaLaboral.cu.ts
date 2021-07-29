@@ -15,7 +15,9 @@ export interface SolicitudCreacionOfertaLaboralDTO {
     duracionEstimadaEscala: string;
     turnoTrabajo: string;
     numeroVacantes: number;
+    requisitosEspeciales?: string;
     descripcion: string;
+    uuidHabilidades: string[];
 }
 
 export class CrearOfertaLaboral
