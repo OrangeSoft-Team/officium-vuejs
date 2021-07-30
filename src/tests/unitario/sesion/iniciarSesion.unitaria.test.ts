@@ -2,6 +2,7 @@ import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersis
 import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
 import { CasoUsoIniciarSesionCorreoClave } from "../../../sesion/aplicacion/casoDeUso/IniciarSesionCorreoClave.cu";
 import { FORMATO_CONTRASENA_INVALIDA } from "../../../sesion/infraestructura/excepciones/contrasena.exepcion";
+import { FORMATO_CORREO_ELECTRONICO_NO_VALIDO } from "../../../sesion/infraestructura/excepciones/correoElectronico.excepcion";
 import { AutentificacionCorreoClaveJSON } from "../../../sesion/infraestructura/JSON/JSONAutentificacionCorreoClave";
 import { IServicioAutentificacion } from "../../../sesion/aplicacion/IServicioAutentificacion";
 import { IServicioValidacionCredencial } from "../../../sesion/aplicacion/IServicioValidacionCredencial";
@@ -70,6 +71,28 @@ describe("Autentificación con credenciales básicas", () => {
             expect(data.esExitoso).toBeFalsy();
             expect(data.esFallido).toBeTruthy();
             expect(data.error).toBe(FORMATO_CONTRASENA_INVALIDA);
+        });
+    });
+
+    it("Intenta iniciar de sesión con correo inválido", () => {
+        //Inicializamos Caso de Uso
+        const CU = new CasoUsoIniciarSesionCorreoClave(
+            autentificacionImpl,
+            validadorImpl,
+            sesionImpl
+        );
+        const resultadoCU = CU.ejecutar({
+            correoElectronico: "test.com",
+            contraseña: "Guaicaipuro1",
+        });
+
+        return resultadoCU.then((data) => {
+            if (data.esFallido) {
+                console.log("[TEST ERROR] ", data.error);
+            }
+            expect(data.esExitoso).toBeFalsy();
+            expect(data.esFallido).toBeTruthy();
+            expect(data.error).toBe(FORMATO_CORREO_ELECTRONICO_NO_VALIDO);
         });
     });
 });
