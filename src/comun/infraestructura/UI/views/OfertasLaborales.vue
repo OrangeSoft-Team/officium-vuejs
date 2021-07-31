@@ -32,11 +32,24 @@
                         :headers="headersTable"
                         :items="ofertasLaborales"
                         :items-per-page="10"
+                        :search="aBuscar"
                         class="elevation-1"
                         :loading="estaCargando"
                         loading-text="Consultando datos..."
                         locale="es"
                     >
+                        <template v-slot:top>
+                            <v-container>
+                                <v-text-field
+                                    v-model="aBuscar"
+                                    append-icon="mdi-magnify"
+                                    label="Buscar titulo o cargo"
+                                    single-line
+                                    hide-details
+                                ></v-text-field>
+                            </v-container>
+                        </template>
+
                         <template v-slot:item="row">
                             <tr>
                                 <td>{{ row.item.titulo }}</td>
@@ -80,13 +93,22 @@ export default Vue.extend({
         return {
             estaCargando: true,
             ofertasLaborales: [] as OfertaLaboralEmpresaDTO[],
+            aBuscar: "",
             headersTable: [
                 { text: "Titulo", value: "titulo" },
                 { text: "Cargo", value: "cargo" },
-                { text: "Fecha publicacion", value: "fechaPublicacion" },
-                { text: "Número de vacantes", value: "numeroVacantes" },
-                { text: "Estatus", value: "estado" },
-                { text: "Acciones", value: "acciones" },
+                {
+                    text: "Fecha publicacion",
+                    value: "fechaPublicacion",
+                    filterable: false,
+                },
+                {
+                    text: "Número de vacantes",
+                    value: "numeroVacantes",
+                    filterable: false,
+                },
+                { text: "Estatus", value: "estado", filterable: false },
+                { text: "Acciones", value: "acciones", filterable: false },
             ],
 
             //Para el manejo del mensaje de éxito
@@ -119,7 +141,7 @@ export default Vue.extend({
                         this.estaCargando = false;
                         //Actualizamos
                         this.ofertasLaborales = data.getValue();
-                        console.log("Recibimos", data.getValue())
+                        console.log("Recibimos", data.getValue());
                     } else {
                         //TODO Manejo de caso con error al recuperar conjunto
                         console.warn("Algo pasó", data.error);
