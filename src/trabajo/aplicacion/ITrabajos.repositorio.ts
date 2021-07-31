@@ -1,7 +1,7 @@
+import { OperacionExitosaDTO } from "../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 import { Resultado } from "../../comun/dominio/resultado";
 import { SolicitudTrabajoDTO } from "./casoDeUso/ObtenerTrabajoDetalle.cu";
 import { TrabajoEmpresaDTO } from "./dto/TrabajoEmpresaDTO";
-
 
 export interface ITrabajoRepo {
     obtenerTrabajos(): Resultado<TrabajoEmpresaDTO[]>;
@@ -12,5 +12,5 @@ export interface ITrabajoRepo {
 
     culminaTrabajo(
         identificador: SolicitudTrabajoDTO
-    ): Resultado<any>;
+    ): Resultado<OperacionExitosaDTO>;
 }

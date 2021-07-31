@@ -7,8 +7,10 @@ import { TRABAJOS_EMPRESA_VALIDA } from "./respuestas/ListadoTrabajos";
 import { SolicitudTrabajoDTO } from "../../aplicacion/casoDeUso/ObtenerTrabajoDetalle.cu";
 import { LISTADO_TRABAJOS_DETALLE } from "./respuestas/ListadoDetalleTrabajos";
 import { OPERACION_FALLIDA } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionFallida";
-import { OPERACION_EXITOSA } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
-
+import {
+    OperacionExitosaDTO,
+    OPERACION_EXITOSA,
+} from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 
 export class JSONTrabajosRepositorio implements ITrabajoRepo {
     private persistenciaAlterna: IServicioPersistencia;
@@ -54,10 +56,12 @@ export class JSONTrabajosRepositorio implements ITrabajoRepo {
         return Resultado.ok<TrabajoEmpresaDTO[]>(DATOS_RESPUESTA);
     }
 
-    culminaTrabajo(identificador: SolicitudTrabajoDTO): Resultado<any> {
-        
+    culminaTrabajo(
+        identificador: SolicitudTrabajoDTO
+    ): Resultado<OperacionExitosaDTO> {
         //Respondemos a la solicitud
-        return Resultado.ok<any>(OPERACION_EXITOSA);
-
+        return Resultado.ok<OperacionExitosaDTO>({
+            mensaje: OPERACION_EXITOSA,
+        });
     }
 }

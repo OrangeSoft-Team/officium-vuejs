@@ -35,8 +35,14 @@
                             <tr>
                                 <td>{{ row.item.titulo }}</td>
                                 <td>{{ row.item.fechaInicioTrabajo }}</td>
-                                <td>{{ row.item.primerNombreEmpleado }} {{ row.item.segundoNombreEmpleado }}</td>
-                                <td>{{ row.item.primerApellidoEmpleado }} {{ row.item.segundoApellidoEmpleado }}</td>
+                                <td>
+                                    {{ row.item.primerNombreEmpleado }}
+                                    {{ row.item.segundoNombreEmpleado }}
+                                </td>
+                                <td>
+                                    {{ row.item.primerApellidoEmpleado }}
+                                    {{ row.item.segundoApellidoEmpleado }}
+                                </td>
                                 <td>{{ row.item.cargo }}</td>
                                 <td>{{ row.item.estatus }}</td>
                                 <td>
@@ -44,6 +50,19 @@
                                     <modal-trabajo-detalle
                                         :id-trabajo="row.item.uuid"
                                     ></modal-trabajo-detalle>
+                                    <v-btn
+                                        depressed
+                                        rounded
+                                        color="primary"
+                                        small
+                                        outlined
+                                        class="ml-1"
+                                        @click="
+                                            ejecutarCUCulminar(row.item.uuid)
+                                        "
+                                        >Culminar
+                                        <v-icon>mdi-check-all</v-icon></v-btn
+                                    >
                                 </td>
                             </tr>
                         </template>
@@ -63,6 +82,7 @@ import { ControladorObtenerTrabajos } from "../../../../trabajo/infraestructura/
 import { TrabajoEmpresaDTO } from "../../../../trabajo/aplicacion/dto/TrabajoEmpresaDTO";
 
 import ModalTrabajoDetalle from "../components/ModalTrabajoDetalle.vue";
+import { ControladorCulminarTrabajo } from "@/trabajo/infraestructura/controlador/ControladorCulminarTrabajo";
 
 export default Vue.extend({
     components: {
@@ -100,8 +120,7 @@ export default Vue.extend({
         },
         ejecutarCU() {
             //Inicializamos el controlador
-            const cuAEjecutar =
-                ControladorObtenerTrabajos.inicializar();
+            const cuAEjecutar = ControladorObtenerTrabajos.inicializar();
 
             //Ejecutamos el caso de uso
             const respuestaCU = cuAEjecutar.ejecutarCU();
@@ -112,7 +131,7 @@ export default Vue.extend({
                         this.estaCargando = false;
                         //Actualizamos
                         this.trabajos = data.getValue();
-                        console.log("Recibimos", data.getValue())
+                        console.log("Recibimos", data.getValue());
                     } else {
                         //TODO Manejo de caso con error al recuperar conjunto
                         console.warn("Algo pasó", data.error);
@@ -124,8 +143,30 @@ export default Vue.extend({
         },
         recargarTabla() {
             this.trabajos = [];
-            this.estaCargando = false;
+            this.estaCargando = true;
             this.ejecutarCU();
+        },
+        ejecutarCUCulminar(id: string) {
+            //Inicializamos el controlador
+            const cuAEjecutar = ControladorCulminarTrabajo.inicializar();
+
+            //Ejecutamos el caso de uso
+            const respuestaCU = cuAEjecutar.ejecutarCU({ uuid_trabajo: id });
+            respuestaCU
+                .then((data) => {
+                    console.log("[CULMINADO] Trabajo: ", id);
+                    if (data.esExitoso) {
+                        this.alertExito("¡Trabajo culminado exitosamente!");
+
+                        this.recargarTabla();
+                    } else {
+                        //TODO Manejo de caso con error al recuperar conjunto
+                        console.warn("Algo pasó", data.error);
+                    }
+                })
+                .catch((e) => {
+                    console.error(e);
+                });
         },
     },
 });
