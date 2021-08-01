@@ -297,7 +297,6 @@ import { HabilidadDTO } from "../../../../comun/aplicacion/dtos/HabilidadDTO";
 
 import AlertaError from "../components/AlertaError.vue";
 import AlertaExito from "../components/AlertaExito.vue";
-import { OfertaLaboral } from "@/ofertaLaboral/dominio/OfertaLaboral";
 
 export default Vue.extend({
     components: {

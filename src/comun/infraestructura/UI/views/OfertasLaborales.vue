@@ -65,6 +65,8 @@
                                     <!--Llamamos al componente de modificar oferta laboral-->
                                     <modal-modificar-oferta
                                         :uuid="row.item.uuid"
+                                        :alertaExito="alertaExito"
+                                        v-on:alertexito="alertExito"
                                     ></modal-modificar-oferta>
                                 </td>
                             </tr>

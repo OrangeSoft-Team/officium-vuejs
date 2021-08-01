@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" id="modal-crear">
+    <v-dialog v-model="dialog" id="modal-modificar">
         <template v-slot:activator="{ on, attrs }">
             <v-btn
                 depressed
@@ -383,18 +383,10 @@ export default Vue.extend({
                             data.getValue().numeroVacantes;
                         this.ofertaLaboralModificar.requisitosEspeciales =
                             data.getValue().requisitosEspeciales;
+                        this.ofertaLaboralModificar.descripcion = <string>data.getValue().descripcion;
+                        this.ofertaLaboralModificar.habilidades = <HabilidadDTO[]>data.getValue().habilidades;
+                        this.habilidadesEmpresa = <HabilidadDTO[]>data.getValue().habilidades;
 
-                        this.ofertaLaboralModificar.descripcion = <string>(
-                            data.getValue().descripcion
-                        );
-
-                        this.ofertaLaboralModificar.habilidades = <
-                            HabilidadDTO[]
-                        >data.getValue().habilidades;
-
-                        console.log("[OBJECT] ", data.getValue());
-
-                        console.log("[DETALLE] ", this.ofertaLaboralModificar);
                     } else {
                         //TODO Manejo de caso con error al recuperar conjunto
                         console.warn("Algo pasó", data.error);
@@ -431,20 +423,6 @@ export default Vue.extend({
             console.log(this.ofertaLaboralModificar);
             if (this.ofertaLaboralModificar.requisitosEspeciales == "")
                 this.ofertaLaboralModificar.requisitosEspeciales = undefined;
-
-            /*
-            let objEnviar:SolicitudCreacionOfertaLaboralDTO = {
-                titulo: this.ofertaLaboralCrear.titulo,
-                cargo: this.ofertaLaboralCrear.cargo,
-                sueldo: this.ofertaLaboralCrear.sueldo,
-                duracionEstimadaValor: this.ofertaLaboralCrear.duracionEstimadaValor,
-                duracionEstimadaEscala: this.ofertaLaboralCrear.duracionEstimadaEscala,
-                turnoTrabajo: this.ofertaLaboralCrear.turnoTrabajo,
-                numeroVacantes: this.ofertaLaboralCrear.numeroVacantes,
-                descripcion: this.ofertaLaboralCrear.descripcion,
-                uuidHabilidades: this.ofertaLaboralCrear.uuidHabilidades
-            }
-            */
 
             //Inicializamos el controlador
             const cuAEjecutar = ControladorModificarOfertaLaboral.inicializar();
