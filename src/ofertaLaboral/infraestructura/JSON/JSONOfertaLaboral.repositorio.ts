@@ -22,6 +22,7 @@ import {
 import { RespuestaInicioSesionDTO } from "../../../sesion/aplicacion/dto/RespuestaInicioSesionDTO";
 import { CrearOfertaLaboralDTO } from "../../aplicacion/dto/CrearOfertaLaboralDTO";
 import { HabilidadDTO } from "../../../comun/aplicacion/dtos/HabilidadDTO";
+import { ModificarOfertaLaboralDTO } from "../../aplicacion/dto/ModificarOfertaLaboralDTO";
 
 interface auxiliarJSONCrearOfertaLaboralDTO {
     uuid?: string;
@@ -44,6 +45,15 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
 
     constructor(implPersistencia: IServicioPersistencia) {
         this.persistenciaAlterna = implPersistencia;
+    }
+
+    modificarOfertaLaboral(
+        ofertaLaboral: ModificarOfertaLaboralDTO
+    ): Resultado<OperacionExitosaDTO> {
+        //En caso de respuesta exitosa
+        return Resultado.ok<OperacionExitosaDTO>({
+            mensaje: OPERACION_EXITOSA,
+        });
     }
 
     crearOfertaLaboral(
