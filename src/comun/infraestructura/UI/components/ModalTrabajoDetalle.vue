@@ -4,13 +4,14 @@
             <v-btn
                 depressed
                 rounded
+                outlined
                 color="primary"
                 small
+                icon
                 v-bind="attrs"
                 v-on="on"
                 v-on:click="obtenerDetalle"
             >
-                Detalle
                 <v-icon>mdi-magnify</v-icon>
             </v-btn>
         </template>
@@ -117,11 +118,9 @@
                                                 >Dirección</strong
                                             ></v-list-item-title
                                         >
-                                        <v-list-item-title
-                                            >{{
+                                        <v-list-item-title>{{
                                             trabajo.direccionEmpleado
-                                        }}</v-list-item-title
-                                        >
+                                        }}</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-col>
@@ -136,9 +135,7 @@
                                             ></v-list-item-title
                                         >
                                         <v-list-item-title
-                                            >{{
-                                                trabajo.valorDuracion
-                                            }}
+                                            >{{ trabajo.valorDuracion }}
                                             {{
                                                 trabajo.escalaDuracion
                                             }}</v-list-item-title
@@ -154,13 +151,13 @@
                                                 >Zona geográfica</strong
                                             ></v-list-item-title
                                         >
-                                        <v-list-item-title>{{
-                                            trabajo.nombreCiudad
-                                        }}, {{
-                                            trabajo.nombreEstado
-                                        }}, {{
-                                            trabajo.nombrePais
-                                        }}</v-list-item-title>
+                                        <v-list-item-title
+                                            >{{ trabajo.nombreCiudad }},
+                                            {{ trabajo.nombreEstado }},
+                                            {{
+                                                trabajo.nombrePais
+                                            }}</v-list-item-title
+                                        >
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-col>
@@ -174,11 +171,9 @@
                                                 >Correo del empleado</strong
                                             ></v-list-item-title
                                         >
-                                        <v-list-item-title
-                                            >{{
-                                                trabajo.correoElectronicoEmpleado
-                                            }}</v-list-item-title
-                                        >
+                                        <v-list-item-title>{{
+                                            trabajo.correoElectronicoEmpleado
+                                        }}</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-col>
@@ -206,11 +201,9 @@
                                                 >Turno de trabajo</strong
                                             ></v-list-item-title
                                         >
-                                        <v-list-item-title
-                                            >{{
-                                                trabajo.turnoTrabajo
-                                            }}</v-list-item-title
-                                        >
+                                        <v-list-item-title>{{
+                                            trabajo.turnoTrabajo
+                                        }}</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-col>
@@ -223,7 +216,9 @@
                                             ></v-list-item-title
                                         >
                                         <v-list-item-title>{{
-                                            trabajo.fechaCulminacionTrabajo ? trabajo.fechaCulminacionTrabajo : "SIN CULMINAR"
+                                            trabajo.fechaCulminacionTrabajo
+                                                ? trabajo.fechaCulminacionTrabajo
+                                                : "SIN CULMINAR"
                                         }}</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>

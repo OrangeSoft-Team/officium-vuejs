@@ -50,18 +50,33 @@
                                     <modal-trabajo-detalle
                                         :id-trabajo="row.item.uuid"
                                     ></modal-trabajo-detalle>
+                                    <!--CULMINAR TRABAJO-->
                                     <v-btn
                                         depressed
                                         rounded
                                         color="primary"
                                         small
-                                        outlined
                                         class="ml-1"
                                         @click="
                                             ejecutarCUCulminar(row.item.uuid)
                                         "
                                         >Culminar
                                         <v-icon>mdi-check-all</v-icon></v-btn
+                                    >
+                                    <!-- CANCELAR TRABAJO -->
+                                    <v-btn
+                                        depressed
+                                        rounded
+                                        color="red"
+                                        small
+                                        outlined
+                                        icon
+                                        class="ml-1"
+                                        @click="
+                                            ejecutarCUCancelar(row.item.uuid)
+                                        "
+                                    >
+                                        <v-icon>mdi-close-circle</v-icon></v-btn
                                     >
                                 </td>
                             </tr>
@@ -83,6 +98,7 @@ import { TrabajoEmpresaDTO } from "../../../../trabajo/aplicacion/dto/TrabajoEmp
 
 import ModalTrabajoDetalle from "../components/ModalTrabajoDetalle.vue";
 import { ControladorCulminarTrabajo } from "@/trabajo/infraestructura/controlador/ControladorCulminarTrabajo";
+import { ControladorCancelarTrabajo } from "@/trabajo/infraestructura/controlador/ControladorCancelarTrabajo";
 
 export default Vue.extend({
     components: {
@@ -157,6 +173,28 @@ export default Vue.extend({
                     console.log("[CULMINADO] Trabajo: ", id);
                     if (data.esExitoso) {
                         this.alertExito("¡Trabajo culminado exitosamente!");
+
+                        this.recargarTabla();
+                    } else {
+                        //TODO Manejo de caso con error al recuperar conjunto
+                        console.warn("Algo pasó", data.error);
+                    }
+                })
+                .catch((e) => {
+                    console.error(e);
+                });
+        },
+        ejecutarCUCancelar(id: string) {
+            //Inicializamos el controlador
+            const cuAEjecutar = ControladorCancelarTrabajo.inicializar();
+
+            //Ejecutamos el caso de uso
+            const respuestaCU = cuAEjecutar.ejecutarCU({ uuid_trabajo: id });
+            respuestaCU
+                .then((data) => {
+                    console.log("[CANCELADO] Trabajo: ", id);
+                    if (data.esExitoso) {
+                        this.alertExito("¡Trabajo cancelado exitosamente!");
 
                         this.recargarTabla();
                     } else {
