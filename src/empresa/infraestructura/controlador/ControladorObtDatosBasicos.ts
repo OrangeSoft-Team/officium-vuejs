@@ -4,6 +4,7 @@ import { obtenerDatosBasicos } from "../../aplicacion/casoDeUso/ObtenerDatosBasi
 import { DatosBasicosEmpresaDTO } from "../../aplicacion/dto/DatosBasicosEmpresaDTO";
 import { IEmpresaRepo } from "../../aplicacion/IEmpresa.repositorio";
 import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
+import { HTTPRepositorioDatosBasicos } from "../HTTP/HTTPRepositorioDatosBasicos";
 
 //Controlador de CU Obtener detalle de Oferta Laboral
 export class ControladorObtDatosBasicos {
@@ -17,7 +18,7 @@ export class ControladorObtDatosBasicos {
     //Método estático para inicializar controlador
     public static inicializar(): ControladorObtDatosBasicos {
         return new ControladorObtDatosBasicos(
-            new JSONRepositorioDatosBasicos(new LocalStoragePersistencia())
+            new HTTPRepositorioDatosBasicos(new LocalStoragePersistencia())
         );
     }
 

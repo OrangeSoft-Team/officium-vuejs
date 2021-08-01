@@ -19,22 +19,30 @@ export class JSONRepositorioDatosBasicos implements IEmpresaRepo {
         this.persistenciaAlterna = implPersistencia;
     }
 
-    obtenerDatosBasicos(): Resultado<DatosBasicosEmpresaDTO> {
-        //Hacemos peticion a backend
+    obtenerDatosBasicos(): Promise<Resultado<DatosBasicosEmpresaDTO>> {
+        return new Promise((resolve, reject) => {
+            //Hacemos peticion a backend
 
-        //Respondemos
-        return Resultado.ok<DatosBasicosEmpresaDTO>(
-            DATOS_BASICOS_EMPRESA_VALIDOS
-        );
+            //Respondemos
+            return resolve(
+                Resultado.ok<DatosBasicosEmpresaDTO>(
+                    DATOS_BASICOS_EMPRESA_VALIDOS
+                )
+            );
+        });
     }
     actualizarDatosBasicos(
         datosBasicos: ActualizarDatosBasicosEmpresaDTO
-    ): Resultado<OperacionExitosaDTO> {
-        //Enviamos peticion a backend
+    ): Promise<Resultado<OperacionExitosaDTO>> {
+        return new Promise((resolve, reject) => {
+            //Enviamos peticion a backend
 
-        //Respondemos
-        return Resultado.ok<OperacionExitosaDTO>({
-            mensaje: OPERACION_EXITOSA,
+            //Respondemos
+            return resolve(
+                Resultado.ok<OperacionExitosaDTO>({
+                    mensaje: OPERACION_EXITOSA,
+                })
+            );
         });
     }
 }

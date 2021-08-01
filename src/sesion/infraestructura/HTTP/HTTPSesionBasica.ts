@@ -24,7 +24,9 @@ export class SesionBasicaHTTP implements IServicioSesion {
         return new Promise((resolve, reject) => {
             //Enviamos datos a back
             axios
-                .post(NEST_URL_BASE + "empleador/auth", credencial)
+                .post(NEST_URL_BASE + "empleador/auth", credencial, {
+                    withCredentials: true,
+                })
                 //Esperamos respuesta
                 .then((respuesta) => {
                     //Afirmativa => Guardamos

@@ -25,68 +25,74 @@ export class JSONRepositorioDatosBasicos implements IEmpresaRepo {
         this.persistenciaAlterna = implPersistencia;
     }
 
-    obtenerDatosBasicos(): Resultado<DatosBasicosEmpresaDTO> {
-        //Solicitamos ID de empresa para la petición
-        const datosEmpresaOrError =
-            this.persistenciaAlterna.obtener<RespuestaInicioSesionDTO>(
-                CLAVE_SESION_USUARIO
-            );
+    obtenerDatosBasicos(): Promise<Resultado<DatosBasicosEmpresaDTO>> {
+        return new Promise((resolve, reject) => {
+            //Solicitamos ID de empresa para la petición
+            const datosEmpresaOrError =
+                this.persistenciaAlterna.obtener<RespuestaInicioSesionDTO>(
+                    CLAVE_SESION_USUARIO
+                );
 
-        if (datosEmpresaOrError.esFallido)
-            return Resultado.falla<any>(OPERACION_FALLIDA);
+            if (datosEmpresaOrError.esFallido)
+                return Resultado.falla<any>(OPERACION_FALLIDA);
 
-        //datosEmpresaOrError.getValue().uuidEmpresa
+            //datosEmpresaOrError.getValue().uuidEmpresa
 
-        //Hacemos peticion a backend
-        //(fake) Recueperamos de persistencia
-        const datosOrError =
-            this.persistenciaAlterna.obtener<DatosBasicosEmpresaDTO>(
-                CLAVE_DATOS_BASICOS_EMPRESA
-            );
-        let respuesta: DatosBasicosEmpresaDTO;
-        if (datosOrError.esExitoso) {
-            respuesta = datosOrError.getValue();
-        } else {
-            //No existe en resistencia alterna
-            respuesta = DATOS_BASICOS_EMPRESA_VALIDOS;
-            this.persistenciaAlterna.guardar(
-                CLAVE_DATOS_BASICOS_EMPRESA,
-                respuesta
-            );
-        }
-        //Transformamos id de habilidades
-        let habilidades: HabilidadDTO[] = [];
-        for (let habilidad of respuesta.habilidad) {
-            habilidades.push({ uuid: <string>(<unknown>habilidad) });
-        }
-        respuesta.habilidad = habilidades;
-        respuesta.correoElectronico = "test@test.com";
+            //Hacemos peticion a backend
+            //(fake) Recueperamos de persistencia
+            const datosOrError =
+                this.persistenciaAlterna.obtener<DatosBasicosEmpresaDTO>(
+                    CLAVE_DATOS_BASICOS_EMPRESA
+                );
+            let respuesta: DatosBasicosEmpresaDTO;
+            if (datosOrError.esExitoso) {
+                respuesta = datosOrError.getValue();
+            } else {
+                //No existe en resistencia alterna
+                respuesta = DATOS_BASICOS_EMPRESA_VALIDOS;
+                this.persistenciaAlterna.guardar(
+                    CLAVE_DATOS_BASICOS_EMPRESA,
+                    respuesta
+                );
+            }
+            //Transformamos id de habilidades
+            let habilidades: HabilidadDTO[] = [];
+            for (let habilidad of respuesta.habilidad) {
+                habilidades.push({ uuid: <string>(<unknown>habilidad) });
+            }
+            respuesta.habilidad = habilidades;
+            respuesta.correoElectronico = "test@test.com";
 
-        //Respondemos
-        return Resultado.ok<DatosBasicosEmpresaDTO>(respuesta);
+            //Respondemos
+            resolve(Resultado.ok<DatosBasicosEmpresaDTO>(respuesta));
+        });
     }
     actualizarDatosBasicos(
         datosBasicos: ActualizarDatosBasicosEmpresaDTO
-    ): Resultado<OperacionExitosaDTO> {
-        //Solicitamos ID de empresa para la petición
-        const datosEmpresaOrError =
-            this.persistenciaAlterna.obtener<RespuestaInicioSesionDTO>(
-                CLAVE_SESION_USUARIO
+    ): Promise<Resultado<OperacionExitosaDTO>> {
+        return new Promise((resolve, reject) => {
+            //Solicitamos ID de empresa para la petición
+            const datosEmpresaOrError =
+                this.persistenciaAlterna.obtener<RespuestaInicioSesionDTO>(
+                    CLAVE_SESION_USUARIO
+                );
+
+            if (datosEmpresaOrError.esFallido)
+                return Resultado.falla<any>(OPERACION_FALLIDA);
+
+            //Enviamos peticion a backend
+            //(fake) Actualizamos persistencia
+            this.persistenciaAlterna.guardar(
+                CLAVE_DATOS_BASICOS_EMPRESA,
+                datosBasicos
             );
 
-        if (datosEmpresaOrError.esFallido)
-            return Resultado.falla<any>(OPERACION_FALLIDA);
-
-        //Enviamos peticion a backend
-        //(fake) Actualizamos persistencia
-        this.persistenciaAlterna.guardar(
-            CLAVE_DATOS_BASICOS_EMPRESA,
-            datosBasicos
-        );
-
-        //Respondemos
-        return Resultado.ok<OperacionExitosaDTO>({
-            mensaje: OPERACION_EXITOSA,
+            //Respondemos
+            resolve(
+                Resultado.ok<OperacionExitosaDTO>({
+                    mensaje: OPERACION_EXITOSA,
+                })
+            );
         });
     }
 }
