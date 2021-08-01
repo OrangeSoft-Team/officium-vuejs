@@ -54,7 +54,7 @@ export class ModificarOfertaLaboral
 
             //Llamamos al repositorio
             let NuevaOfertaLaboralOrError =
-                this.RepoOfertasLaborales.crearOfertaLaboral(
+                this.RepoOfertasLaborales.modificarOfertaLaboral(
                     DTOCrearOfertaOrError.getValue()
                 );
             if (NuevaOfertaLaboralOrError.esFallido)

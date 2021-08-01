@@ -54,19 +54,21 @@
                                     <v-btn
                                         depressed
                                         rounded
+                                        title="Culminar trabajo"
                                         color="primary"
                                         small
                                         class="ml-1"
                                         @click="
                                             ejecutarCUCulminar(row.item.uuid)
                                         "
-                                        >Culminar
+                                        >
                                         <v-icon>mdi-check-all</v-icon></v-btn
                                     >
                                     <!-- CANCELAR TRABAJO -->
                                     <v-btn
                                         depressed
                                         rounded
+                                        title="Cancelar trabajo"
                                         color="red"
                                         small
                                         outlined
