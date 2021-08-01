@@ -17,6 +17,7 @@ const OFERTA_LABORAL = {
     duracionEstimadaEscala: "mes",
     turnoTrabajo: "diurno",
     numeroVacantes: 4,
+    habilidad: "Trabajar bajo presión",
 };
 
 module.exports = {
@@ -65,6 +66,8 @@ module.exports = {
             .setValue("#inpt-duracion", OFERTA_LABORAL.duracionEstimadaValor)
             .setValue("#inpt-escala", OFERTA_LABORAL.duracionEstimadaEscala)
             .setValue("#inpt-descripcion", OFERTA_LABORAL.descripcion)
+            .setValue("#inpt-habilidad", OFERTA_LABORAL.habilidad)
+            .click("#btn-add-habilidad")
             .click("#btn-submit-crear");
 
         //Mensaje de exito

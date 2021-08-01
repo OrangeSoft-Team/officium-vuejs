@@ -17,7 +17,7 @@ export class EstadoOferta extends ValueObject<estadoOfertaProps> {
 
     public static crear(estado: string): Resultado<EstadoOferta> {
         //Validaciones de valores posible
-        let valores = ["publicado", "cancelado"];
+        let valores = ["publicado", "cancelado", "cerrado"];
         if (valores.indexOf(estado) == -1)
             return Resultado.falla<any>(ESTADO_OFERTA_NO_RECONOCIDO);
 

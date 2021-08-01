@@ -15,11 +15,16 @@ import {
     CLAVE_SESION_USUARIO,
     CLAVE_ULT_OFERTA_LABORAL,
 } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
-import { OFERTAS_LABORALES_RESPUESTA_VALIDA } from "./respuestas/ListadoOfertasLaborales";
+import {
+    OFERTAS_LABORALES_DETALLADAS_VALIDAS,
+    OFERTAS_LABORALES_RESPUESTA_VALIDA,
+} from "./respuestas/ListadoOfertasLaborales";
 import { RespuestaInicioSesionDTO } from "../../../sesion/aplicacion/dto/RespuestaInicioSesionDTO";
+import { CrearOfertaLaboralDTO } from "../../aplicacion/dto/CrearOfertaLaboralDTO";
+import { HabilidadDTO } from "../../../comun/aplicacion/dtos/HabilidadDTO";
 
 interface auxiliarJSONCrearOfertaLaboralDTO {
-    idOfertaLaboral?: string;
+    uuid?: string;
     fechaPublicacion?: string;
     uuidempresa?: string;
     titulo: string;
@@ -30,6 +35,8 @@ interface auxiliarJSONCrearOfertaLaboralDTO {
     turnoTrabajo: string;
     numeroVacantes: number;
     descripcion: string;
+    habilidades: HabilidadDTO[];
+    requisitosEspeciales?: string;
 }
 
 export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
@@ -40,16 +47,18 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     }
 
     crearOfertaLaboral(
-        ofertaLaboral: SolicitudCreacionOfertaLaboralDTO
+        ofertaLaboral: CrearOfertaLaboralDTO
     ): Resultado<OperacionExitosaDTO> {
         //Solicitamos ID de empresa para la petición
-        const datosEmpresaOrError =
+        /*const datosEmpresaOrError =
             this.persistenciaAlterna.obtener<RespuestaInicioSesionDTO>(
                 CLAVE_SESION_USUARIO
             );
 
         if (datosEmpresaOrError.esFallido)
-            return Resultado.falla<any>(OPERACION_FALLIDA);
+            return Resultado.falla<any>(OPERACION_FALLIDA);*/
+
+        //Fake id
 
         //Esperamos respuesta
         //Simulamos anexar
@@ -65,9 +74,26 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
         }
 
         //Generamos  y fecha fake
-        let auxiliarDTO: auxiliarJSONCrearOfertaLaboralDTO = ofertaLaboral;
-        auxiliarDTO.idOfertaLaboral = (Math.random() * 1000).toFixed(0);
-        auxiliarDTO.fechaPublicacion = "10/10/2020";
+        let auxiliarDTO: auxiliarJSONCrearOfertaLaboralDTO = {
+            uuid: (Math.random() * 1000).toFixed(0),
+            fechaPublicacion: "10/10/2020",
+            titulo: ofertaLaboral.titulo,
+            cargo: ofertaLaboral.cargo,
+            sueldo: ofertaLaboral.sueldo,
+            duracionEstimadaValor: ofertaLaboral.duracionEstimadaValor,
+            duracionEstimadaEscala: ofertaLaboral.duracionEstimadaEscala,
+            turnoTrabajo: ofertaLaboral.turnoTrabajo,
+            numeroVacantes: ofertaLaboral.numeroVacantes,
+            descripcion: ofertaLaboral.descripcion,
+            habilidades: [
+                {
+                    uuid: "sa5d45s4d5sa",
+                    nombre: "Hace nudos",
+                    categoria: "manual",
+                },
+            ],
+            requisitosEspeciales: ofertaLaboral.requisitosEspeciales,
+        };
         arregloOfertas.push(auxiliarDTO);
         console.log(arregloOfertas);
 
@@ -95,7 +121,7 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
         );
         if (listadoOrError.esFallido) {
             //Almacenamos en persitencia en respuesta exitosa
-            const A_RESPONDER_DEFAULT = OFERTAS_LABORALES_RESPUESTA_VALIDA;
+            const A_RESPONDER_DEFAULT = OFERTAS_LABORALES_DETALLADAS_VALIDAS;
             this.persistenciaAlterna.guardar(
                 CLAVE_CONJUNTO_OFERTAS_LABORALES,
                 A_RESPONDER_DEFAULT
@@ -117,7 +143,7 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     ): Resultado<OfertaLaboralEmpresaDTO> {
         //Esperamos respuesta
         let arregloOfertas: OfertaLaboralEmpresaDTO[] =
-            OFERTAS_LABORALES_RESPUESTA_VALIDA;
+            OFERTAS_LABORALES_DETALLADAS_VALIDAS;
         const listadoOrError = this.persistenciaAlterna.obtener(
             CLAVE_CONJUNTO_OFERTAS_LABORALES
         );
@@ -129,7 +155,7 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
         }
 
         for (let i: number = 0; i <= arregloOfertas.length; i++) {
-            if (arregloOfertas[i].idOfertaLaboral === id.idOfertaLaboral) {
+            if (arregloOfertas[i].uuid === id.idOfertaLaboral) {
                 const respuesta: OfertaLaboralEmpresaDTO = arregloOfertas[i];
 
                 this.persistenciaAlterna.guardar(

@@ -3,7 +3,10 @@ import {
     OPERACION_EXITOSA,
 } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 import { Resultado } from "../../../comun/dominio/resultado";
-import { DatosBasicosEmpresaDTO } from "../../aplicacion/dto/DatosBasicosEmpresaDTO";
+import {
+    ActualizarDatosBasicosEmpresaDTO,
+    DatosBasicosEmpresaDTO,
+} from "../../aplicacion/dto/DatosBasicosEmpresaDTO";
 import { IEmpresaRepo } from "../../aplicacion/IEmpresa.repositorio";
 import { DATOS_BASICOS_EMPRESA_VALIDOS } from "./RespuestasDatosBasicos";
 import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersistencia";
@@ -13,6 +16,7 @@ import {
 } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
 import { RespuestaInicioSesionDTO } from "../../../sesion/aplicacion/dto/RespuestaInicioSesionDTO";
 import { OPERACION_FALLIDA } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionFallida";
+import { HabilidadDTO } from "../../../comun/aplicacion/dtos/HabilidadDTO";
 
 export class JSONRepositorioDatosBasicos implements IEmpresaRepo {
     private persistenciaAlterna: IServicioPersistencia;
@@ -50,12 +54,19 @@ export class JSONRepositorioDatosBasicos implements IEmpresaRepo {
                 respuesta
             );
         }
+        //Transformamos id de habilidades
+        let habilidades: HabilidadDTO[] = [];
+        for (let habilidad of respuesta.habilidad) {
+            habilidades.push({ uuid: <string>(<unknown>habilidad) });
+        }
+        respuesta.habilidad = habilidades;
+        respuesta.correoElectronico = "test@test.com";
 
         //Respondemos
         return Resultado.ok<DatosBasicosEmpresaDTO>(respuesta);
     }
     actualizarDatosBasicos(
-        datosBasicos: DatosBasicosEmpresaDTO
+        datosBasicos: ActualizarDatosBasicosEmpresaDTO
     ): Resultado<OperacionExitosaDTO> {
         //Solicitamos ID de empresa para la petición
         const datosEmpresaOrError =

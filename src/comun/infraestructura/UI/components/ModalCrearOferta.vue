@@ -94,6 +94,19 @@
                             </v-col>
                         </v-row>
                         <v-row>
+                            <v-col cols="12" sm="12" md="12" lg="12" xl="12">
+                                <v-text-field
+                                    v-model="
+                                        ofertaLaboralCrear.requisitosEspeciales
+                                    "
+                                    :counter="100"
+                                    type="text"
+                                    label="Ingrese los requisitos especiales (opcional)"
+                                    id="inpt-req-esp"
+                                ></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row>
                             <strong>Duración</strong>
                         </v-row>
                         <v-row>
@@ -136,6 +149,109 @@
                             :rules="[(v) => !!v || 'Este campo es obligatorio']"
                             id="inpt-descripcion"
                         ></v-textarea>
+                        <v-row class="justify-center">
+                            <v-col cols="12" sm="12" md="12" lg="12" xl="12">
+                                <v-card>
+                                    <v-row class="justify-center">
+                                        <v-col
+                                            cols="12"
+                                            sm="4"
+                                            md="4"
+                                            lg="4"
+                                            xl="4"
+                                        >
+                                            <v-row class="justify-center">
+                                                <v-select
+                                                    v-model="uuidHabilidad"
+                                                    :items="listaHabilidades"
+                                                    item-text="nombre"
+                                                    item-value="uuid"
+                                                    label="Lista de habilidades"
+                                                    required
+                                                    id="inpt-habilidad"
+                                                ></v-select>
+                                            </v-row>
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            sm="2"
+                                            md="2"
+                                            lg="2"
+                                            xl="2"
+                                        >
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            sm="4"
+                                            md="4"
+                                            lg="4"
+                                            xl="4"
+                                        >
+                                            <v-row class="justify-center">
+                                                <v-btn
+                                                    class="ma-5"
+                                                    color="primary"
+                                                    id="btn-add-habilidad"
+                                                    outlined
+                                                    v-on:click="
+                                                        agregarHabilidad
+                                                    "
+                                                    block
+                                                >
+                                                    <v-icon dark>
+                                                        mdi-checkbox-marked-circle
+                                                    </v-icon>
+                                                    Agregar habilidad a la tabla
+                                                </v-btn>
+                                            </v-row>
+                                        </v-col>
+                                    </v-row>
+
+                                    <v-card-title>
+                                        <v-row
+                                            justify="space-between"
+                                            class="pa-2"
+                                        >
+                                            Habilidades requeridas en la oferta
+                                            laboral
+                                        </v-row>
+                                    </v-card-title>
+                                    <v-data-table
+                                        :headers="headersTableHabilidades"
+                                        :items="habilidadesEmpresa"
+                                        :items-per-page="3"
+                                        class="elevation-1"
+                                        locale="es"
+                                    >
+                                        <template v-slot:item="row">
+                                            <tr>
+                                                <td>{{ row.item.nombre }}</td>
+                                                <td>
+                                                    {{ row.item.categoria }}
+                                                </td>
+                                                <td>
+                                                    <v-btn
+                                                        x-small
+                                                        color="red"
+                                                        v-on:click="
+                                                            quitarHabilidad(
+                                                                row.item.uuid
+                                                            )
+                                                        "
+                                                        block
+                                                    >
+                                                        <v-icon dark small>
+                                                            mdi-cancel
+                                                        </v-icon>
+                                                        eliminar
+                                                    </v-btn>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </v-data-table>
+                                </v-card>
+                            </v-col>
+                        </v-row>
                     </v-container>
                 </v-card-text>
                 <v-card-actions>
@@ -169,14 +285,19 @@
 <script lang="ts">
 import Vue from "vue";
 import { ControladorCrearOfertaLaboral } from "../../../../ofertaLaboral/infraestructura/controlador/ControladorCrearOfertaLaboral";
+import { ControladorObtenerHabilidades } from "../../controlador/ControladorObtHabilidades";
 //Importamos la interface del DTO para que el objeto a mostrar en la tabla
 //sea del mismo tipo que el que se trae en la respuesta del CU
 
 //import { CrearOfertaLaboralDTO } from "../../../../ofertaLaboral/aplicacion/dto/CrearOfertaLaboralDTO";
 import { SolicitudCreacionOfertaLaboralDTO } from "../../../../ofertaLaboral/aplicacion/casoDeUso/CrearOfertaLaboral.cu";
 
+//DTO para las habilidades
+import { HabilidadDTO } from "../../../../comun/aplicacion/dtos/HabilidadDTO";
+
 import AlertaError from "../components/AlertaError.vue";
 import AlertaExito from "../components/AlertaExito.vue";
+import { OfertaLaboral } from "@/ofertaLaboral/dominio/OfertaLaboral";
 
 export default Vue.extend({
     components: {
@@ -195,25 +316,76 @@ export default Vue.extend({
                 turnoTrabajo: "",
                 numeroVacantes: 0,
                 descripcion: "",
+                habilidades: [],
             } as SolicitudCreacionOfertaLaboralDTO,
             formValido: true,
             opcionesEscalaDuracion: ["hora", "día", "semana", "mes"],
             opcionesTurnoTrabajo: ["diurno", "nocturno", "mixto"],
             dialog: false,
+            headersTableHabilidades: [
+                { text: "Nombre", value: "nombre" },
+                { text: "Categoría", value: "categoria" },
+                { text: "Acciones", value: "acciones" },
+            ],
+            habilidadesEmpresa: [] as HabilidadDTO[],
+            listaHabilidades: [] as HabilidadDTO[],
+            uuidHabilidad: "",
 
             //Para el manejo del mensaje
             mensajeError: "",
             snackbar: false,
         };
     },
-
+    mounted() {
+        this.ejecutarCUHabilidades();
+    },
     methods: {
+        ejecutarCUHabilidades() {
+            //Inicializamos controlador
+            const cuHab = ControladorObtenerHabilidades.inicializar();
+
+            //Ejecutamos el caso de uso
+            const respuestaCUHabilidades = cuHab.ejecutarCU();
+            respuestaCUHabilidades
+                .then((data) => {
+                    if (data.esExitoso) {
+                        //Cambiamos el estado
+                        this.estaCargando = false;
+                        //Actualizamos
+                        this.listaHabilidades = data.getValue();
+                    } else {
+                        //TODO Manejo de caso con error al recuperar conjunto
+                        console.warn("Algo pasó", data.error);
+                    }
+                })
+                .catch((e) => {
+                    console.error(e);
+                });
+        },
         crear() {
             console.log("Objeto a enviar: ");
             console.log(this.ofertaLaboralCrear);
+            if (this.ofertaLaboralCrear.requisitosEspeciales == "")
+                this.ofertaLaboralCrear.requisitosEspeciales = undefined;
+
+            /*
+            let objEnviar:SolicitudCreacionOfertaLaboralDTO = {
+                titulo: this.ofertaLaboralCrear.titulo,
+                cargo: this.ofertaLaboralCrear.cargo,
+                sueldo: this.ofertaLaboralCrear.sueldo,
+                duracionEstimadaValor: this.ofertaLaboralCrear.duracionEstimadaValor,
+                duracionEstimadaEscala: this.ofertaLaboralCrear.duracionEstimadaEscala,
+                turnoTrabajo: this.ofertaLaboralCrear.turnoTrabajo,
+                numeroVacantes: this.ofertaLaboralCrear.numeroVacantes,
+                descripcion: this.ofertaLaboralCrear.descripcion,
+                uuidHabilidades: this.ofertaLaboralCrear.uuidHabilidades
+            }
+            */
+
             //Inicializamos el controlador
             const cuAEjecutar = ControladorCrearOfertaLaboral.inicializar();
 
+            //const respuestaCU = cuAEjecutar.ejecutarCU(this.ofertaLaboralCrear);
             const respuestaCU = cuAEjecutar.ejecutarCU(this.ofertaLaboralCrear);
             respuestaCU
                 .then((data: any) => {
@@ -238,6 +410,8 @@ export default Vue.extend({
                             turnoTrabajo: "",
                             numeroVacantes: 0,
                             descripcion: "",
+                            requisitosEspeciales: "",
+                            uuidHabilidades: []
                         }
                         */
 
@@ -264,12 +438,46 @@ export default Vue.extend({
             interface VForm extends HTMLFormElement {
                 validate(): boolean;
             }
-            //this.$refs[`form`][0].validate();
             if (this.$refs.formulario != undefined) {
-                //console.log(this.$refs.formulario);
                 const prueba = this.$refs.form as VForm;
                 console.log(prueba);
                 prueba.validate();
+            }
+        },
+        agregarHabilidad() {
+            //Validar que el elemento no esté dentro del array
+            if (
+                !this.ofertaLaboralCrear.habilidades.find(
+                    (i) => i.uuid === this.uuidHabilidad
+                )
+            ) {
+                for (let i = 0; i < this.listaHabilidades.length; i++) {
+                    if (this.listaHabilidades[i].uuid == this.uuidHabilidad) {
+                        this.habilidadesEmpresa.push(this.listaHabilidades[i]);
+                        this.ofertaLaboralCrear.habilidades.push(
+                            this.listaHabilidades[i]
+                        );
+                        break;
+                    }
+                }
+            }
+        },
+        quitarHabilidad(uuidHab: string) {
+            for (let i = 0; i < this.habilidadesEmpresa.length; i++) {
+                if (this.habilidadesEmpresa[i].uuid == uuidHab) {
+                    this.habilidadesEmpresa.splice(i, 1);
+                    break;
+                }
+            }
+            for (
+                let i = 0;
+                i < this.ofertaLaboralCrear.habilidades.length;
+                i++
+            ) {
+                if (this.ofertaLaboralCrear.habilidades[i].uuid == uuidHab) {
+                    this.ofertaLaboralCrear.habilidades.splice(i, 1);
+                    break;
+                }
             }
         },
         alertaFin() {

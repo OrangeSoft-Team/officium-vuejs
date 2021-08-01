@@ -63,11 +63,11 @@
                                     <v-list-item-content>
                                         <v-list-item-title
                                             ><strong
-                                                >Fecha de publicación</strong
+                                                >Número de vacantes</strong
                                             ></v-list-item-title
                                         >
                                         <v-list-item-title>{{
-                                            ofertaLaboral.fechaPublicacion
+                                            ofertaLaboral.numeroVacantes
                                         }}</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
@@ -79,15 +79,33 @@
                                     <v-list-item-content>
                                         <v-list-item-title
                                             ><strong
-                                                >Número de vacantes</strong
+                                                >Fecha de publicación</strong
                                             ></v-list-item-title
                                         >
                                         <v-list-item-title>{{
-                                            ofertaLaboral.numeroVacantes
+                                            ofertaLaboral.fechaPublicacion
                                         }}</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-col>
+                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
+                                <v-list-item>
+                                    <v-list-item-content>
+                                        <v-list-item-title
+                                            ><strong
+                                                >Fecha de modificación</strong
+                                            ></v-list-item-title
+                                        >
+                                        <v-list-item-title
+                                            >{{
+                                                ofertaLaboral.fechaModificacion
+                                            }}</v-list-item-title
+                                        >
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-col>
+                        </v-row>
+                        <v-row>
                             <v-col cols="6" sm="6" md="6" lg="6" xl="6">
                                 <v-list-item>
                                     <v-list-item-content>
@@ -101,6 +119,20 @@
                                                 ofertaLaboral.sueldo
                                             }}$</v-list-item-title
                                         >
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-col>
+                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
+                                <v-list-item>
+                                    <v-list-item-content>
+                                        <v-list-item-title
+                                            ><strong
+                                                >Requisitos especiales</strong
+                                            ></v-list-item-title
+                                        >
+                                        <v-list-item-title>{{
+                                            ofertaLaboral.requisitosEspeciales
+                                        }}</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-col>
@@ -140,18 +172,80 @@
                                 </v-list-item>
                             </v-col>
                         </v-row>
-                        <v-list-item>
-                            <v-list-item-content>
-                                <v-list-item-title
-                                    ><strong
-                                        >Descripción</strong
-                                    ></v-list-item-title
-                                >
-                                <v-list-item-title>{{
-                                    ofertaLaboral.descripcion
-                                }}</v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
+                        <v-row>
+                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
+                                <v-list-item>
+                                    <v-list-item-content>
+                                        <v-list-item-title
+                                            ><strong
+                                                >Estatus</strong
+                                            ></v-list-item-title
+                                        >
+                                        <v-list-item-title
+                                            >{{
+                                                ofertaLaboral.estado
+                                            }}</v-list-item-title
+                                        >
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-col>
+                            <v-col cols="6" sm="6" md="6" lg="6" xl="6">
+
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-list-item>
+                                <v-list-item-content>
+                                    <v-list-item-title
+                                        ><strong
+                                            >Descripción</strong
+                                        ></v-list-item-title
+                                    >
+                                    <v-list-item-title>{{
+                                        ofertaLaboral.descripcion
+                                    }}</v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-row>
+                        <v-row>
+                            <strong></strong>
+                        </v-row>
+                        <v-row>
+                            <v-list-item>
+                                <v-list-item-content>
+                                    <v-list-item-title
+                                        ><strong
+                                            >Habilidades</strong
+                                        ></v-list-item-title
+                                    >
+                                    <v-list-item-title>
+                                        <v-simple-table>
+                                <template v-slot:default>
+                                <thead>
+                                    <tr>
+                                    <th class="text-left"><strong>
+                                        Nombre
+                                    </strong></th>
+                                    <th class="text-left"><strong>
+                                        Categoría
+                                    </strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                    v-for="item in ofertaLaboral.habilidades"
+                                    :key="item.uuid"
+                                    >
+                                    <td>{{ item.nombre }}</td>
+                                    <td>{{ item.categoria }}</td>
+                                    </tr>
+                                </tbody>
+                                </template>
+                            </v-simple-table>
+                                    </v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-row>
                     </v-list>
                 </v-container>
             </v-card-text>
@@ -173,7 +267,7 @@ import { ControladorDetalleOfertaLaboral } from "../../../../ofertaLaboral/infra
 import { OfertaLaboralEmpresaDTO } from "../../../../ofertaLaboral/aplicacion/dto/OfertaLaboralEmpresaDTO";
 
 export default Vue.extend({
-    props: ["idOferta"],
+    props: ["uuid"],
     data() {
         return {
             estaCargando: true,
@@ -184,12 +278,12 @@ export default Vue.extend({
 
     methods: {
         obtenerDetalle() {
-            console.log("[ID  detalle] ", this.$props.idOferta);
+            console.log("[ID  detalle] ", this.$props.uuid);
             //Inicializamos el controlador
             const cuAEjecutar = ControladorDetalleOfertaLaboral.inicializar();
 
             const respuestaCU = cuAEjecutar.ejecutarCU({
-                idOfertaLaboral: this.$props.idOferta,
+                idOfertaLaboral: this.$props.uuid,
             });
             respuestaCU
                 .then((data) => {

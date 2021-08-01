@@ -2,7 +2,7 @@ import { SolicitudCreacionOfertaLaboralDTO } from "../../../aplicacion/casoDeUso
 import { OfertaLaboralEmpresaDTO } from "../../../aplicacion/dto/OfertaLaboralEmpresaDTO";
 
 export const OFERTA_LABORAL_RESPUESTA_VALIDA: OfertaLaboralEmpresaDTO = {
-    idOfertaLaboral: "3",
+    uuid: "3",
     descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
     estado: "publicado",
     titulo: "Encargado de tienda",
@@ -12,7 +12,7 @@ export const OFERTA_LABORAL_RESPUESTA_VALIDA: OfertaLaboralEmpresaDTO = {
     duracionEstimadaValor: 6,
     duracionEstimadaEscala: "mes",
     turnoTrabajo: "diurno",
-    numeroVacantes: 4,
+    numeroVacantes: 4
 };
 
 export const OFERTAS_LABORALES_RESPUESTA_CON_ERROR_VACANTES: OfertaLaboralEmpresaDTO[] =
@@ -42,4 +42,11 @@ export const CREAR_OFERTA_LABORAL_DATOS_INTERFAZ_VALIDA: SolicitudCreacionOferta
         turnoTrabajo: "diurno",
         numeroVacantes: 4,
         descripcion: "Encargado general de tienda IBM Encargado de tienda",
+        habilidades: [
+            {
+                uuid: "00000000-0000-0000-C000-000000000052",
+                nombre: "Hab 1",
+                categoria: "cat 1"
+            }
+        ]
     };

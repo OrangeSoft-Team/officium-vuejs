@@ -3,7 +3,10 @@ import {
     OPERACION_EXITOSA,
 } from "../../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 import { Resultado } from "../../../../comun/dominio/resultado";
-import { DatosBasicosEmpresaDTO } from "../../../aplicacion/dto/DatosBasicosEmpresaDTO";
+import {
+    ActualizarDatosBasicosEmpresaDTO,
+    DatosBasicosEmpresaDTO,
+} from "../../../aplicacion/dto/DatosBasicosEmpresaDTO";
 import { IEmpresaRepo } from "../../../aplicacion/IEmpresa.repositorio";
 import { DATOS_BASICOS_EMPRESA_VALIDOS } from "../RespuestasDatosBasicos";
 import { IServicioPersistencia } from "../../../../comun/aplicacion/IServicioPersistencia";
@@ -25,7 +28,7 @@ export class JSONRepositorioDatosBasicos implements IEmpresaRepo {
         );
     }
     actualizarDatosBasicos(
-        datosBasicos: DatosBasicosEmpresaDTO
+        datosBasicos: ActualizarDatosBasicosEmpresaDTO
     ): Resultado<OperacionExitosaDTO> {
         //Enviamos peticion a backend
 
