@@ -48,9 +48,10 @@ export class CasoUsoIniciarSesionCorreoClave
             return Resultado.falla<any>(autentificarOrError.error);
 
         //Iniciamos sesion
-        const iniciarSesionOrError = await this.SesionBasica.iniciarSesion(
-            solicitud
-        );
+        const iniciarSesionOrError = await this.SesionBasica.iniciarSesion({
+            correoElectronico: autentificarOrError.getValue().email,
+            token: autentificarOrError.getValue().uid,
+        });
         if (iniciarSesionOrError.esFallido)
             return Resultado.falla<any>(iniciarSesionOrError.error);
 

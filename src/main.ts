@@ -13,6 +13,8 @@ var firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
+export const NEST_URL_BASE = "http://officium-nest.ddns.net:2000/api/";
+
 Vue.config.productionTip = false;
 
 new Vue({
