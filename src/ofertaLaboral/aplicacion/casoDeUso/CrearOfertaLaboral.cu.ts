@@ -5,6 +5,8 @@ import { Resultado } from "../../../comun/dominio/resultado";
 import { OfertaLaboralEmpresaDTO } from "../dto/OfertaLaboralEmpresaDTO";
 import { CrearOfertaLaboralMapeador } from "../CrearOfertaLaboral.mapeador";
 import { OperacionExitosaDTO } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
+import { HabilidadDTO } from "../../../comun/aplicacion/dtos/HabilidadDTO";
+
 
 export interface SolicitudCreacionOfertaLaboralDTO {
     uuidempresa?: string;
@@ -17,7 +19,7 @@ export interface SolicitudCreacionOfertaLaboralDTO {
     numeroVacantes: number;
     requisitosEspeciales?: string;
     descripcion: string;
-    uuidHabilidades: string[];
+    uuidHabilidades: HabilidadDTO[];
 }
 
 export class CrearOfertaLaboral

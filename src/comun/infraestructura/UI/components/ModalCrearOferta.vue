@@ -417,13 +417,13 @@ export default Vue.extend({
             //Validar que el elemento no esté dentro del array
             if (
                 !this.ofertaLaboralCrear.uuidHabilidades.find(
-                    (i) => i === this.uuidHabilidad
+                    (i) => i.uuid === this.uuidHabilidad
                 )
             ) {
                 for (let i = 0; i < this.listaHabilidades.length; i++) {
                     if (this.listaHabilidades[i].uuid == this.uuidHabilidad) {
                         this.habilidadesEmpresa.push(this.listaHabilidades[i]);
-                        this.ofertaLaboralCrear.uuidHabilidades.push(this.uuidHabilidad)
+                        this.ofertaLaboralCrear.uuidHabilidades.push(this.listaHabilidades[i])
                         break;
                     }
                 }
@@ -437,7 +437,7 @@ export default Vue.extend({
                 }
             }
             for (let i = 0; i < this.ofertaLaboralCrear.uuidHabilidades.length; i++) {
-                if(this.ofertaLaboralCrear.uuidHabilidades[i] == uuidHab){
+                if(this.ofertaLaboralCrear.uuidHabilidades[i].uuid == uuidHab){
                     this.ofertaLaboralCrear.uuidHabilidades.splice(i, 1);
                     break;
                 }

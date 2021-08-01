@@ -1,3 +1,5 @@
+
+import { HabilidadDTO } from "../../../comun/aplicacion/dtos/HabilidadDTO";
 export interface CrearOfertaLaboralDTO {
     titulo: string;
     cargo: string;
@@ -8,5 +10,5 @@ export interface CrearOfertaLaboralDTO {
     numeroVacantes: number;
     descripcion: string;
     requisitosEspeciales?: string;
-    uuidHabilidades: string[];
+    uuidHabilidades: String[];
 }
