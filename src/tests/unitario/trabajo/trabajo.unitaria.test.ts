@@ -12,6 +12,9 @@ import { IServicioCiudad } from "../../../comun/aplicacion/IServicioCiudad";
 import { JSONPaisServicio } from "../../../comun/infraestructura/JSON/JSONPais.servicio";
 import { JSONEstadoServicio } from "../../../comun/infraestructura/JSON/JSONEstado.servicio";
 import { JSONCiudadServicio } from "../../../comun/infraestructura/JSON/JSONCiudad.servicio";
+import { CulminarTrabajo } from "../../../trabajo/aplicacion/casoDeUso/CulminarTrabajo.cu";
+import { OPERACION_EXITOSA } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
+import { CancelarTrabajo } from "../../../trabajo/aplicacion/casoDeUso/CancelarTrabajo.cu";
 
 jest.mock("../../../trabajo/infraestructura/JSON/JSONTrabajos.repositorio");
 
@@ -72,6 +75,42 @@ describe("Obtener trabajo detallado", () => {
             expect(data.esExitoso).toBeTruthy();
             expect(data.esFallido).toBeFalsy();
             expect(data.getValue().uuid).toBe(DATO_A_USAR.uuid);
+        });
+    });
+});
+
+describe("Culminar un trabajo de la empresa", () => {
+    it("Se culmina exitosamente un trabajo", () => {
+        const CU = new CulminarTrabajo(repoImplementacion);
+        const resultadoCU = CU.ejecutar({
+            uuid_trabajo: "00000-000000-0-0-0000",
+        });
+
+        return resultadoCU.then((data) => {
+            if (data.esFallido) {
+                console.error("[TEST ERROR] ", data.error);
+            }
+            expect(data.esExitoso).toBeTruthy();
+            expect(data.esFallido).toBeFalsy();
+            expect(data.getValue().mensaje).toBe(OPERACION_EXITOSA);
+        });
+    });
+});
+
+describe("Cancelar un trabajo de la empresa", () => {
+    it("Se cancela exitosamente un trabajo", () => {
+        const CU = new CancelarTrabajo(repoImplementacion);
+        const resultadoCU = CU.ejecutar({
+            uuid_trabajo: "00000-000000-0-0-0000",
+        });
+
+        return resultadoCU.then((data) => {
+            if (data.esFallido) {
+                console.error("[TEST ERROR] ", data.error);
+            }
+            expect(data.esExitoso).toBeTruthy();
+            expect(data.esFallido).toBeFalsy();
+            expect(data.getValue().mensaje).toBe(OPERACION_EXITOSA);
         });
     });
 });
