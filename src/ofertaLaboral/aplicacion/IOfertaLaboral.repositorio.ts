@@ -3,6 +3,7 @@ import { SolicitudOfertaLaboralDTO } from "./casoDeUso/ObtenerOfertaLaboralDetal
 import { OfertaLaboralEmpresaDTO } from "./dto/OfertaLaboralEmpresaDTO";
 import { CrearOfertaLaboralDTO } from "./dto/CrearOfertaLaboralDTO";
 import { OperacionExitosaDTO } from "../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
+import { SolicitudCreacionOfertaLaboralDTO } from "./casoDeUso/CrearOfertaLaboral.cu";
 
 export interface IOfertasLaboralesRepo {
     obtenerOfertasLaboralesActivas(): Resultado<OfertaLaboralEmpresaDTO[]>;

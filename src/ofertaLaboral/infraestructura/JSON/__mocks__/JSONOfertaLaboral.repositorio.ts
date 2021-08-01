@@ -9,10 +9,11 @@ import {
 } from "../../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 import { OFERTAS_LABORALES_RESPUESTA_VALIDA } from "../../../infraestructura/JSON/respuestas/ListadoOfertasLaborales";
 import { OFERTA_LABORAL_RESPUESTA_VALIDA } from "../../../infraestructura/JSON/respuestas/IndividualOfertaLaboral";
+import { CrearOfertaLaboralDTO } from "../../../aplicacion/dto/CrearOfertaLaboralDTO";
 
 export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     crearOfertaLaboral(
-        ofertaLaboral: SolicitudCreacionOfertaLaboralDTO
+        ofertaLaboral: CrearOfertaLaboralDTO
     ): Resultado<OperacionExitosaDTO> {
         return Resultado.ok<OperacionExitosaDTO>({
             mensaje: OPERACION_EXITOSA,

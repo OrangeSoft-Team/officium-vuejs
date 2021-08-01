@@ -20,6 +20,7 @@ import {
     OFERTAS_LABORALES_RESPUESTA_VALIDA,
 } from "./respuestas/ListadoOfertasLaborales";
 import { RespuestaInicioSesionDTO } from "../../../sesion/aplicacion/dto/RespuestaInicioSesionDTO";
+import { CrearOfertaLaboralDTO } from "../../aplicacion/dto/CrearOfertaLaboralDTO";
 
 interface auxiliarJSONCrearOfertaLaboralDTO {
     idOfertaLaboral?: string;
@@ -43,7 +44,7 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     }
 
     crearOfertaLaboral(
-        ofertaLaboral: SolicitudCreacionOfertaLaboralDTO
+        ofertaLaboral: CrearOfertaLaboralDTO
     ): Resultado<OperacionExitosaDTO> {
         //Solicitamos ID de empresa para la petición
         /*const datosEmpresaOrError =
