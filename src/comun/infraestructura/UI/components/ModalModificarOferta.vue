@@ -52,7 +52,9 @@
                             </v-col>
                             <v-col cols="6" sm="6" md="6" lg="6" xl="6">
                                 <v-select
-                                    v-model="ofertaLaboralModificar.turnoTrabajo"
+                                    v-model="
+                                        ofertaLaboralModificar.turnoTrabajo
+                                    "
                                     :items="opcionesTurnoTrabajo"
                                     :rules="[
                                         (v) =>
@@ -83,7 +85,9 @@
                             </v-col>
                             <v-col cols="6" sm="6" md="6" lg="6" xl="6">
                                 <v-text-field
-                                    v-model.number="ofertaLaboralModificar.sueldo"
+                                    v-model.number="
+                                        ofertaLaboralModificar.sueldo
+                                    "
                                     :counter="10"
                                     type="number"
                                     :rules="[
@@ -312,6 +316,7 @@ export default Vue.extend({
         return {
             estaCargando: true,
             ofertaLaboralModificar: {
+                uuidOfertaLaboral: "",
                 titulo: "",
                 cargo: "",
                 sueldo: 0,
@@ -360,26 +365,35 @@ export default Vue.extend({
                         this.estaCargando = false;
 
                         //Actualizamos
-                        this.ofertaLaboralModificar.uuidempresa = this.$props.uuid;
-                        this.ofertaLaboralModificar.titulo = data.getValue().titulo;
-                        this.ofertaLaboralModificar.cargo = data.getValue().cargo;
-                        this.ofertaLaboralModificar.sueldo = data.getValue().sueldo;
-                        this.ofertaLaboralModificar.duracionEstimadaValor = data.getValue().duracionEstimadaValor;
-                        this.ofertaLaboralModificar.duracionEstimadaEscala = data.getValue().duracionEstimadaEscala;
-                        this.ofertaLaboralModificar.turnoTrabajo = data.getValue().turnoTrabajo;
-                        this.ofertaLaboralModificar.numeroVacantes = data.getValue().numeroVacantes;
-                        this.ofertaLaboralModificar.requisitosEspeciales = data.getValue().requisitosEspeciales;
+                        this.ofertaLaboralModificar.uuidOfertaLaboral =
+                            this.$props.uuid;
+                        this.ofertaLaboralModificar.titulo =
+                            data.getValue().titulo;
+                        this.ofertaLaboralModificar.cargo =
+                            data.getValue().cargo;
+                        this.ofertaLaboralModificar.sueldo =
+                            data.getValue().sueldo;
+                        this.ofertaLaboralModificar.duracionEstimadaValor =
+                            data.getValue().duracionEstimadaValor;
+                        this.ofertaLaboralModificar.duracionEstimadaEscala =
+                            data.getValue().duracionEstimadaEscala;
+                        this.ofertaLaboralModificar.turnoTrabajo =
+                            data.getValue().turnoTrabajo;
+                        this.ofertaLaboralModificar.numeroVacantes =
+                            data.getValue().numeroVacantes;
+                        this.ofertaLaboralModificar.requisitosEspeciales =
+                            data.getValue().requisitosEspeciales;
 
-                        //if (
-                        //    data.getValue().hasOwnProperty("descripcion") && data.getValue().descripcion != undefined
-                        //) {
-                        //    this.ofertaLaboralModificar.descripcion = data.getValue().descripcion;
-                        //}
+                        this.ofertaLaboralModificar.descripcion = <string>(
+                            data.getValue().descripcion
+                        );
 
-                        //this.ofertaLaboralModificar.habilidades = data.getValue().habilidades;
+                        this.ofertaLaboralModificar.habilidades = <
+                            HabilidadDTO[]
+                        >data.getValue().habilidades;
 
                         console.log("[OBJECT] ", data.getValue());
-                    
+
                         console.log("[DETALLE] ", this.ofertaLaboralModificar);
                     } else {
                         //TODO Manejo de caso con error al recuperar conjunto
@@ -436,7 +450,9 @@ export default Vue.extend({
             const cuAEjecutar = ControladorModificarOfertaLaboral.inicializar();
 
             //const respuestaCU = cuAEjecutar.ejecutarCU(this.ofertaLaboralCrear);
-            const respuestaCU = cuAEjecutar.ejecutarCU(this.ofertaLaboralModificar);
+            const respuestaCU = cuAEjecutar.ejecutarCU(
+                this.ofertaLaboralModificar
+            );
             respuestaCU
                 .then((data: any) => {
                     if (data.esExitoso) {
@@ -505,7 +521,9 @@ export default Vue.extend({
                 i < this.ofertaLaboralModificar.habilidades.length;
                 i++
             ) {
-                if (this.ofertaLaboralModificar.habilidades[i].uuid == uuidHab) {
+                if (
+                    this.ofertaLaboralModificar.habilidades[i].uuid == uuidHab
+                ) {
                     this.ofertaLaboralModificar.habilidades.splice(i, 1);
                     break;
                 }

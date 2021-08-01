@@ -36,7 +36,8 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     }
 
     modificarOfertaLaboral(
-        ofertaLaboral: ModificarOfertaLaboralDTO
+        ofertaLaboral: ModificarOfertaLaboralDTO,
+        identificador: { uuid: string }
     ): Resultado<OperacionExitosaDTO> {
         //En caso de respuesta exitosa
         return Resultado.ok<OperacionExitosaDTO>({

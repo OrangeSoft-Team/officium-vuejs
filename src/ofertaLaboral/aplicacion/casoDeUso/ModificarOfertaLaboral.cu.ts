@@ -9,7 +9,7 @@ import { HabilidadDTO } from "../../../comun/aplicacion/dtos/HabilidadDTO";
 import { ModificarOfertaLaboralMapeador } from "../ModificarOfertaLaboral.mapeador";
 
 export interface SolicitudModificacionOfertaLaboralDTO {
-    uuidempresa?: string;
+    uuidOfertaLaboral: string;
     titulo: string;
     cargo: string;
     sueldo: number;
@@ -55,7 +55,8 @@ export class ModificarOfertaLaboral
             //Llamamos al repositorio
             let NuevaOfertaLaboralOrError =
                 this.RepoOfertasLaborales.modificarOfertaLaboral(
-                    DTOCrearOfertaOrError.getValue()
+                    DTOCrearOfertaOrError.getValue(),
+                    { uuid: solicitud.uuidOfertaLaboral }
                 );
             if (NuevaOfertaLaboralOrError.esFallido)
                 resolve(Resultado.falla<any>(NuevaOfertaLaboralOrError.error));
