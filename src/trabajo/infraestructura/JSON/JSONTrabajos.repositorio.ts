@@ -64,4 +64,13 @@ export class JSONTrabajosRepositorio implements ITrabajoRepo {
             mensaje: OPERACION_EXITOSA,
         });
     }
+
+    cancelaTrabajo(
+        identificador: SolicitudTrabajoDTO
+    ): Resultado<OperacionExitosaDTO> {
+        //Respondemos a la solicitud
+        return Resultado.ok<OperacionExitosaDTO>({
+            mensaje: OPERACION_EXITOSA,
+        });
+    }
 }
