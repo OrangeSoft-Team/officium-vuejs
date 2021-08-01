@@ -13,4 +13,8 @@ export interface ITrabajoRepo {
     culminaTrabajo(
         identificador: SolicitudTrabajoDTO
     ): Resultado<OperacionExitosaDTO>;
+
+    cancelaTrabajo(
+        identificador: SolicitudTrabajoDTO
+    ): Resultado<OperacionExitosaDTO>;
 }
