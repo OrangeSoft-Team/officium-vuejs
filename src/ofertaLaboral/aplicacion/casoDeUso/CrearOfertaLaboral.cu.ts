@@ -19,7 +19,7 @@ export interface SolicitudCreacionOfertaLaboralDTO {
     numeroVacantes: number;
     requisitosEspeciales?: string;
     descripcion: string;
-    uuidHabilidades: HabilidadDTO[];
+    habilidades: HabilidadDTO[];
 }
 
 export class CrearOfertaLaboral

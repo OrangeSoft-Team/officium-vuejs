@@ -285,7 +285,7 @@ export default Vue.extend({
                 turnoTrabajo: "",
                 numeroVacantes: 0,
                 descripcion: "",
-                uuidHabilidades: []
+                habilidades: []
             } as SolicitudCreacionOfertaLaboralDTO,
             formValido: true,
             opcionesEscalaDuracion: ["hora", "día", "semana", "mes"],
@@ -314,8 +314,8 @@ export default Vue.extend({
             const cuHab = ControladorObtenerHabilidades.inicializar();
 
             //Ejecutamos el caso de uso
-            const respuestaCUPais = cuHab.ejecutarCU();
-            respuestaCUPais
+            const respuestaCUHabilidades = cuHab.ejecutarCU();
+            respuestaCUHabilidades
                 .then((data) => {
                     if (data.esExitoso) {
                         //Cambiamos el estado
@@ -416,14 +416,14 @@ export default Vue.extend({
         agregarHabilidad() {
             //Validar que el elemento no esté dentro del array
             if (
-                !this.ofertaLaboralCrear.uuidHabilidades.find(
+                !this.ofertaLaboralCrear.habilidades.find(
                     (i) => i.uuid === this.uuidHabilidad
                 )
             ) {
                 for (let i = 0; i < this.listaHabilidades.length; i++) {
                     if (this.listaHabilidades[i].uuid == this.uuidHabilidad) {
                         this.habilidadesEmpresa.push(this.listaHabilidades[i]);
-                        this.ofertaLaboralCrear.uuidHabilidades.push(this.listaHabilidades[i])
+                        this.ofertaLaboralCrear.habilidades.push(this.listaHabilidades[i])
                         break;
                     }
                 }
@@ -436,9 +436,9 @@ export default Vue.extend({
                     break;
                 }
             }
-            for (let i = 0; i < this.ofertaLaboralCrear.uuidHabilidades.length; i++) {
-                if(this.ofertaLaboralCrear.uuidHabilidades[i].uuid == uuidHab){
-                    this.ofertaLaboralCrear.uuidHabilidades.splice(i, 1);
+            for (let i = 0; i < this.ofertaLaboralCrear.habilidades.length; i++) {
+                if(this.ofertaLaboralCrear.habilidades[i].uuid == uuidHab){
+                    this.ofertaLaboralCrear.habilidades.splice(i, 1);
                     break;
                 }
             }

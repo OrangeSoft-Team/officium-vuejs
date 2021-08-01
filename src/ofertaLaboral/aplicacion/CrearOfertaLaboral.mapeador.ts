@@ -31,7 +31,7 @@ export class CrearOfertaLaboralMapeador {
             entidad.props.hasOwnProperty("habilidades") &&
             entidad.props.habilidades != undefined
         ) {
-            let habilidadesOrError = HabilidadMapeador.aDTOConjunto(
+            habilidadesOrError = HabilidadMapeador.aDTOConjunto(
                 entidad.props.habilidades
             );
 
@@ -54,7 +54,7 @@ export class CrearOfertaLaboralMapeador {
             turnoTrabajo: <string>entidad.props.turnoTrabajo!.valor(),
             numeroVacantes: <number>entidad.props.numeroVacantes!.valor(),
             descripcion: descripcionOferta.valor(),
-            uuidHabilidades: HabilidadMapeador.aArregloID(
+            habilidades: HabilidadMapeador.aArregloID(
                 habilidadesOrError!.getValue()
             ),
         };

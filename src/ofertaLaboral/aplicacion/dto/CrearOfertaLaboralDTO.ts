@@ -9,5 +9,5 @@ export interface CrearOfertaLaboralDTO {
     numeroVacantes: number;
     descripcion: string;
     requisitosEspeciales?: string;
-    uuidHabilidades: string[];
+    habilidades: string[];
 }

@@ -42,9 +42,9 @@ export const CREAR_OFERTA_LABORAL_DATOS_INTERFAZ_VALIDA: SolicitudCreacionOferta
         turnoTrabajo: "diurno",
         numeroVacantes: 4,
         descripcion: "Encargado general de tienda IBM Encargado de tienda",
-        uuidHabilidades: [
+        habilidades: [
             {
-                uuid: "1",
+                uuid: "00000000-0000-0000-C000-000000000052",
                 nombre: "Hab 1",
                 categoria: "cat 1"
             }
