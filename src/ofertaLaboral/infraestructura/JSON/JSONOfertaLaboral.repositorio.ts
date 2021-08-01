@@ -21,9 +21,10 @@ import {
 } from "./respuestas/ListadoOfertasLaborales";
 import { RespuestaInicioSesionDTO } from "../../../sesion/aplicacion/dto/RespuestaInicioSesionDTO";
 import { CrearOfertaLaboralDTO } from "../../aplicacion/dto/CrearOfertaLaboralDTO";
+import { HabilidadDTO } from "../../../comun/aplicacion/dtos/HabilidadDTO";
 
 interface auxiliarJSONCrearOfertaLaboralDTO {
-    idOfertaLaboral?: string;
+    uuid?: string;
     fechaPublicacion?: string;
     uuidempresa?: string;
     titulo: string;
@@ -34,6 +35,8 @@ interface auxiliarJSONCrearOfertaLaboralDTO {
     turnoTrabajo: string;
     numeroVacantes: number;
     descripcion: string;
+    habilidades: HabilidadDTO[];
+    requisitosEspeciales?: string;
 }
 
 export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
@@ -55,6 +58,8 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
         if (datosEmpresaOrError.esFallido)
             return Resultado.falla<any>(OPERACION_FALLIDA);*/
 
+        //Fake id
+
         //Esperamos respuesta
         //Simulamos anexar
         let arregloOfertas: OfertaLaboralEmpresaDTO[] = [];
@@ -69,9 +74,26 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
         }
 
         //Generamos  y fecha fake
-        let auxiliarDTO: auxiliarJSONCrearOfertaLaboralDTO = ofertaLaboral;
-        auxiliarDTO.idOfertaLaboral = (Math.random() * 1000).toFixed(0);
-        auxiliarDTO.fechaPublicacion = "10/10/2020";
+        let auxiliarDTO: auxiliarJSONCrearOfertaLaboralDTO = {
+            uuid: (Math.random() * 1000).toFixed(0),
+            fechaPublicacion: "10/10/2020",
+            titulo: ofertaLaboral.titulo,
+            cargo: ofertaLaboral.cargo,
+            sueldo: ofertaLaboral.sueldo,
+            duracionEstimadaValor: ofertaLaboral.duracionEstimadaValor,
+            duracionEstimadaEscala: ofertaLaboral.duracionEstimadaEscala,
+            turnoTrabajo: ofertaLaboral.turnoTrabajo,
+            numeroVacantes: ofertaLaboral.numeroVacantes,
+            descripcion: ofertaLaboral.descripcion,
+            habilidades: [
+                {
+                    uuid: "sa5d45s4d5sa",
+                    nombre: "Hace nudos",
+                    categoria: "manual",
+                },
+            ],
+            requisitosEspeciales: ofertaLaboral.requisitosEspeciales,
+        };
         arregloOfertas.push(auxiliarDTO);
         console.log(arregloOfertas);
 

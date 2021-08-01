@@ -29,7 +29,8 @@ export class CrearOfertaLaboralMapeador {
         let habilidadesOrError: Resultado<HabilidadDTO[]>;
         if (
             entidad.props.hasOwnProperty("habilidades") &&
-            entidad.props.habilidades != undefined
+            entidad.props.habilidades != undefined &&
+            entidad.props.habilidades.length > 0
         ) {
             habilidadesOrError = HabilidadMapeador.aDTOConjunto(
                 entidad.props.habilidades

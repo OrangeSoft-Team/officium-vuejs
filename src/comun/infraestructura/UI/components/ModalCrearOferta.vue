@@ -96,7 +96,9 @@
                         <v-row>
                             <v-col cols="12" sm="12" md="12" lg="12" xl="12">
                                 <v-text-field
-                                    v-model="ofertaLaboralCrear.requisitosEspeciales"
+                                    v-model="
+                                        ofertaLaboralCrear.requisitosEspeciales
+                                    "
                                     :counter="100"
                                     type="text"
                                     label="Ingrese los requisitos especiales (opcional)"
@@ -139,19 +141,25 @@
                                     id="inpt-escala"
                                 ></v-select>
                             </v-col>
-                        </v-row>    
+                        </v-row>
                         <v-textarea
                             v-model="ofertaLaboralCrear.descripcion"
                             label="Ingrese la descripción de la oferta laboral"
                             hint="La descripción debería tener entre 32 y 512 caracteres"
                             :rules="[(v) => !!v || 'Este campo es obligatorio']"
                             id="inpt-descripcion"
-                        ></v-textarea>                    
+                        ></v-textarea>
                         <v-row class="justify-center">
                             <v-col cols="12" sm="12" md="12" lg="12" xl="12">
                                 <v-card>
                                     <v-row class="justify-center">
-                                        <v-col cols="12" sm="4" md="4" lg="4" xl="4">
+                                        <v-col
+                                            cols="12"
+                                            sm="4"
+                                            md="4"
+                                            lg="4"
+                                            xl="4"
+                                        >
                                             <v-row class="justify-center">
                                                 <v-select
                                                     v-model="uuidHabilidad"
@@ -164,15 +172,30 @@
                                                 ></v-select>
                                             </v-row>
                                         </v-col>
-                                        <v-col cols="12" sm="2" md="2" lg="2" xl="2">
+                                        <v-col
+                                            cols="12"
+                                            sm="2"
+                                            md="2"
+                                            lg="2"
+                                            xl="2"
+                                        >
                                         </v-col>
-                                        <v-col cols="12" sm="4" md="4" lg="4" xl="4">
+                                        <v-col
+                                            cols="12"
+                                            sm="4"
+                                            md="4"
+                                            lg="4"
+                                            xl="4"
+                                        >
                                             <v-row class="justify-center">
                                                 <v-btn
                                                     class="ma-5"
                                                     color="primary"
+                                                    id="btn-add-habilidad"
                                                     outlined
-                                                    v-on:click="agregarHabilidad"
+                                                    v-on:click="
+                                                        agregarHabilidad
+                                                    "
                                                     block
                                                 >
                                                     <v-icon dark>
@@ -185,8 +208,12 @@
                                     </v-row>
 
                                     <v-card-title>
-                                        <v-row justify="space-between" class="pa-2">
-                                            Habilidades requeridas en la oferta laboral
+                                        <v-row
+                                            justify="space-between"
+                                            class="pa-2"
+                                        >
+                                            Habilidades requeridas en la oferta
+                                            laboral
                                         </v-row>
                                     </v-card-title>
                                     <v-data-table
@@ -199,13 +226,17 @@
                                         <template v-slot:item="row">
                                             <tr>
                                                 <td>{{ row.item.nombre }}</td>
-                                                <td>{{ row.item.categoria }}</td>
+                                                <td>
+                                                    {{ row.item.categoria }}
+                                                </td>
                                                 <td>
                                                     <v-btn
                                                         x-small
                                                         color="red"
                                                         v-on:click="
-                                                            quitarHabilidad(row.item.uuid)
+                                                            quitarHabilidad(
+                                                                row.item.uuid
+                                                            )
                                                         "
                                                         block
                                                     >
@@ -220,7 +251,7 @@
                                     </v-data-table>
                                 </v-card>
                             </v-col>
-                        </v-row>                        
+                        </v-row>
                     </v-container>
                 </v-card-text>
                 <v-card-actions>
@@ -285,7 +316,7 @@ export default Vue.extend({
                 turnoTrabajo: "",
                 numeroVacantes: 0,
                 descripcion: "",
-                habilidades: []
+                habilidades: [],
             } as SolicitudCreacionOfertaLaboralDTO,
             formValido: true,
             opcionesEscalaDuracion: ["hora", "día", "semana", "mes"],
@@ -334,9 +365,9 @@ export default Vue.extend({
         crear() {
             console.log("Objeto a enviar: ");
             console.log(this.ofertaLaboralCrear);
-            if(this.ofertaLaboralCrear.requisitosEspeciales == "")
+            if (this.ofertaLaboralCrear.requisitosEspeciales == "")
                 this.ofertaLaboralCrear.requisitosEspeciales = undefined;
-            
+
             /*
             let objEnviar:SolicitudCreacionOfertaLaboralDTO = {
                 titulo: this.ofertaLaboralCrear.titulo,
@@ -423,7 +454,9 @@ export default Vue.extend({
                 for (let i = 0; i < this.listaHabilidades.length; i++) {
                     if (this.listaHabilidades[i].uuid == this.uuidHabilidad) {
                         this.habilidadesEmpresa.push(this.listaHabilidades[i]);
-                        this.ofertaLaboralCrear.habilidades.push(this.listaHabilidades[i])
+                        this.ofertaLaboralCrear.habilidades.push(
+                            this.listaHabilidades[i]
+                        );
                         break;
                     }
                 }
@@ -436,8 +469,12 @@ export default Vue.extend({
                     break;
                 }
             }
-            for (let i = 0; i < this.ofertaLaboralCrear.habilidades.length; i++) {
-                if(this.ofertaLaboralCrear.habilidades[i].uuid == uuidHab){
+            for (
+                let i = 0;
+                i < this.ofertaLaboralCrear.habilidades.length;
+                i++
+            ) {
+                if (this.ofertaLaboralCrear.habilidades[i].uuid == uuidHab) {
                     this.ofertaLaboralCrear.habilidades.splice(i, 1);
                     break;
                 }
