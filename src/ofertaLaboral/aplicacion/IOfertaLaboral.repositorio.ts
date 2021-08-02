@@ -15,4 +15,8 @@ export interface IOfertasLaboralesRepo {
     crearOfertaLaboral(
         ofertaLaboral: CrearOfertaLaboralDTO
     ): Resultado<OperacionExitosaDTO>;
+
+    cancelaOfertaLaboral(
+        id: SolicitudOfertaLaboralDTO
+    ): Resultado<OperacionExitosaDTO>;
 }
