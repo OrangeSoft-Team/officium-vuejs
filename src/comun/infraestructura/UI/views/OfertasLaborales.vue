@@ -68,6 +68,12 @@
                                         :alertaExito="alertaExito"
                                         v-on:alertexito="alertExito"
                                     ></modal-modificar-oferta>
+                                    <!--Llamamos al componente de duplicar oferta laboral-->
+                                    <modal-duplicar-oferta
+                                        :uuid="row.item.uuid"
+                                        :alertaExito="alertaExito"
+                                        v-on:alertexito="alertExito"
+                                    ></modal-duplicar-oferta>
                                 </td>
                             </tr>
                         </template>
@@ -89,12 +95,14 @@ import { OfertaLaboralEmpresaDTO } from "../../../../ofertaLaboral/aplicacion/dt
 import ModalOfertaDetalle from "../components/ModalOfertaDetalle.vue";
 import ModalCrearOferta from "../components/ModalCrearOferta.vue";
 import ModalModificarOferta from "../components/ModalModificarOferta.vue";
+import ModalDuplicarOferta from "../components/ModalDuplicarOferta.vue";
 
 export default Vue.extend({
     components: {
         ModalOfertaDetalle,
         ModalCrearOferta,
-        ModalModificarOferta
+        ModalModificarOferta,
+        ModalDuplicarOferta
     },
     data() {
         return {
