@@ -4,6 +4,7 @@ import { OfertaLaboralEmpresaDTO } from "./dto/OfertaLaboralEmpresaDTO";
 import { CrearOfertaLaboralDTO } from "./dto/CrearOfertaLaboralDTO";
 import { OperacionExitosaDTO } from "../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 import { SolicitudCreacionOfertaLaboralDTO } from "./casoDeUso/CrearOfertaLaboral.cu";
+import { ModificarOfertaLaboralDTO } from "./dto/ModificarOfertaLaboralDTO";
 
 export interface IOfertasLaboralesRepo {
     obtenerOfertasLaboralesActivas(): Resultado<OfertaLaboralEmpresaDTO[]>;
@@ -14,5 +15,10 @@ export interface IOfertasLaboralesRepo {
 
     crearOfertaLaboral(
         ofertaLaboral: CrearOfertaLaboralDTO
+    ): Resultado<OperacionExitosaDTO>;
+
+    modificarOfertaLaboral(
+        ofertaLaboral: ModificarOfertaLaboralDTO,
+        identificador: { uuid: string }
     ): Resultado<OperacionExitosaDTO>;
 }

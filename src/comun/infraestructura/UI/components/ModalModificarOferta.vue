@@ -1,14 +1,17 @@
 <template>
-    <v-dialog v-model="dialog" id="modal-crear">
+    <v-dialog v-model="dialog" id="modal-modificar">
         <template v-slot:activator="{ on, attrs }">
             <v-btn
                 depressed
-                color="primary"
+                rounded
+                color="orange"
+                title="Modificar oferta laboral"
+                small
                 v-bind="attrs"
                 v-on="on"
-                id="btn-crear"
+                v-on:click="obtenerDetalle"
             >
-                Crear
+                <v-icon>mdi-pencil</v-icon>
             </v-btn>
         </template>
 
@@ -16,7 +19,7 @@
             <v-form ref="formulario" v-model="formValido" lazy-validation>
                 <v-card-title>
                     <v-row justify="space-between" class="pa-1">
-                        <span class="text-h5">Crear nueva oferta laboral</span>
+                        <span class="text-h5">Modificar oferta laboral</span>
                         <v-btn icon @click="dialog = false">
                             <v-icon>mdi-close</v-icon>
                         </v-btn></v-row
@@ -26,7 +29,7 @@
                 <v-card-text>
                     <v-container>
                         <v-text-field
-                            v-model="ofertaLaboralCrear.titulo"
+                            v-model="ofertaLaboralModificar.titulo"
                             :counter="100"
                             :rules="[(v) => !!v || 'Este campo es obligatorio']"
                             label="Ingrese el título de la oferta laboral"
@@ -36,7 +39,7 @@
                         <v-row>
                             <v-col cols="6" sm="6" md="6" lg="6" xl="6">
                                 <v-text-field
-                                    v-model="ofertaLaboralCrear.cargo"
+                                    v-model="ofertaLaboralModificar.cargo"
                                     :counter="50"
                                     :rules="[
                                         (v) =>
@@ -49,7 +52,9 @@
                             </v-col>
                             <v-col cols="6" sm="6" md="6" lg="6" xl="6">
                                 <v-select
-                                    v-model="ofertaLaboralCrear.turnoTrabajo"
+                                    v-model="
+                                        ofertaLaboralModificar.turnoTrabajo
+                                    "
                                     :items="opcionesTurnoTrabajo"
                                     :rules="[
                                         (v) =>
@@ -65,7 +70,7 @@
                             <v-col cols="6" sm="6" md="6" lg="6" xl="6">
                                 <v-text-field
                                     v-model.number="
-                                        ofertaLaboralCrear.numeroVacantes
+                                        ofertaLaboralModificar.numeroVacantes
                                     "
                                     :counter="3"
                                     type="number"
@@ -80,7 +85,9 @@
                             </v-col>
                             <v-col cols="6" sm="6" md="6" lg="6" xl="6">
                                 <v-text-field
-                                    v-model.number="ofertaLaboralCrear.sueldo"
+                                    v-model.number="
+                                        ofertaLaboralModificar.sueldo
+                                    "
                                     :counter="10"
                                     type="number"
                                     :rules="[
@@ -97,7 +104,7 @@
                             <v-col cols="12" sm="12" md="12" lg="12" xl="12">
                                 <v-text-field
                                     v-model="
-                                        ofertaLaboralCrear.requisitosEspeciales
+                                        ofertaLaboralModificar.requisitosEspeciales
                                     "
                                     :counter="100"
                                     type="text"
@@ -113,7 +120,7 @@
                             <v-col cols="6" sm="6" md="6" lg="6" xl="6">
                                 <v-text-field
                                     v-model.number="
-                                        ofertaLaboralCrear.duracionEstimadaValor
+                                        ofertaLaboralModificar.duracionEstimadaValor
                                     "
                                     :counter="10"
                                     type="number"
@@ -129,7 +136,7 @@
                             <v-col cols="6" sm="6" md="6" lg="6" xl="6">
                                 <v-select
                                     v-model="
-                                        ofertaLaboralCrear.duracionEstimadaEscala
+                                        ofertaLaboralModificar.duracionEstimadaEscala
                                     "
                                     :items="opcionesEscalaDuracion"
                                     :rules="[
@@ -143,7 +150,7 @@
                             </v-col>
                         </v-row>
                         <v-textarea
-                            v-model="ofertaLaboralCrear.descripcion"
+                            v-model="ofertaLaboralModificar.descripcion"
                             label="Ingrese la descripción de la oferta laboral"
                             hint="La descripción debería tener entre 32 y 512 caracteres"
                             :rules="[(v) => !!v || 'Este campo es obligatorio']"
@@ -264,11 +271,11 @@
                         Cerrar
                     </v-btn>
                     <v-btn
-                        color="primary"
-                        v-on:click="crear"
-                        id="btn-submit-crear"
+                        color="orange"
+                        v-on:click="modificar"
+                        id="btn-submit-modificar"
                     >
-                        Crear oferta laboral
+                        Modificar oferta laboral
                     </v-btn>
                 </v-card-actions>
 
@@ -284,13 +291,14 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { ControladorCrearOfertaLaboral } from "../../../../ofertaLaboral/infraestructura/controlador/ControladorCrearOfertaLaboral";
+import { ControladorModificarOfertaLaboral } from "../../../../ofertaLaboral/infraestructura/controlador/ControladorModificarOfertaLaboral";
 import { ControladorObtenerHabilidades } from "../../controlador/ControladorObtHabilidades";
 //Importamos la interface del DTO para que el objeto a mostrar en la tabla
 //sea del mismo tipo que el que se trae en la respuesta del CU
 
 //import { CrearOfertaLaboralDTO } from "../../../../ofertaLaboral/aplicacion/dto/CrearOfertaLaboralDTO";
-import { SolicitudCreacionOfertaLaboralDTO } from "../../../../ofertaLaboral/aplicacion/casoDeUso/CrearOfertaLaboral.cu";
+import { SolicitudModificacionOfertaLaboralDTO } from "../../../../ofertaLaboral/aplicacion/casoDeUso/ModificarOfertaLaboral.cu";
+import { ControladorDetalleOfertaLaboral } from "../../../../ofertaLaboral/infraestructura/controlador/ControladorDetalleOfertaLaboral";
 
 //DTO para las habilidades
 import { HabilidadDTO } from "../../../../comun/aplicacion/dtos/HabilidadDTO";
@@ -299,6 +307,7 @@ import AlertaError from "../components/AlertaError.vue";
 import AlertaExito from "../components/AlertaExito.vue";
 
 export default Vue.extend({
+    props: ["uuid"],
     components: {
         AlertaError,
         AlertaExito,
@@ -306,7 +315,8 @@ export default Vue.extend({
     data() {
         return {
             estaCargando: true,
-            ofertaLaboralCrear: {
+            ofertaLaboralModificar: {
+                uuidOfertaLaboral: "",
                 titulo: "",
                 cargo: "",
                 sueldo: 0,
@@ -316,7 +326,7 @@ export default Vue.extend({
                 numeroVacantes: 0,
                 descripcion: "",
                 habilidades: [],
-            } as SolicitudCreacionOfertaLaboralDTO,
+            } as SolicitudModificacionOfertaLaboralDTO,
             formValido: true,
             opcionesEscalaDuracion: ["hora", "día", "semana", "mes"],
             opcionesTurnoTrabajo: ["diurno", "nocturno", "mixto"],
@@ -339,6 +349,53 @@ export default Vue.extend({
         this.ejecutarCUHabilidades();
     },
     methods: {
+        obtenerDetalle() {
+            console.log("[ID  detalle] ", this.$props.uuid);
+            //Inicializamos el controlador
+            const cuAEjecutar = ControladorDetalleOfertaLaboral.inicializar();
+
+            const respuestaCU = cuAEjecutar.ejecutarCU({
+                idOfertaLaboral: this.$props.uuid,
+            });
+            respuestaCU
+                .then((data) => {
+                    if (data.esExitoso) {
+                        //Cambiamos el estado
+
+                        this.estaCargando = false;
+
+                        //Actualizamos
+                        this.ofertaLaboralModificar.uuidOfertaLaboral =
+                            this.$props.uuid;
+                        this.ofertaLaboralModificar.titulo =
+                            data.getValue().titulo;
+                        this.ofertaLaboralModificar.cargo =
+                            data.getValue().cargo;
+                        this.ofertaLaboralModificar.sueldo =
+                            data.getValue().sueldo;
+                        this.ofertaLaboralModificar.duracionEstimadaValor =
+                            data.getValue().duracionEstimadaValor;
+                        this.ofertaLaboralModificar.duracionEstimadaEscala =
+                            data.getValue().duracionEstimadaEscala;
+                        this.ofertaLaboralModificar.turnoTrabajo =
+                            data.getValue().turnoTrabajo;
+                        this.ofertaLaboralModificar.numeroVacantes =
+                            data.getValue().numeroVacantes;
+                        this.ofertaLaboralModificar.requisitosEspeciales =
+                            data.getValue().requisitosEspeciales;
+                        this.ofertaLaboralModificar.descripcion = <string>data.getValue().descripcion;
+                        this.ofertaLaboralModificar.habilidades = <HabilidadDTO[]>data.getValue().habilidades;
+                        this.habilidadesEmpresa = <HabilidadDTO[]>data.getValue().habilidades;
+
+                    } else {
+                        //TODO Manejo de caso con error al recuperar conjunto
+                        console.warn("Algo pasó", data.error);
+                    }
+                })
+                .catch((e) => {
+                    console.error(e);
+                });
+        },
         ejecutarCUHabilidades() {
             //Inicializamos controlador
             const cuHab = ControladorObtenerHabilidades.inicializar();
@@ -361,66 +418,35 @@ export default Vue.extend({
                     console.error(e);
                 });
         },
-        crear() {
+        modificar() {
             console.log("Objeto a enviar: ");
-            console.log(this.ofertaLaboralCrear);
-            if (this.ofertaLaboralCrear.requisitosEspeciales == "")
-                this.ofertaLaboralCrear.requisitosEspeciales = undefined;
-
-            /*
-            let objEnviar:SolicitudCreacionOfertaLaboralDTO = {
-                titulo: this.ofertaLaboralCrear.titulo,
-                cargo: this.ofertaLaboralCrear.cargo,
-                sueldo: this.ofertaLaboralCrear.sueldo,
-                duracionEstimadaValor: this.ofertaLaboralCrear.duracionEstimadaValor,
-                duracionEstimadaEscala: this.ofertaLaboralCrear.duracionEstimadaEscala,
-                turnoTrabajo: this.ofertaLaboralCrear.turnoTrabajo,
-                numeroVacantes: this.ofertaLaboralCrear.numeroVacantes,
-                descripcion: this.ofertaLaboralCrear.descripcion,
-                uuidHabilidades: this.ofertaLaboralCrear.uuidHabilidades
-            }
-            */
+            console.log(this.ofertaLaboralModificar);
+            if (this.ofertaLaboralModificar.requisitosEspeciales == "")
+                this.ofertaLaboralModificar.requisitosEspeciales = undefined;
 
             //Inicializamos el controlador
-            const cuAEjecutar = ControladorCrearOfertaLaboral.inicializar();
+            const cuAEjecutar = ControladorModificarOfertaLaboral.inicializar();
 
             //const respuestaCU = cuAEjecutar.ejecutarCU(this.ofertaLaboralCrear);
-            const respuestaCU = cuAEjecutar.ejecutarCU(this.ofertaLaboralCrear);
+            const respuestaCU = cuAEjecutar.ejecutarCU(
+                this.ofertaLaboralModificar
+            );
             respuestaCU
                 .then((data: any) => {
                     if (data.esExitoso) {
                         //Cambiamos el estado
                         this.estaCargando = false;
 
-                        console.log("[Oferta creada satisfactoriamente]");
+                        console.log("[Oferta modificada satisfactoriamente]");
 
                         //Si la oferta fue exitosamente creada, mostramos
                         //mensaje de éxito y cerramos el modal
                         this.dialog = false;
 
-                        //Reinicializamos variable del crear
-                        /*
-                        this.ofertaLaboralCrear = {
-                            titulo: "",
-                            cargo: "",
-                            sueldo: 0,
-                            duracionEstimadaValor: 0,
-                            duracionEstimadaEscala: "",
-                            turnoTrabajo: "",
-                            numeroVacantes: 0,
-                            descripcion: "",
-                            requisitosEspeciales: "",
-                            uuidHabilidades: []
-                        }
-                        */
-
-                        //Mensaje del mensaje de éxito y se activa alerta por 5 segundos
-                        //this.$props.mensajeExito =
-
                         //this.$props.alertaExito;
                         this.$emit(
                             "alertexito",
-                            "¡La oferta laboral ha sido creada satisfactoriamente!"
+                            "¡La oferta laboral ha sido modificada satisfactoriamente!"
                         );
                     } else {
                         console.warn("Algo pasó", data.error);
@@ -446,14 +472,14 @@ export default Vue.extend({
         agregarHabilidad() {
             //Validar que el elemento no esté dentro del array
             if (
-                !this.ofertaLaboralCrear.habilidades.find(
+                !this.ofertaLaboralModificar.habilidades.find(
                     (i) => i.uuid === this.uuidHabilidad
                 )
             ) {
                 for (let i = 0; i < this.listaHabilidades.length; i++) {
                     if (this.listaHabilidades[i].uuid == this.uuidHabilidad) {
                         this.habilidadesEmpresa.push(this.listaHabilidades[i]);
-                        this.ofertaLaboralCrear.habilidades.push(
+                        this.ofertaLaboralModificar.habilidades.push(
                             this.listaHabilidades[i]
                         );
                         break;
@@ -470,11 +496,13 @@ export default Vue.extend({
             }
             for (
                 let i = 0;
-                i < this.ofertaLaboralCrear.habilidades.length;
+                i < this.ofertaLaboralModificar.habilidades.length;
                 i++
             ) {
-                if (this.ofertaLaboralCrear.habilidades[i].uuid == uuidHab) {
-                    this.ofertaLaboralCrear.habilidades.splice(i, 1);
+                if (
+                    this.ofertaLaboralModificar.habilidades[i].uuid == uuidHab
+                ) {
+                    this.ofertaLaboralModificar.habilidades.splice(i, 1);
                     break;
                 }
             }
