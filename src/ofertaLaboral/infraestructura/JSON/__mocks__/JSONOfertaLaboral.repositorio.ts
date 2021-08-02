@@ -10,6 +10,7 @@ import {
 import { OFERTAS_LABORALES_RESPUESTA_VALIDA } from "../../../infraestructura/JSON/respuestas/ListadoOfertasLaborales";
 import { OFERTA_LABORAL_RESPUESTA_VALIDA } from "../../../infraestructura/JSON/respuestas/IndividualOfertaLaboral";
 import { CrearOfertaLaboralDTO } from "../../../aplicacion/dto/CrearOfertaLaboralDTO";
+import { ModificarOfertaLaboralDTO } from "../../../aplicacion/dto/ModificarOfertaLaboralDTO";
 
 export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     crearOfertaLaboral(
@@ -32,6 +33,16 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
         return Resultado.ok<OfertaLaboralEmpresaDTO>(
             OFERTA_LABORAL_RESPUESTA_VALIDA
         );
+    }
+
+    modificarOfertaLaboral(
+        ofertaLaboral: ModificarOfertaLaboralDTO,
+        identificador: { uuid: string }
+    ): Resultado<OperacionExitosaDTO> {
+        //En caso de respuesta exitosa
+        return Resultado.ok<OperacionExitosaDTO>({
+            mensaje: OPERACION_EXITOSA,
+        });
     }
 
     cancelaOfertaLaboral(

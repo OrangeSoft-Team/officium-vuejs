@@ -58,11 +58,16 @@
                                 <td>{{ row.item.numeroVacantes }}</td>
                                 <td>{{ row.item.estado }}</td>
                                 <td>
-                                    <!--Llamamos al componente del detalle de
-                                    oferta laboral-->
+                                    <!--Llamamos al componente del detalle de oferta laboral-->
                                     <modal-oferta-detalle
                                         :uuid="row.item.uuid"
                                     ></modal-oferta-detalle>
+                                    <!--Llamamos al componente de modificar oferta laboral-->
+                                    <modal-modificar-oferta
+                                        :uuid="row.item.uuid"
+                                        :alertaExito="alertaExito"
+                                        v-on:alertexito="alertExito"
+                                    ></modal-modificar-oferta>
                                 </td>
                             </tr>
                         </template>
@@ -83,11 +88,13 @@ import { OfertaLaboralEmpresaDTO } from "../../../../ofertaLaboral/aplicacion/dt
 
 import ModalOfertaDetalle from "../components/ModalOfertaDetalle.vue";
 import ModalCrearOferta from "../components/ModalCrearOferta.vue";
+import ModalModificarOferta from "../components/ModalModificarOferta.vue";
 
 export default Vue.extend({
     components: {
         ModalOfertaDetalle,
         ModalCrearOferta,
+        ModalModificarOferta
     },
     data() {
         return {

@@ -4,6 +4,7 @@
             <v-btn
                 depressed
                 rounded
+                title="Detalle del trabajo"
                 outlined
                 color="primary"
                 small

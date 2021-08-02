@@ -5,12 +5,12 @@
                 depressed
                 rounded
                 color="primary"
+                title="Detalle de la oferta laboral"
                 small
                 v-bind="attrs"
                 v-on="on"
                 v-on:click="obtenerDetalle"
             >
-                Detalle
                 <v-icon>mdi-magnify</v-icon>
             </v-btn>
         </template>
