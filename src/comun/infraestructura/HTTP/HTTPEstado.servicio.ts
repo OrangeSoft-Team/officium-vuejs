@@ -5,14 +5,11 @@ import {
 } from "../../aplicacion/IServicioEstado";
 import { SolicitudEstadoDTO } from "../../aplicacion/casosDeUso.geografico/ObtenerEstados.cu";
 import { Resultado } from "../../dominio/resultado";
-import {
-    LISTADO_ESTADO_VENEZUELA,
-    LISTADO_ESTADO_COLOMBIA,
-    LISTADO_ESTADO_USA,
-} from "./respuestas/ListadoEstado";
 import { OPERACION_FALLIDA } from "../../aplicacion/dto.respuestaOperaciones/OperacionFallida";
+import axios from "axios";
+import { NEST_URL_BASE } from "../../../main";
 
-export class JSONEstadoServicio implements IServicioEstado {
+export class HTTPEstadoServicio implements IServicioEstado {
     obtenerEstado(
         solicitud: SolicitudEstadoUnicoDTO
     ): Promise<Resultado<EstadoDTO>> {
@@ -35,14 +32,16 @@ export class JSONEstadoServicio implements IServicioEstado {
     }
     obtenerEstados(id: SolicitudEstadoDTO): Promise<Resultado<EstadoDTO[]>> {
         return new Promise((resolve, reject) => {
-            //let DATOS_RESPUESTA: EstadoDTO[] = [];
-
-            //Obtenemos de persitencia
-            if (id.idPais == "00000000-0000-0000-C000-000000000050")
-                resolve(Resultado.ok<EstadoDTO[]>(LISTADO_ESTADO_VENEZUELA));
-            else if (id.idPais == "00000000-0000-0000-C000-000000000040")
-                resolve(Resultado.ok<EstadoDTO[]>(LISTADO_ESTADO_USA));
-            else resolve(Resultado.ok<EstadoDTO[]>(LISTADO_ESTADO_COLOMBIA));
+            axios
+                .get(
+                    NEST_URL_BASE + "ubicacion/paises/" + id.idPais + "/estados"
+                )
+                .then((res) => {
+                    resolve(Resultado.ok<EstadoDTO[]>(res.data));
+                })
+                .catch((e) => {
+                    resolve(Resultado.falla<any>(e));
+                });
         });
     }
 }

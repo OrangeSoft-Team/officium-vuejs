@@ -66,7 +66,7 @@ export class ObtenerTrabajoDetalle
             trabajoDTO.hasOwnProperty("uuidPais") &&
             trabajoDTO.uuidPais != undefined
         ) {
-            const respuestaServicio = this.obtenerPaisNombre({
+            const respuestaServicio = await this.obtenerPaisNombre({
                 uuidPais: trabajoDTO.uuidPais,
             });
             if (respuestaServicio.esFallido)
@@ -79,7 +79,7 @@ export class ObtenerTrabajoDetalle
             trabajoDTO.hasOwnProperty("uuidEstado") &&
             trabajoDTO.uuidEstado != undefined
         ) {
-            const respuestaServicio = this.obtenerEstadoNombre({
+            const respuestaServicio = await this.obtenerEstadoNombre({
                 idPais: <string>trabajoDTO.uuidPais,
                 idEstado: trabajoDTO.uuidEstado,
             });
@@ -93,7 +93,7 @@ export class ObtenerTrabajoDetalle
             trabajoDTO.hasOwnProperty("uuidCiudad") &&
             trabajoDTO.uuidCiudad != undefined
         ) {
-            const respuestaServicio = this.obtenerCiudadNombre({
+            const respuestaServicio = await this.obtenerCiudadNombre({
                 idEstado: <string>trabajoDTO.uuidEstado,
                 idCiudad: trabajoDTO.uuidCiudad,
             });
@@ -122,28 +122,30 @@ export class ObtenerTrabajoDetalle
         );
     }
 
-    private obtenerPaisNombre(dto: SolicitudPaisDTO): Resultado<PaisDTO> {
-        const respuestaDTO = this.servicioPais.obtenerPais(dto);
+    private async obtenerPaisNombre(
+        dto: SolicitudPaisDTO
+    ): Promise<Resultado<PaisDTO>> {
+        const respuestaDTO = await this.servicioPais.obtenerPais(dto);
         if (respuestaDTO.esFallido)
             return Resultado.falla<any>(respuestaDTO.error);
 
         return Resultado.ok<PaisDTO>(respuestaDTO.getValue());
     }
 
-    private obtenerEstadoNombre(
+    private async obtenerEstadoNombre(
         dto: SolicitudEstadoUnicoDTO
-    ): Resultado<EstadoDTO> {
-        const respuestaDTO = this.servicioEstado.obtenerEstado(dto);
+    ): Promise<Resultado<EstadoDTO>> {
+        const respuestaDTO = await this.servicioEstado.obtenerEstado(dto);
         if (respuestaDTO.esFallido)
             return Resultado.falla<any>(respuestaDTO.error);
 
         return Resultado.ok<EstadoDTO>(respuestaDTO.getValue());
     }
 
-    private obtenerCiudadNombre(
+    private async obtenerCiudadNombre(
         dto: SolicitudCiudadUnicaDTO
-    ): Resultado<CiudadDTO> {
-        const respuestaDTO = this.servicioCiudad.obtenerCiudad(dto);
+    ): Promise<Resultado<CiudadDTO>> {
+        const respuestaDTO = await this.servicioCiudad.obtenerCiudad(dto);
         if (respuestaDTO.esFallido)
             return Resultado.falla<any>(respuestaDTO.error);
 

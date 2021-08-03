@@ -10,6 +10,7 @@ import { CrearOfertaLaboralDTO } from "../../aplicacion/dto/CrearOfertaLaboralDT
 import { OperacionExitosaDTO } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 import { IEmpresaRepo } from "../../aplicacion/IEmpresa.repositorio";
 import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
+import { HTTPRepositorioDatosBasicos } from "../HTTP/HTTPRepositorioDatosBasicos";
 
 //Controlador de CU Obtener detalle de Oferta Laboral
 export class ControladorActualizarDatosBasicos {
@@ -23,7 +24,7 @@ export class ControladorActualizarDatosBasicos {
     //Método estático para inicializar controlador
     public static inicializar(): ControladorActualizarDatosBasicos {
         return new ControladorActualizarDatosBasicos(
-            new JSONRepositorioDatosBasicos(new LocalStoragePersistencia())
+            new HTTPRepositorioDatosBasicos(new LocalStoragePersistencia())
         );
     }
 

@@ -12,7 +12,7 @@ export interface DatosBasicosEmpresaDTO {
     uuidPais: string;
     uuidEstado: string;
     uuidCiudad: string;
-    habilidad: HabilidadDTO[];
+    habilidades: HabilidadDTO[];
 }
 
 export interface ActualizarDatosBasicosEmpresaDTO {
@@ -24,5 +24,5 @@ export interface ActualizarDatosBasicosEmpresaDTO {
     uuidPais: string;
     uuidEstado: string;
     uuidCiudad: string;
-    habilidad: string[];
+    uuidHabilidades: string[];
 }

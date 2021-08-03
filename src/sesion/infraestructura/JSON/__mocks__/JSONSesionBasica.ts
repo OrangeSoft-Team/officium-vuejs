@@ -1,7 +1,10 @@
 import { Resultado } from "../../../../comun/dominio/resultado";
 import { RespuestaInicioSesionDTO } from "../../../aplicacion/dto/RespuestaInicioSesionDTO";
 import { DatosInicioSesionDTO } from "../../../aplicacion/casoDeUso/IniciarSesionCorreoClave.cu";
-import { IServicioSesion } from "../../../aplicacion/IServicioSesion";
+import {
+    DatosInicioSesionEmpleadorDTO,
+    IServicioSesion,
+} from "../../../aplicacion/IServicioSesion";
 import { IServicioPersistencia } from "../../../../comun/aplicacion/IServicioPersistencia";
 import { CLAVE_SESION_USUARIO } from "../../../../comun/infraestructura/persistencia/ClavesLocalStorage";
 import { RESPUESTA_INICIO_SESION_VALIDO } from ".././respuestas/InicioSesion.json";
@@ -14,7 +17,7 @@ export class SesionBasicaJSON implements IServicioSesion {
     }
 
     iniciarSesion(
-        credencial: DatosInicioSesionDTO
+        credencial: DatosInicioSesionEmpleadorDTO
     ): Promise<Resultado<RespuestaInicioSesionDTO>> {
         return new Promise((resolve, reject) => {
             //Enviamos datos a back

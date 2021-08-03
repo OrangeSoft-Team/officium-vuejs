@@ -7,9 +7,9 @@ import {
 //import { SolicitudDatosBasicosDTO } from "./casoDeUso/ObtenerDatosBasicos.cu";
 
 export interface IEmpresaRepo {
-    obtenerDatosBasicos(): Resultado<DatosBasicosEmpresaDTO>;
+    obtenerDatosBasicos(): Promise<Resultado<DatosBasicosEmpresaDTO>>;
 
     actualizarDatosBasicos(
         datosBasicos: ActualizarDatosBasicosEmpresaDTO
-    ): Resultado<OperacionExitosaDTO>;
+    ): Promise<Resultado<OperacionExitosaDTO>>;
 }

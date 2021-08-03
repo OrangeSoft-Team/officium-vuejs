@@ -1,11 +1,11 @@
-import { JSONCiudadServicio } from "../JSON/JSONCiudad.servicio";
 import { Resultado } from "../../dominio/resultado";
 import {
     ObtenerCiudades,
-    SolicitudCiudadDTO
+    SolicitudCiudadDTO,
 } from "../../aplicacion/casosDeUso.geografico/ObtenerCiudades.cu";
 import { CiudadDTO } from "../../aplicacion/dto.geografico/CiudadDTO";
 import { IServicioCiudad } from "../../aplicacion/IServicioCiudad";
+import { HTTPCiudadServicio } from "../HTTP/HTTPCiudad.servicio";
 
 //Controlador de CU Obtener paises
 export class ControladorObtenerCiudades {
@@ -18,26 +18,18 @@ export class ControladorObtenerCiudades {
 
     //Método estático para inicializar controlador
     public static inicializar(): ControladorObtenerCiudades {
-        return new ControladorObtenerCiudades(
-            new JSONCiudadServicio()
-        );
+        return new ControladorObtenerCiudades(new HTTPCiudadServicio());
     }
 
     public async ejecutarCU(
         solicitud: SolicitudCiudadDTO
     ): Promise<Resultado<CiudadDTO[]>> {
-        const CasoUsoObtenerPaises = new ObtenerCiudades(
-            this.ServicioCiudad
-        );
+        const CasoUsoObtenerPaises = new ObtenerCiudades(this.ServicioCiudad);
 
-        const respuestaCU = await CasoUsoObtenerPaises.ejecutar(
-            solicitud
-        );
+        const respuestaCU = await CasoUsoObtenerPaises.ejecutar(solicitud);
 
         if (respuestaCU.esExitoso) {
-            return Resultado.ok<CiudadDTO[]>(
-                respuestaCU.getValue()
-            );
+            return Resultado.ok<CiudadDTO[]>(respuestaCU.getValue());
         } else {
             return Resultado.falla<any>(respuestaCU.error);
         }

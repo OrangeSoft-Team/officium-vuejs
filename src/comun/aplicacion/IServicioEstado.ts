@@ -8,7 +8,9 @@ export interface SolicitudEstadoUnicoDTO {
 }
 
 export interface IServicioEstado {
-    obtenerEstados(id: SolicitudEstadoDTO): Resultado<EstadoDTO[]>;
+    obtenerEstados(id: SolicitudEstadoDTO): Promise<Resultado<EstadoDTO[]>>;
 
-    obtenerEstado(solicitud: SolicitudEstadoUnicoDTO): Resultado<EstadoDTO>;
+    obtenerEstado(
+        solicitud: SolicitudEstadoUnicoDTO
+    ): Promise<Resultado<EstadoDTO>>;
 }

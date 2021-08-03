@@ -15,7 +15,7 @@ export interface SolicitudActualizarDatosBasicosDTO {
     uuidPais: string;
     uuidEstado: string;
     uuidCiudad: string;
-    habilidad: HabilidadDTO[];
+    habilidades: HabilidadDTO[];
 }
 
 export class ActualizarDatosBasicos

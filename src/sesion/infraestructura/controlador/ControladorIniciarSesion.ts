@@ -11,7 +11,7 @@ import { AutentificacionFirebaseCorreoClave } from "../AutentificacionFirebaseCo
 import { IServicioValidacionCredencial } from "../../aplicacion/IServicioValidacionCredencial";
 import { IServicioSesion } from "../../aplicacion/IServicioSesion";
 import { ValidacionCredencial } from "../validarCredenciales/ValidacionCredencial";
-import { SesionBasicaJSON } from "../JSON/JSONSesionBasica";
+import { SesionBasicaHTTP } from "../HTTP/HTTPSesionBasica";
 
 export class ControladorIniciarSesion {
     private servicioAutentificacion: IServicioAutentificacion;
@@ -34,7 +34,7 @@ export class ControladorIniciarSesion {
         return new ControladorIniciarSesion(
             new AutentificacionFirebaseCorreoClave(persistenciaImpl),
             new ValidacionCredencial(),
-            new SesionBasicaJSON(persistenciaImpl)
+            new SesionBasicaHTTP(persistenciaImpl)
         );
     }
 

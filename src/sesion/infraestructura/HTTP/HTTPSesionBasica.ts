@@ -7,9 +7,11 @@ import {
 } from "../../aplicacion/IServicioSesion";
 import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersistencia";
 import { CLAVE_SESION_USUARIO } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
-import { RESPUESTA_INICIO_SESION_VALIDO } from "./respuestas/InicioSesion.json";
+import { NEST_URL_BASE } from "../../../main";
+import axios from "axios";
+import { OPERACION_FALLIDA } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionFallida";
 
-export class SesionBasicaJSON implements IServicioSesion {
+export class SesionBasicaHTTP implements IServicioSesion {
     private persistenciaAlterna: IServicioPersistencia;
 
     constructor(implPersistencia: IServicioPersistencia) {
@@ -21,20 +23,29 @@ export class SesionBasicaJSON implements IServicioSesion {
     ): Promise<Resultado<RespuestaInicioSesionDTO>> {
         return new Promise((resolve, reject) => {
             //Enviamos datos a back
+            axios
+                .post(NEST_URL_BASE + "empleador/auth", credencial, {
+                    withCredentials: true,
+                })
+                //Esperamos respuesta
+                .then((respuesta) => {
+                    //Afirmativa => Guardamos
 
-            //Esperamos respuesta
-            //Falla => Avisamos
+                    //Guardamos en persistencia local
+                    this.persistenciaAlterna.guardar(
+                        CLAVE_SESION_USUARIO,
+                        respuesta.data
+                    );
 
-            //Afirmativa => Guardamos
-            //Respuesta fake
-            const respuesta: RespuestaInicioSesionDTO =
-                RESPUESTA_INICIO_SESION_VALIDO;
-
-            //Guardamos en persistencia local
-            this.persistenciaAlterna.guardar(CLAVE_SESION_USUARIO, respuesta);
-            //Avisamos
-
-            resolve(Resultado.ok<RespuestaInicioSesionDTO>(respuesta));
+                    //Avisamos
+                    resolve(
+                        Resultado.ok<RespuestaInicioSesionDTO>(respuesta.data)
+                    );
+                })
+                .catch((e) => {
+                    //Falla => Avisamos
+                    resolve(Resultado.falla<any>(e.mensaje));
+                });
         });
     }
 

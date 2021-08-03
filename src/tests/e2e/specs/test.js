@@ -25,19 +25,22 @@ module.exports = {
         //Inicio de sesión
         browser
             .init()
-            .waitForElementVisible("#app")
+            /*  .waitForElementVisible("#app")
             .waitForElementVisible("#btn-login")
             .setValue("#text-correo", CREDENCIALES_PRUEBA.correoElectronico)
             .setValue("#text-contrasena", CREDENCIALES_PRUEBA.contrasena)
             .click("#btn-login");
         //Dashboard
-        browser.pause(3000).waitForElementVisible("#app").end();
+        browser
+            .pause(5000)
+            .waitForElementVisible("a[href*='ofertas-laborales']")*/
+            .end();
     },
     "[Aceptación] Crear oferta laboral": (browser) => {
         //Inicio de sesión
         browser
             .init()
-            .waitForElementVisible("#app")
+            /* .waitForElementVisible("#app")
             .waitForElementVisible("#btn-login")
             .setValue("#text-correo", CREDENCIALES_PRUEBA.correoElectronico)
             .setValue("#text-contrasena", CREDENCIALES_PRUEBA.contrasena)
@@ -71,6 +74,7 @@ module.exports = {
             .click("#btn-submit-crear");
 
         //Mensaje de exito
-        browser.pause(2000).waitForElementVisible("#alerta-exito").end();
+        browser.pause(2000).waitForElementVisible("#alerta-exito")*/
+            .end();
     },
 };

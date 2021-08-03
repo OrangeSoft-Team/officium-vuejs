@@ -1,3 +1,4 @@
+import axios from "axios";
 import { PaisDTO } from "../../aplicacion/dto.geografico/PaisDTO";
 import { OPERACION_FALLIDA } from "../../aplicacion/dto.respuestaOperaciones/OperacionFallida";
 import {
@@ -5,9 +6,9 @@ import {
     SolicitudPaisDTO,
 } from "../../aplicacion/IServicioPais";
 import { Resultado } from "../../dominio/resultado";
-import { LISTADO_PAISES } from "./respuestas/ListadoPais";
+import { NEST_URL_BASE } from "../../../main";
 
-export class JSONPaisServicio implements IServicioPais {
+export class HTTPPaisServicio implements IServicioPais {
     obtenerPais(solicitud: SolicitudPaisDTO): Promise<Resultado<PaisDTO>> {
         return new Promise(async (resolve, reject) => {
             const respuestaPaises: Resultado<PaisDTO[]> =
@@ -25,11 +26,18 @@ export class JSONPaisServicio implements IServicioPais {
         });
     }
     obtenerPaises(): Promise<Resultado<PaisDTO[]>> {
+        //Hacemos peticion a Backend
         return new Promise((resolve, reject) => {
-            //Hacemos peticion a Backend
-
-            //Respondemos
-            resolve(Resultado.ok<PaisDTO[]>(LISTADO_PAISES));
+            axios
+                .get(NEST_URL_BASE + "ubicacion/paises/", {
+                    withCredentials: true,
+                })
+                .then((res) => {
+                    resolve(Resultado.ok<PaisDTO[]>(res.data));
+                })
+                .catch((e) => {
+                    resolve(Resultado.falla<any>(e));
+                });
         });
     }
 }

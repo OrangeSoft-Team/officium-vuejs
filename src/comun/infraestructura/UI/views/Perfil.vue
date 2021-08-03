@@ -264,7 +264,7 @@ export default Vue.extend({
                 uuidPais: "",
                 uuidEstado: "",
                 uuidCiudad: "",
-                habilidad: [],
+                habilidades: [],
             } as DatosBasicosEmpresaDTO,
             paises: [] as PaisDTO[],
             estados: [] as EstadoDTO[],
@@ -319,7 +319,7 @@ export default Vue.extend({
                         this.ejecutarCUEstados(this.datosEmpresa.uuidPais);
                         this.ejecutarCUCiudades(this.datosEmpresa.uuidEstado);
                         this.ejecutarCUHabilidades();
-                        this.habilidadesEmpresa = this.datosEmpresa.habilidad;
+                        this.habilidadesEmpresa = this.datosEmpresa.habilidades;
                     } else {
                         //TODO Manejo de caso con error al recuperar conjunto
                         console.warn("Algo pasó", data.error);
@@ -445,7 +445,7 @@ export default Vue.extend({
             const cuAEjecutar = ControladorActualizarDatosBasicos.inicializar();
 
             //Asociamos las habilidades de la tabla al array de habilidades de la empresa
-            this.datosEmpresa.habilidad = this.habilidadesEmpresa;
+            this.datosEmpresa.habilidades = this.habilidadesEmpresa;
 
             console.log("Datos a enviar de la empresa:");
             console.log(this.datosEmpresa);

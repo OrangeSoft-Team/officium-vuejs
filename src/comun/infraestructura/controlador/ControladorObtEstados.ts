@@ -1,8 +1,8 @@
-import { JSONEstadoServicio } from "../JSON/JSONEstado.servicio";
+import { HTTPEstadoServicio } from "../HTTP/HTTPEstado.servicio";
 import { Resultado } from "../../dominio/resultado";
 import {
     ObtenerEstados,
-    SolicitudEstadoDTO
+    SolicitudEstadoDTO,
 } from "../../aplicacion/casosDeUso.geografico/ObtenerEstados.cu";
 import { EstadoDTO } from "../../aplicacion/dto.geografico/EstadoDTO";
 import { IServicioEstado } from "../../aplicacion/IServicioEstado";
@@ -18,26 +18,18 @@ export class ControladorObtenerEstados {
 
     //Método estático para inicializar controlador
     public static inicializar(): ControladorObtenerEstados {
-        return new ControladorObtenerEstados(
-            new JSONEstadoServicio()
-        );
+        return new ControladorObtenerEstados(new HTTPEstadoServicio());
     }
 
     public async ejecutarCU(
         solicitud: SolicitudEstadoDTO
     ): Promise<Resultado<EstadoDTO[]>> {
-        const CasoUsoObtenerPaises = new ObtenerEstados(
-            this.ServicioEstado
-        );
+        const CasoUsoObtenerPaises = new ObtenerEstados(this.ServicioEstado);
 
-        const respuestaCU = await CasoUsoObtenerPaises.ejecutar(
-            solicitud
-        );
+        const respuestaCU = await CasoUsoObtenerPaises.ejecutar(solicitud);
 
         if (respuestaCU.esExitoso) {
-            return Resultado.ok<EstadoDTO[]>(
-                respuestaCU.getValue()
-            );
+            return Resultado.ok<EstadoDTO[]>(respuestaCU.getValue());
         } else {
             return Resultado.falla<any>(respuestaCU.error);
         }
