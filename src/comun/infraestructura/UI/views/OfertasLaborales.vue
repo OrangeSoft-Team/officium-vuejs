@@ -69,6 +69,14 @@
                                         v-on:alertexito="alertExito"
                                     ></modal-modificar-oferta>
 
+                                    <!--Llamamos al componente de duplicar oferta laboral-->
+                                    <modal-duplicar-oferta
+                                        :uuid="row.item.uuid"
+                                        :alertaExito="alertaExito"
+                                        v-on:alertexito="alertExito"
+                                    ></modal-duplicar-oferta>
+
+
                                     <!-- CANCELAR OFERTA -->
                                     <v-btn
                                         depressed
@@ -85,6 +93,7 @@
                                     >
                                         <v-icon>mdi-close-circle</v-icon></v-btn
                                     >
+
                                 </td>
                             </tr>
                         </template>
@@ -106,12 +115,15 @@ import { ControladorCancelarOfertaLaboral } from "../../../../ofertaLaboral/infr
 import ModalOfertaDetalle from "../components/ModalOfertaDetalle.vue";
 import ModalCrearOferta from "../components/ModalCrearOferta.vue";
 import ModalModificarOferta from "../components/ModalModificarOferta.vue";
+import ModalDuplicarOferta from "../components/ModalDuplicarOferta.vue";
 
 export default Vue.extend({
     components: {
         ModalOfertaDetalle,
         ModalCrearOferta,
         ModalModificarOferta,
+        ModalDuplicarOferta
+
     },
     data() {
         return {
