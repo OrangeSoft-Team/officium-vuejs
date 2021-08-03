@@ -2,7 +2,10 @@ import { IEmpresaRepo } from "../../../empresa/aplicacion/IEmpresa.repositorio";
 import { JSONRepositorioDatosBasicos } from "../../../empresa/infraestructura/JSON/JSONRepositorioDatosBasicos";
 import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
 import { obtenerDatosBasicos } from "../../../empresa/aplicacion/casoDeUso/ObtenerDatosBasicos.cu";
-import { DATOS_BASICOS_EMPRESA_VALIDOS } from "../../../empresa/infraestructura/JSON/RespuestasDatosBasicos";
+import {
+    DATOS_BASICOS_EMPRESA_VALIDOS,
+    DATOS_BASICOS_EMPRESA_VALIDOS_ACTUALIZAR,
+} from "../../../empresa/infraestructura/JSON/RespuestasDatosBasicos";
 import { ActualizarDatosBasicos } from "../../../empresa/aplicacion/casoDeUso/ActualizarDatosBasicos.cu";
 import { OperacionExitosaDTO } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 import { OPERACION_EXITOSA } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
@@ -49,7 +52,9 @@ describe("Actualizar datos básicos de una Empresa", () => {
     it("Actualizamos datos básicos de una empresa con información válida", () => {
         const CU = new ActualizarDatosBasicos(respositorioEmpresa);
 
-        const resultadoCU = CU.ejecutar(DATOS_BASICOS_EMPRESA_VALIDOS);
+        const resultadoCU = CU.ejecutar(
+            DATOS_BASICOS_EMPRESA_VALIDOS_ACTUALIZAR
+        );
 
         return resultadoCU.then((respuesta) => {
             if (respuesta.esFallido) {

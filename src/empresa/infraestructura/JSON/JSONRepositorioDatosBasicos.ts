@@ -57,10 +57,10 @@ export class JSONRepositorioDatosBasicos implements IEmpresaRepo {
             }
             //Transformamos id de habilidades
             let habilidades: HabilidadDTO[] = [];
-            for (let habilidad of respuesta.habilidad) {
+            for (let habilidad of respuesta.habilidades) {
                 habilidades.push({ uuid: <string>(<unknown>habilidad) });
             }
-            respuesta.habilidad = habilidades;
+            respuesta.habilidades = habilidades;
             respuesta.correoElectronico = "test@test.com";
 
             //Respondemos

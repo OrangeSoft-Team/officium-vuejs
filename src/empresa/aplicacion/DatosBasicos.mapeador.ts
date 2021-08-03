@@ -39,7 +39,7 @@ export class DatosBasicosMapeador {
             return Resultado.falla<any>(ciudadOrError.error);
 
         let habilidadesOrError = HabilidadMapeador.aDominioConjunto(
-            dto.habilidad
+            dto.habilidades
         );
         if (habilidadesOrError.esFallido)
             return Resultado.falla<any>(habilidadesOrError.error);
@@ -134,7 +134,7 @@ export class DatosBasicosMapeador {
             uuidPais: entidad.props.pais.props.idPais.valor(),
             uuidEstado: entidad.props.estado.props.idEstado.valor(),
             uuidCiudad: entidad.props.ciudad.props.idCiudad.valor(),
-            habilidad: habilidadesOrError.getValue(),
+            habilidades: habilidadesOrError.getValue(),
         };
 
         //Opcionales

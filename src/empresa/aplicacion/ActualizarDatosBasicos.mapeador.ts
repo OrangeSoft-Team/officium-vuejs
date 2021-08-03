@@ -22,7 +22,7 @@ export class ActualizarDatosBasicosMapeador {
             uuidPais: entidad.props.pais.props.idPais.valor(),
             uuidEstado: entidad.props.estado.props.idEstado.valor(),
             uuidCiudad: entidad.props.ciudad.props.idCiudad.valor(),
-            habilidad: HabilidadMapeador.aArregloID(
+            uuidHabilidades: HabilidadMapeador.aArregloID(
                 habilidadesOrError.getValue()
             ),
         };
