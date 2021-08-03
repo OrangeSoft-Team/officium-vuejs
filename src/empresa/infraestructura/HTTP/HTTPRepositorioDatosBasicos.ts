@@ -70,7 +70,7 @@ export class HTTPRepositorioDatosBasicos implements IEmpresaRepo {
         //Enviamos peticion a backend
         return new Promise((resolve, reject) => {
             axios
-                .put(NEST_URL_BASE + "/empleador/perfil", datosBasicos, {
+                .put(NEST_URL_BASE + "empleador/perfil", datosBasicos, {
                     withCredentials: true,
                 })
                 .then((respuesta) => {
