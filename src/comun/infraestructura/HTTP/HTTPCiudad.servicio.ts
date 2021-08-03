@@ -37,7 +37,7 @@ export class HTTPCiudadServicio implements IServicioCiudad {
             axios
                 .get(
                     NEST_URL_BASE +
-                        "ubicacion/paises/1/estados" +
+                        "ubicacion/paises/1/estados/" +
                         id.idEstado +
                         "/ciudades"
                 )
