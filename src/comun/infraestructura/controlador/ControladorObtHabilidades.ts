@@ -1,10 +1,8 @@
-import { JSONHabilidadServicio } from "../JSON/JSONHabilidad.servicio";
 import { Resultado } from "../../dominio/resultado";
-import {
-    obtenerHabilidades
-} from "../../aplicacion/casosDeUso/ObtenerHabilidades.cu";
+import { obtenerHabilidades } from "../../aplicacion/casosDeUso/ObtenerHabilidades.cu";
 import { HabilidadDTO } from "../../aplicacion/dtos/HabilidadDTO";
 import { IServicioHabilidades } from "../../aplicacion/IServicioHabilidades";
+import { HTTPHabilidadServicio } from "../HTTP/HTTPHabilidad.servicio";
 
 //Controlador de CU Obtener paises
 export class ControladorObtenerHabilidades {
@@ -17,9 +15,7 @@ export class ControladorObtenerHabilidades {
 
     //Método estático para inicializar controlador
     public static inicializar(): ControladorObtenerHabilidades {
-        return new ControladorObtenerHabilidades(
-            new JSONHabilidadServicio()
-        );
+        return new ControladorObtenerHabilidades(new HTTPHabilidadServicio());
     }
 
     public async ejecutarCU(): Promise<Resultado<HabilidadDTO[]>> {
@@ -30,9 +26,7 @@ export class ControladorObtenerHabilidades {
         const respuestaCU = await CasoUsoObtenerPaises.ejecutar();
 
         if (respuestaCU.esExitoso) {
-            return Resultado.ok<HabilidadDTO[]>(
-                respuestaCU.getValue()
-            );
+            return Resultado.ok<HabilidadDTO[]>(respuestaCU.getValue());
         } else {
             return Resultado.falla<any>(respuestaCU.error);
         }
