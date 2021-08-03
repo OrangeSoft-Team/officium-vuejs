@@ -6,7 +6,7 @@ export interface SolicitudPaisDTO {
 }
 
 export interface IServicioPais {
-    obtenerPaises(): Resultado<PaisDTO[]>;
+    obtenerPaises(): Promise<Resultado<PaisDTO[]>>;
 
-    obtenerPais(solicitud: SolicitudPaisDTO): Resultado<PaisDTO>;
+    obtenerPais(solicitud: SolicitudPaisDTO): Promise<Resultado<PaisDTO>>;
 }

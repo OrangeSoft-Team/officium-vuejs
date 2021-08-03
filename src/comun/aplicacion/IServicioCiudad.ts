@@ -8,7 +8,7 @@ export interface SolicitudCiudadUnicaDTO {
 }
 
 export interface IServicioCiudad {
-    obtenerCiudades(id: SolicitudCiudadDTO): Resultado<CiudadDTO[]>;
+    obtenerCiudades(id: SolicitudCiudadDTO): Promise<Resultado<CiudadDTO[]>>;
 
-    obtenerCiudad(id: SolicitudCiudadUnicaDTO): Resultado<CiudadDTO>;
+    obtenerCiudad(id: SolicitudCiudadUnicaDTO): Promise<Resultado<CiudadDTO>>;
 }
