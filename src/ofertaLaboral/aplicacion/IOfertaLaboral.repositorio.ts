@@ -21,4 +21,8 @@ export interface IOfertasLaboralesRepo {
         ofertaLaboral: ModificarOfertaLaboralDTO,
         identificador: { uuid: string }
     ): Resultado<OperacionExitosaDTO>;
+
+    cancelaOfertaLaboral(
+        id: SolicitudOfertaLaboralDTO
+    ): Resultado<OperacionExitosaDTO>;
 }

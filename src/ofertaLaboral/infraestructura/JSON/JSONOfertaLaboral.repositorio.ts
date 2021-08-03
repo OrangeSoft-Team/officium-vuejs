@@ -180,4 +180,13 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
 
         return Resultado.falla<any>(OPERACION_FALLIDA);
     }
+
+    cancelaOfertaLaboral(
+        id: SolicitudOfertaLaboralDTO
+    ): Resultado<OperacionExitosaDTO>{
+        //Respondemos a la solicitud
+        return Resultado.ok<OperacionExitosaDTO>({
+            mensaje: OPERACION_EXITOSA,
+        });
+    }
 }

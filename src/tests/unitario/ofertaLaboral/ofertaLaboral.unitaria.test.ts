@@ -4,6 +4,7 @@ import { JSONOfertaLaboralRepositorio } from "../../../ofertaLaboral/infraestruc
 import { ObtenerOfertaLaboral } from "../../../ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertaLaboralDetalle.cu";
 import { ObtenerOfertasLaboralesActivas } from "../../../ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertasLaboralesActivas.cu";
 import { CrearOfertaLaboral } from "../../../ofertaLaboral/aplicacion/casoDeUso/CrearOfertaLaboral.cu";
+import { CancelarOfertaLaboral } from "../../../ofertaLaboral/aplicacion/casoDeUso/CancelarOfertaLaboral.cu";
 import { NUMERO_VACANTES_NO_VALIDA } from "../../../ofertaLaboral/dominio/excepciones/numeroVacantesOferta.excepcion";
 import {
     OperacionExitosaDTO,
@@ -142,6 +143,34 @@ describe("Crear Nueva Oferta Laboral", () => {
         //Inicializamos Caso de Uso
         const CU = new CrearOfertaLaboral(repoImplementacion);
         const resultadoCU = CU.ejecutar(DATOS_A_USAR);
+
+        return resultadoCU.then((data) => {
+            if (data.esFallido) {
+                console.error("[TEST ERROR] ", data.error);
+            }
+            expect(data.esExitoso).toBeTruthy();
+            expect(data.esFallido).toBeFalsy();
+            expect(data.getValue().mensaje).toBe(OPERACION_EXITOSA);
+        });
+    });
+});
+
+describe("Cancelar una oferta laboral", () => {
+    let repoImplementacion: JSONOfertaLaboralRepositorio;
+    let persistenciaImplemetnacion: IServicioPersistencia;
+    
+    beforeEach(() => {
+        persistenciaImplemetnacion = new LocalStoragePersistencia();
+        repoImplementacion = new JSONOfertaLaboralRepositorio(
+            persistenciaImplemetnacion
+        );
+    });
+
+    it("Se cancela exitosamente una oferta laboral", () => {
+        const CU = new CancelarOfertaLaboral(repoImplementacion);
+        const resultadoCU = CU.ejecutar({
+            idOfertaLaboral: "",
+        });
 
         return resultadoCU.then((data) => {
             if (data.esFallido) {

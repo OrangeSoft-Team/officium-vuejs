@@ -7,6 +7,7 @@
                 color="primary"
                 title="Detalle de la oferta laboral"
                 small
+                icon
                 v-bind="attrs"
                 v-on="on"
                 v-on:click="obtenerDetalle"
@@ -96,11 +97,9 @@
                                                 >Fecha de modificación</strong
                                             ></v-list-item-title
                                         >
-                                        <v-list-item-title
-                                            >{{
-                                                ofertaLaboral.fechaModificacion
-                                            }}</v-list-item-title
-                                        >
+                                        <v-list-item-title>{{
+                                            ofertaLaboral.fechaModificacion
+                                        }}</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-col>
@@ -181,16 +180,13 @@
                                                 >Estatus</strong
                                             ></v-list-item-title
                                         >
-                                        <v-list-item-title
-                                            >{{
-                                                ofertaLaboral.estado
-                                            }}</v-list-item-title
-                                        >
+                                        <v-list-item-title>{{
+                                            ofertaLaboral.estado
+                                        }}</v-list-item-title>
                                     </v-list-item-content>
                                 </v-list-item>
                             </v-col>
                             <v-col cols="6" sm="6" md="6" lg="6" xl="6">
-
                             </v-col>
                         </v-row>
                         <v-row>
@@ -220,28 +216,36 @@
                                     >
                                     <v-list-item-title>
                                         <v-simple-table>
-                                <template v-slot:default>
-                                <thead>
-                                    <tr>
-                                    <th class="text-left"><strong>
-                                        Nombre
-                                    </strong></th>
-                                    <th class="text-left"><strong>
-                                        Categoría
-                                    </strong></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr
-                                    v-for="item in ofertaLaboral.habilidades"
-                                    :key="item.uuid"
-                                    >
-                                    <td>{{ item.nombre }}</td>
-                                    <td>{{ item.categoria }}</td>
-                                    </tr>
-                                </tbody>
-                                </template>
-                            </v-simple-table>
+                                            <template v-slot:default>
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-left">
+                                                            <strong>
+                                                                Nombre
+                                                            </strong>
+                                                        </th>
+                                                        <th class="text-left">
+                                                            <strong>
+                                                                Categoría
+                                                            </strong>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr
+                                                        v-for="item in ofertaLaboral.habilidades"
+                                                        :key="item.uuid"
+                                                    >
+                                                        <td>
+                                                            {{ item.nombre }}
+                                                        </td>
+                                                        <td>
+                                                            {{ item.categoria }}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </template>
+                                        </v-simple-table>
                                     </v-list-item-title>
                                 </v-list-item-content>
                             </v-list-item>

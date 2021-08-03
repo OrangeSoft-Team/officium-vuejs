@@ -44,4 +44,13 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
             mensaje: OPERACION_EXITOSA,
         });
     }
+
+    cancelaOfertaLaboral(
+        identificador: SolicitudOfertaLaboralDTO
+    ): Resultado<OperacionExitosaDTO> {
+        //Respondemos a la solicitud
+        return Resultado.ok<OperacionExitosaDTO>({
+            mensaje: OPERACION_EXITOSA,
+        });
+    }
 }

@@ -7,6 +7,7 @@
                 color="orange"
                 title="Modificar oferta laboral"
                 small
+                icon
                 v-bind="attrs"
                 v-on="on"
                 v-on:click="obtenerDetalle"
@@ -383,10 +384,15 @@ export default Vue.extend({
                             data.getValue().numeroVacantes;
                         this.ofertaLaboralModificar.requisitosEspeciales =
                             data.getValue().requisitosEspeciales;
-                        this.ofertaLaboralModificar.descripcion = <string>data.getValue().descripcion;
-                        this.ofertaLaboralModificar.habilidades = <HabilidadDTO[]>data.getValue().habilidades;
-                        this.habilidadesEmpresa = <HabilidadDTO[]>data.getValue().habilidades;
-
+                        this.ofertaLaboralModificar.descripcion = <string>(
+                            data.getValue().descripcion
+                        );
+                        this.ofertaLaboralModificar.habilidades = <
+                            HabilidadDTO[]
+                        >data.getValue().habilidades;
+                        this.habilidadesEmpresa = <HabilidadDTO[]>(
+                            data.getValue().habilidades
+                        );
                     } else {
                         //TODO Manejo de caso con error al recuperar conjunto
                         console.warn("Algo pasó", data.error);

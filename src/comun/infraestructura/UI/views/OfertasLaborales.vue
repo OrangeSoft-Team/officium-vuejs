@@ -68,12 +68,32 @@
                                         :alertaExito="alertaExito"
                                         v-on:alertexito="alertExito"
                                     ></modal-modificar-oferta>
+
                                     <!--Llamamos al componente de duplicar oferta laboral-->
                                     <modal-duplicar-oferta
                                         :uuid="row.item.uuid"
                                         :alertaExito="alertaExito"
                                         v-on:alertexito="alertExito"
                                     ></modal-duplicar-oferta>
+
+
+                                    <!-- CANCELAR OFERTA -->
+                                    <v-btn
+                                        depressed
+                                        rounded
+                                        title="Cancelar oferta"
+                                        color="red"
+                                        small
+                                        outlined
+                                        icon
+                                        class="ml-1"
+                                        @click="
+                                            ejecutarCUCancelar(row.item.uuid)
+                                        "
+                                    >
+                                        <v-icon>mdi-close-circle</v-icon></v-btn
+                                    >
+
                                 </td>
                             </tr>
                         </template>
@@ -91,7 +111,7 @@ import { ControladorObtenerOfertasLaboralesActivas } from "../../../../ofertaLab
 //Importamos la interface del DTO para que el objeto a mostrar en la tabla
 //sea del mismo tipo que el que se trae en la respuesta del CU
 import { OfertaLaboralEmpresaDTO } from "../../../../ofertaLaboral/aplicacion/dto/OfertaLaboralEmpresaDTO";
-
+import { ControladorCancelarOfertaLaboral } from "../../../../ofertaLaboral/infraestructura/controlador/ControladorCancelarOfertaLaboral";
 import ModalOfertaDetalle from "../components/ModalOfertaDetalle.vue";
 import ModalCrearOferta from "../components/ModalCrearOferta.vue";
 import ModalModificarOferta from "../components/ModalModificarOferta.vue";
@@ -103,6 +123,7 @@ export default Vue.extend({
         ModalCrearOferta,
         ModalModificarOferta,
         ModalDuplicarOferta
+
     },
     data() {
         return {
@@ -170,6 +191,30 @@ export default Vue.extend({
             this.ofertasLaborales = [];
             this.estaCargando = false;
             this.ejecutarCU();
+        },
+        ejecutarCUCancelar(id: string) {
+            //Inicializamos el controlador
+            const cuAEjecutar = ControladorCancelarOfertaLaboral.inicializar();
+
+            //Ejecutamos el caso de uso
+            const respuestaCU = cuAEjecutar.ejecutarCU({ idOfertaLaboral: id });
+            respuestaCU
+                .then((data) => {
+                    console.log("[CANCELADO] Oferta Laboral: ", id);
+                    if (data.esExitoso) {
+                        this.alertExito(
+                            "Oferta laboral cancelado exitosamente!"
+                        );
+
+                        this.recargarTabla();
+                    } else {
+                        //TODO Manejo de caso con error al recuperar conjunto
+                        console.warn("Algo pasó", data.error);
+                    }
+                })
+                .catch((e) => {
+                    console.error(e);
+                });
         },
     },
 });
