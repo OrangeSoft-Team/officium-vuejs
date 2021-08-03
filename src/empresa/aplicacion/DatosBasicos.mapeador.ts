@@ -158,8 +158,9 @@ export class DatosBasicosMapeador {
             propsDTO.requisitosEspeciales =
                 entidad.props.requisitosEspeciales.valor();
         }
+
         if (
-            entidad.props.hasOwnProperty("calleDos") &&
+            entidad.props.direccion.props.hasOwnProperty("calleDos") &&
             entidad.props.direccion.props.calleDos != undefined
         ) {
             propsDTO.calleDos = entidad.props.direccion.props.calleDos.valor();

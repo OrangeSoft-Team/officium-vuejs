@@ -41,9 +41,11 @@ export class DireccionMapeador {
         }
 
         //Devolvemos entidad
-        return Resultado.ok<Direccion>(Direccion.crear(direccionProps).getValue());
+        return Resultado.ok<Direccion>(
+            Direccion.crear(direccionProps).getValue()
+        );
     }
-    
+
     public static aDTO(entidad: Direccion): Resultado<DireccionDTO> {
         //Extraemos valores de la entidad
         let propsDTO: DireccionDTO = {
@@ -52,10 +54,16 @@ export class DireccionMapeador {
         };
 
         //Opcionales
-        if (entidad.props.hasOwnProperty("calleDos") && entidad.props.calleDos != undefined) {
+        if (
+            entidad.props.hasOwnProperty("calleDos") &&
+            entidad.props.calleDos != undefined
+        ) {
             propsDTO.calleDos = entidad.props.calleDos.valor();
         }
-        if (entidad.props.hasOwnProperty("id") && entidad.props.id != undefined) {
+        if (
+            entidad.props.hasOwnProperty("id") &&
+            entidad.props.id != undefined
+        ) {
             propsDTO.id = entidad.props.id.valor();
         }
 
