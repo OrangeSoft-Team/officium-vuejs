@@ -1,5 +1,5 @@
 module.exports = {
     publicPath:
-        process.env.NODE_ENV === "production" ? "/officium-vuejs/" : "/",
+        process.env.NODE_ENV === "production" ? "/test-officium-vuejs/" : "/",
     transpileDependencies: ["vuetify"],
 };
