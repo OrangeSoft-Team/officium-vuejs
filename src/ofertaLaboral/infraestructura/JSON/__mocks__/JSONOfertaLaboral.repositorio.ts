@@ -15,24 +15,38 @@ import { ModificarOfertaLaboralDTO } from "../../../aplicacion/dto/ModificarOfer
 export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     crearOfertaLaboral(
         ofertaLaboral: CrearOfertaLaboralDTO
-    ): Resultado<OperacionExitosaDTO> {
-        return Resultado.ok<OperacionExitosaDTO>({
-            mensaje: OPERACION_EXITOSA,
+    ): Promise<Resultado<OperacionExitosaDTO>> {
+        return new Promise((resolve, reject) => {
+            resolve(
+                Resultado.ok<OperacionExitosaDTO>({
+                    mensaje: OPERACION_EXITOSA,
+                })
+            );
         });
     }
 
-    obtenerOfertasLaboralesActivas(): Resultado<OfertaLaboralEmpresaDTO[]> {
-        return Resultado.ok<OfertaLaboralEmpresaDTO[]>(
-            OFERTAS_LABORALES_RESPUESTA_VALIDA
-        );
+    obtenerOfertasLaboralesActivas(): Promise<
+        Resultado<OfertaLaboralEmpresaDTO[]>
+    > {
+        return new Promise((resolve, reject) => {
+            resolve(
+                Resultado.ok<OfertaLaboralEmpresaDTO[]>(
+                    OFERTAS_LABORALES_RESPUESTA_VALIDA
+                )
+            );
+        });
     }
 
     obtenerOfertaLaboralDetalle(
         id: SolicitudOfertaLaboralDTO
-    ): Resultado<OfertaLaboralEmpresaDTO> {
-        return Resultado.ok<OfertaLaboralEmpresaDTO>(
-            OFERTA_LABORAL_RESPUESTA_VALIDA
-        );
+    ): Promise<Resultado<OfertaLaboralEmpresaDTO>> {
+        return new Promise((resolve, reject) => {
+            resolve(
+                Resultado.ok<OfertaLaboralEmpresaDTO>(
+                    OFERTA_LABORAL_RESPUESTA_VALIDA
+                )
+            );
+        });
     }
 
     modificarOfertaLaboral(

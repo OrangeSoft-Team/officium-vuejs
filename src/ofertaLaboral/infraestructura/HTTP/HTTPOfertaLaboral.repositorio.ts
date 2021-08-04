@@ -57,66 +57,25 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
 
     crearOfertaLaboral(
         ofertaLaboral: CrearOfertaLaboralDTO
-    ): Resultado<OperacionExitosaDTO> {
-        //Solicitamos ID de empresa para la petición
-        /*const datosEmpresaOrError =
-            this.persistenciaAlterna.obtener<RespuestaInicioSesionDTO>(
-                CLAVE_SESION_USUARIO
-            );
-
-        if (datosEmpresaOrError.esFallido)
-            return Resultado.falla<any>(OPERACION_FALLIDA);*/
-
-        //Fake id
-
-        //Esperamos respuesta
-        //Simulamos anexar
-        let arregloOfertas: OfertaLaboralEmpresaDTO[] = [];
-        const listadoOrError = this.persistenciaAlterna.obtener(
-            CLAVE_CONJUNTO_OFERTAS_LABORALES
-        );
-        //Anexamos a array
-        if (listadoOrError.esExitoso) {
-            arregloOfertas = <OfertaLaboralEmpresaDTO[]>(
-                listadoOrError.getValue()
-            );
-        }
-
-        //Generamos  y fecha fake
-        let auxiliarDTO: auxiliarJSONCrearOfertaLaboralDTO = {
-            uuid: (Math.random() * 1000).toFixed(0),
-            fechaPublicacion: "10/10/2020",
-            titulo: ofertaLaboral.titulo,
-            cargo: ofertaLaboral.cargo,
-            sueldo: ofertaLaboral.sueldo,
-            duracionEstimadaValor: ofertaLaboral.duracionEstimadaValor,
-            duracionEstimadaEscala: ofertaLaboral.duracionEstimadaEscala,
-            turnoTrabajo: ofertaLaboral.turnoTrabajo,
-            numeroVacantes: ofertaLaboral.numeroVacantes,
-            descripcion: ofertaLaboral.descripcion,
-            habilidades: [
-                {
-                    uuid: "sa5d45s4d5sa",
-                    nombre: "Hace nudos",
-                    categoria: "manual",
-                },
-            ],
-            requisitosEspeciales: ofertaLaboral.requisitosEspeciales,
-        };
-        arregloOfertas.push(auxiliarDTO);
-        console.log(arregloOfertas);
-
-        //Guardamos de nuevo
-        const almacenarOrError = this.persistenciaAlterna.guardar(
-            CLAVE_CONJUNTO_OFERTAS_LABORALES,
-            arregloOfertas
-        );
-        if (almacenarOrError.esFallido)
-            return Resultado.falla<any>(almacenarOrError.error);
-
-        //En caso de respuesta exitosa
-        return Resultado.ok<OperacionExitosaDTO>({
-            mensaje: OPERACION_EXITOSA,
+    ): Promise<Resultado<OperacionExitosaDTO>> {
+        return new Promise((resolve, reject) => {
+            //Solicitamos ID de empresa para la petición
+            axios
+                .post(
+                    SPRING_URL_BASE + "empleador/ofertas_laborales",
+                    ofertaLaboral
+                )
+                .then((res) => {
+                    //En caso de respuesta exitosa
+                    resolve(
+                        Resultado.ok<OperacionExitosaDTO>({
+                            mensaje: OPERACION_EXITOSA,
+                        })
+                    );
+                })
+                .catch((e) => {
+                    resolve(Resultado.falla<any>(e));
+                });
         });
     }
 
@@ -124,10 +83,8 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
         Resultado<OfertaLaboralEmpresaDTO[]>
     > {
         return new Promise((resolve, reject) => {
-            let DATOS_RESPUESTA: OfertaLaboralEmpresaDTO[] = [];
-
             axios
-                .get(SPRING_URL_BASE + "api/empleador/ofertas_laborales")
+                .get(SPRING_URL_BASE + "empleador/ofertas_laborales")
                 .then((res) => {
                     //Guardamos en persistencia
                     this.persistenciaAlterna.guardar(
@@ -146,34 +103,21 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
 
     obtenerOfertaLaboralDetalle(
         id: SolicitudOfertaLaboralDTO
-    ): Resultado<OfertaLaboralEmpresaDTO> {
-        //Esperamos respuesta
-        let arregloOfertas: OfertaLaboralEmpresaDTO[] =
-            OFERTAS_LABORALES_DETALLADAS_VALIDAS;
-        const listadoOrError = this.persistenciaAlterna.obtener(
-            CLAVE_CONJUNTO_OFERTAS_LABORALES
-        );
-        //Anexamos a array
-        if (listadoOrError.esExitoso) {
-            arregloOfertas = <OfertaLaboralEmpresaDTO[]>(
-                listadoOrError.getValue()
-            );
-        }
-
-        for (let i: number = 0; i <= arregloOfertas.length; i++) {
-            if (arregloOfertas[i].uuid === id.idOfertaLaboral) {
-                const respuesta: OfertaLaboralEmpresaDTO = arregloOfertas[i];
-
-                this.persistenciaAlterna.guardar(
-                    CLAVE_ULT_OFERTA_LABORAL,
-                    respuesta
-                );
-
-                return Resultado.ok<OfertaLaboralEmpresaDTO>(respuesta);
-            }
-        }
-
-        return Resultado.falla<any>(OPERACION_FALLIDA);
+    ): Promise<Resultado<OfertaLaboralEmpresaDTO>> {
+        return new Promise((resolve, reject) => {
+            axios
+                .get(
+                    SPRING_URL_BASE +
+                        "empleador/ofertas_laborales/" +
+                        id.idOfertaLaboral
+                )
+                .then((res) => {
+                    resolve(Resultado.ok<OfertaLaboralEmpresaDTO>(res.data));
+                })
+                .catch((e) => {
+                    resolve(Resultado.falla<any>(e));
+                });
+        });
     }
 
     cancelaOfertaLaboral(

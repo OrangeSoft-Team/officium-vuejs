@@ -13,11 +13,11 @@ export interface IOfertasLaboralesRepo {
 
     obtenerOfertaLaboralDetalle(
         id: SolicitudOfertaLaboralDTO
-    ): Resultado<OfertaLaboralEmpresaDTO>;
+    ): Promise<Resultado<OfertaLaboralEmpresaDTO>>;
 
     crearOfertaLaboral(
         ofertaLaboral: CrearOfertaLaboralDTO
-    ): Resultado<OperacionExitosaDTO>;
+    ): Promise<Resultado<OperacionExitosaDTO>>;
 
     modificarOfertaLaboral(
         ofertaLaboral: ModificarOfertaLaboralDTO,

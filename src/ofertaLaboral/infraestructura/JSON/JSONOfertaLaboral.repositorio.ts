@@ -59,9 +59,10 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
 
     crearOfertaLaboral(
         ofertaLaboral: CrearOfertaLaboralDTO
-    ): Resultado<OperacionExitosaDTO> {
-        //Solicitamos ID de empresa para la petición
-        /*const datosEmpresaOrError =
+    ): Promise<Resultado<OperacionExitosaDTO>> {
+        return new Promise((resolve, reject) => {
+            //Solicitamos ID de empresa para la petición
+            /*const datosEmpresaOrError =
             this.persistenciaAlterna.obtener<RespuestaInicioSesionDTO>(
                 CLAVE_SESION_USUARIO
             );
@@ -69,56 +70,59 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
         if (datosEmpresaOrError.esFallido)
             return Resultado.falla<any>(OPERACION_FALLIDA);*/
 
-        //Fake id
+            //Fake id
 
-        //Esperamos respuesta
-        //Simulamos anexar
-        let arregloOfertas: OfertaLaboralEmpresaDTO[] = [];
-        const listadoOrError = this.persistenciaAlterna.obtener(
-            CLAVE_CONJUNTO_OFERTAS_LABORALES
-        );
-        //Anexamos a array
-        if (listadoOrError.esExitoso) {
-            arregloOfertas = <OfertaLaboralEmpresaDTO[]>(
-                listadoOrError.getValue()
+            //Esperamos respuesta
+            //Simulamos anexar
+            let arregloOfertas: OfertaLaboralEmpresaDTO[] = [];
+            const listadoOrError = this.persistenciaAlterna.obtener(
+                CLAVE_CONJUNTO_OFERTAS_LABORALES
             );
-        }
+            //Anexamos a array
+            if (listadoOrError.esExitoso) {
+                arregloOfertas = <OfertaLaboralEmpresaDTO[]>(
+                    listadoOrError.getValue()
+                );
+            }
 
-        //Generamos  y fecha fake
-        let auxiliarDTO: auxiliarJSONCrearOfertaLaboralDTO = {
-            uuid: (Math.random() * 1000).toFixed(0),
-            fechaPublicacion: "10/10/2020",
-            titulo: ofertaLaboral.titulo,
-            cargo: ofertaLaboral.cargo,
-            sueldo: ofertaLaboral.sueldo,
-            duracionEstimadaValor: ofertaLaboral.duracionEstimadaValor,
-            duracionEstimadaEscala: ofertaLaboral.duracionEstimadaEscala,
-            turnoTrabajo: ofertaLaboral.turnoTrabajo,
-            numeroVacantes: ofertaLaboral.numeroVacantes,
-            descripcion: ofertaLaboral.descripcion,
-            habilidades: [
-                {
-                    uuid: "sa5d45s4d5sa",
-                    nombre: "Hace nudos",
-                    categoria: "manual",
-                },
-            ],
-            requisitosEspeciales: ofertaLaboral.requisitosEspeciales,
-        };
-        arregloOfertas.push(auxiliarDTO);
-        console.log(arregloOfertas);
+            //Generamos  y fecha fake
+            let auxiliarDTO: auxiliarJSONCrearOfertaLaboralDTO = {
+                uuid: (Math.random() * 1000).toFixed(0),
+                fechaPublicacion: "10/10/2020",
+                titulo: ofertaLaboral.titulo,
+                cargo: ofertaLaboral.cargo,
+                sueldo: ofertaLaboral.sueldo,
+                duracionEstimadaValor: ofertaLaboral.duracionEstimadaValor,
+                duracionEstimadaEscala: ofertaLaboral.duracionEstimadaEscala,
+                turnoTrabajo: ofertaLaboral.turnoTrabajo,
+                numeroVacantes: ofertaLaboral.numeroVacantes,
+                descripcion: ofertaLaboral.descripcion,
+                habilidades: [
+                    {
+                        uuid: "sa5d45s4d5sa",
+                        nombre: "Hace nudos",
+                        categoria: "manual",
+                    },
+                ],
+                requisitosEspeciales: ofertaLaboral.requisitosEspeciales,
+            };
+            arregloOfertas.push(auxiliarDTO);
+            console.log(arregloOfertas);
 
-        //Guardamos de nuevo
-        const almacenarOrError = this.persistenciaAlterna.guardar(
-            CLAVE_CONJUNTO_OFERTAS_LABORALES,
-            arregloOfertas
-        );
-        if (almacenarOrError.esFallido)
-            return Resultado.falla<any>(almacenarOrError.error);
+            //Guardamos de nuevo
+            const almacenarOrError = this.persistenciaAlterna.guardar(
+                CLAVE_CONJUNTO_OFERTAS_LABORALES,
+                arregloOfertas
+            );
+            if (almacenarOrError.esFallido)
+                resolve(Resultado.falla<any>(almacenarOrError.error));
 
-        //En caso de respuesta exitosa
-        return Resultado.ok<OperacionExitosaDTO>({
-            mensaje: OPERACION_EXITOSA,
+            //En caso de respuesta exitosa
+            resolve(
+                Resultado.ok<OperacionExitosaDTO>({
+                    mensaje: OPERACION_EXITOSA,
+                })
+            );
         });
     }
 
@@ -156,34 +160,37 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
 
     obtenerOfertaLaboralDetalle(
         id: SolicitudOfertaLaboralDTO
-    ): Resultado<OfertaLaboralEmpresaDTO> {
-        //Esperamos respuesta
-        let arregloOfertas: OfertaLaboralEmpresaDTO[] =
-            OFERTAS_LABORALES_DETALLADAS_VALIDAS;
-        const listadoOrError = this.persistenciaAlterna.obtener(
-            CLAVE_CONJUNTO_OFERTAS_LABORALES
-        );
-        //Anexamos a array
-        if (listadoOrError.esExitoso) {
-            arregloOfertas = <OfertaLaboralEmpresaDTO[]>(
-                listadoOrError.getValue()
+    ): Promise<Resultado<OfertaLaboralEmpresaDTO>> {
+        return new Promise((resolve, reject) => {
+            //Esperamos respuesta
+            let arregloOfertas: OfertaLaboralEmpresaDTO[] =
+                OFERTAS_LABORALES_DETALLADAS_VALIDAS;
+            const listadoOrError = this.persistenciaAlterna.obtener(
+                CLAVE_CONJUNTO_OFERTAS_LABORALES
             );
-        }
-
-        for (let i: number = 0; i <= arregloOfertas.length; i++) {
-            if (arregloOfertas[i].uuid === id.idOfertaLaboral) {
-                const respuesta: OfertaLaboralEmpresaDTO = arregloOfertas[i];
-
-                this.persistenciaAlterna.guardar(
-                    CLAVE_ULT_OFERTA_LABORAL,
-                    respuesta
+            //Anexamos a array
+            if (listadoOrError.esExitoso) {
+                arregloOfertas = <OfertaLaboralEmpresaDTO[]>(
+                    listadoOrError.getValue()
                 );
-
-                return Resultado.ok<OfertaLaboralEmpresaDTO>(respuesta);
             }
-        }
 
-        return Resultado.falla<any>(OPERACION_FALLIDA);
+            for (let i: number = 0; i <= arregloOfertas.length; i++) {
+                if (arregloOfertas[i].uuid === id.idOfertaLaboral) {
+                    const respuesta: OfertaLaboralEmpresaDTO =
+                        arregloOfertas[i];
+
+                    this.persistenciaAlterna.guardar(
+                        CLAVE_ULT_OFERTA_LABORAL,
+                        respuesta
+                    );
+
+                    resolve(Resultado.ok<OfertaLaboralEmpresaDTO>(respuesta));
+                }
+            }
+
+            resolve(Resultado.falla<any>(OPERACION_FALLIDA));
+        });
     }
 
     cancelaOfertaLaboral(
