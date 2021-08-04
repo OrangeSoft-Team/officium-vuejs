@@ -6,7 +6,10 @@ import {
     IServicioSesion,
 } from "../../aplicacion/IServicioSesion";
 import { IServicioPersistencia } from "../../../comun/aplicacion/IServicioPersistencia";
-import { CLAVE_SESION_USUARIO } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
+import {
+    CLAVE_COOKIE,
+    CLAVE_SESION_USUARIO,
+} from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
 import { NEST_URL_BASE } from "../../../main";
 import axios from "axios";
 import { OPERACION_FALLIDA } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionFallida";
@@ -30,6 +33,18 @@ export class SesionBasicaHTTP implements IServicioSesion {
                 //Esperamos respuesta
                 .then((respuesta) => {
                     //Afirmativa => Guardamos
+                    //console.log("[RESPUESTA] ", respuesta);
+                    //console.log("[HEADERS] ", respuesta.headers);
+                    console.log(
+                        "[Authorization] ",
+                        respuesta.headers.authorization
+                    );
+
+                    //Guardamos en persistencia local la cookie
+                    this.persistenciaAlterna.guardar(
+                        CLAVE_COOKIE,
+                        respuesta.headers.authorization
+                    );
 
                     //Guardamos en persistencia local
                     this.persistenciaAlterna.guardar(

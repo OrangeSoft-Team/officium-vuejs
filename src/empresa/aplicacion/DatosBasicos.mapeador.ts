@@ -91,7 +91,8 @@ export class DatosBasicosMapeador {
         let reqEspecialesOrError: Resultado<requisitosEspeciales>;
         if (
             dto.hasOwnProperty("requisitosEspeciales") &&
-            dto.requisitosEspeciales != undefined
+            dto.requisitosEspeciales != undefined &&
+            dto.requisitosEspeciales != ""
         ) {
             reqEspecialesOrError = requisitosEspeciales.crear(
                 dto.requisitosEspeciales
@@ -153,7 +154,8 @@ export class DatosBasicosMapeador {
         }
         if (
             entidad.props.hasOwnProperty("requisitosEspeciales") &&
-            entidad.props.requisitosEspeciales != undefined
+            entidad.props.requisitosEspeciales != undefined &&
+            entidad.props.requisitosEspeciales.valor() != ""
         ) {
             propsDTO.requisitosEspeciales =
                 entidad.props.requisitosEspeciales.valor();

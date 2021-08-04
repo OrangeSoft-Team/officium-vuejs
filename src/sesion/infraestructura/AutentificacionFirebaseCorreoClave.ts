@@ -6,7 +6,10 @@ import {
 import { OPERACION_FALLIDA } from "../../comun/aplicacion/dto.respuestaOperaciones/OperacionFallida";
 import { IServicioPersistencia } from "../../comun/aplicacion/IServicioPersistencia";
 import { Resultado } from "../../comun/dominio/resultado";
-import { CLAVE_SESION_USUARIO } from "../../comun/infraestructura/persistencia/ClavesLocalStorage";
+import {
+    CLAVE_COOKIE,
+    CLAVE_SESION_USUARIO,
+} from "../../comun/infraestructura/persistencia/ClavesLocalStorage";
 import { DatosInicioSesionDTO } from "../aplicacion/casoDeUso/IniciarSesionCorreoClave.cu";
 import { RespuestaAutentifiacionDTO } from "../aplicacion/dto/RespuestaAutentificacionDTO";
 import { RestablecerContrasenaDTO } from "../aplicacion/dto/RestablecerContrasenaDTO";
@@ -62,7 +65,6 @@ export class AutentificacionFirebaseCorreoClave
                         resolve(Resultado.falla<any>(FALLO_CONEXION));
 
                     reject(Resultado.falla<any>(error));
-
                 });
         });
     }
@@ -78,6 +80,8 @@ export class AutentificacionFirebaseCorreoClave
                         this.persistenciaAlterna.remover(CLAVE_SESION_USUARIO);
                     if (datosSesionOrError.esFallido)
                         return Resultado.falla<any>(datosSesionOrError.error);
+
+                    this.persistenciaAlterna.remover(CLAVE_COOKIE);
 
                     resolve(
                         Resultado.ok<OperacionExitosaDTO>({

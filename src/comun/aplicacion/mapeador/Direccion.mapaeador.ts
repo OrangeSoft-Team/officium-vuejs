@@ -22,7 +22,11 @@ export class DireccionMapeador {
 
         //Opcional
         let calleDosOrError: Resultado<DireccionCalle>;
-        if (dto.hasOwnProperty("calleDos") && dto.calleDos != undefined) {
+        if (
+            dto.hasOwnProperty("calleDos") &&
+            dto.calleDos != undefined &&
+            dto.calleDos != ""
+        ) {
             calleDosOrError = DireccionCalle.crear(dto.calleDos);
             if (calleDosOrError.esFallido)
                 return Resultado.falla<any>(calleDosOrError.error);
@@ -56,7 +60,8 @@ export class DireccionMapeador {
         //Opcionales
         if (
             entidad.props.hasOwnProperty("calleDos") &&
-            entidad.props.calleDos != undefined
+            entidad.props.calleDos != undefined &&
+            entidad.props.calleDos.valor() != ""
         ) {
             propsDTO.calleDos = entidad.props.calleDos.valor();
         }

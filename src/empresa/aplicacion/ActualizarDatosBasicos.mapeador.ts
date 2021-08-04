@@ -29,7 +29,8 @@ export class ActualizarDatosBasicosMapeador {
 
         if (
             entidad.props.hasOwnProperty("requisitosEspeciales") &&
-            entidad.props.requisitosEspeciales != undefined
+            entidad.props.requisitosEspeciales != undefined &&
+            entidad.props.requisitosEspeciales.valor() != ""
         ) {
             propsDTO.requisitosEspeciales =
                 entidad.props.requisitosEspeciales.valor();
