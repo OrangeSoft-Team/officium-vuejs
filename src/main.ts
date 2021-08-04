@@ -14,6 +14,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const NEST_URL_BASE = "https://officium-nest.herokuapp.com/api/";
+export const SPRING_URL_BASE = "";
 
 Vue.config.productionTip = false;
 

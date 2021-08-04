@@ -7,7 +7,9 @@ import { SolicitudCreacionOfertaLaboralDTO } from "./casoDeUso/CrearOfertaLabora
 import { ModificarOfertaLaboralDTO } from "./dto/ModificarOfertaLaboralDTO";
 
 export interface IOfertasLaboralesRepo {
-    obtenerOfertasLaboralesActivas(): Resultado<OfertaLaboralEmpresaDTO[]>;
+    obtenerOfertasLaboralesActivas(): Promise<
+        Resultado<OfertaLaboralEmpresaDTO[]>
+    >;
 
     obtenerOfertaLaboralDetalle(
         id: SolicitudOfertaLaboralDTO

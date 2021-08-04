@@ -1,8 +1,6 @@
 import { OfertaLaboralEmpresaDTO } from "../../aplicacion/dto/OfertaLaboralEmpresaDTO";
 import { Resultado } from "../../../comun/dominio/resultado";
 import { IOfertasLaboralesRepo } from "../../aplicacion/IOfertaLaboral.repositorio";
-import { SolicitudOfertaLaboralDTO } from "@/ofertaLaboral/aplicacion/casoDeUso/ObtenerOfertaLaboralDetalle.cu";
-import { SolicitudCreacionOfertaLaboralDTO } from "@/ofertaLaboral/aplicacion/casoDeUso/CrearOfertaLaboral.cu";
 import {
     OperacionExitosaDTO,
     OPERACION_EXITOSA,
@@ -15,14 +13,14 @@ import {
     CLAVE_SESION_USUARIO,
     CLAVE_ULT_OFERTA_LABORAL,
 } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
-import {
-    OFERTAS_LABORALES_DETALLADAS_VALIDAS,
-    OFERTAS_LABORALES_RESPUESTA_VALIDA,
-} from "./respuestas/ListadoOfertasLaborales";
 import { RespuestaInicioSesionDTO } from "../../../sesion/aplicacion/dto/RespuestaInicioSesionDTO";
 import { CrearOfertaLaboralDTO } from "../../aplicacion/dto/CrearOfertaLaboralDTO";
 import { HabilidadDTO } from "../../../comun/aplicacion/dtos/HabilidadDTO";
 import { ModificarOfertaLaboralDTO } from "../../aplicacion/dto/ModificarOfertaLaboralDTO";
+import { SolicitudOfertaLaboralDTO } from "../../aplicacion/casoDeUso/ObtenerOfertaLaboralDetalle.cu";
+import { OFERTAS_LABORALES_DETALLADAS_VALIDAS } from "../JSON/respuestas/ListadoOfertasLaborales";
+import axios from "axios";
+import { SPRING_URL_BASE } from "../../../main";
 
 interface auxiliarJSONCrearOfertaLaboralDTO {
     uuid?: string;
@@ -127,30 +125,22 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     > {
         return new Promise((resolve, reject) => {
             let DATOS_RESPUESTA: OfertaLaboralEmpresaDTO[] = [];
-            // OFERTAS_LABORALES_RESPUESTA_CON_ERROR_VACANTES
 
-            //Obtenemos de persitencia
-            const listadoOrError = this.persistenciaAlterna.obtener(
-                CLAVE_CONJUNTO_OFERTAS_LABORALES
-            );
-            if (listadoOrError.esFallido) {
-                //Almacenamos en persitencia en respuesta exitosa
-                const A_RESPONDER_DEFAULT =
-                    OFERTAS_LABORALES_DETALLADAS_VALIDAS;
-                this.persistenciaAlterna.guardar(
-                    CLAVE_CONJUNTO_OFERTAS_LABORALES,
-                    A_RESPONDER_DEFAULT
-                );
-                DATOS_RESPUESTA = A_RESPONDER_DEFAULT;
-            } else {
-                //Obtenemos almacenado
-                DATOS_RESPUESTA = <OfertaLaboralEmpresaDTO[]>(
-                    listadoOrError.getValue()
-                );
-            }
+            axios
+                .get(SPRING_URL_BASE + "api/empleador/ofertas_laborales")
+                .then((res) => {
+                    //Guardamos en persistencia
+                    this.persistenciaAlterna.guardar(
+                        CLAVE_CONJUNTO_OFERTAS_LABORALES,
+                        res.data
+                    );
 
-            //Respondemos a la solicitud
-            resolve(Resultado.ok<OfertaLaboralEmpresaDTO[]>(DATOS_RESPUESTA));
+                    //Respondemos
+                    resolve(Resultado.ok<OfertaLaboralEmpresaDTO[]>(res.data));
+                })
+                .catch((e) => {
+                    resolve(Resultado.falla<any>(e));
+                });
         });
     }
 
