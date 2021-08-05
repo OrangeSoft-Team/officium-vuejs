@@ -84,6 +84,27 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
             );
         }
 
+        let habilidadesInsertarOferta: HabilidadDTO[] = [];
+        if (ofertaLaboral.habilidades.length == 0) {
+            //fake
+            habilidadesInsertarOferta = [
+                {
+                    uuid: "sa5d45s4d5sa",
+                    nombre: "Hace nudos",
+                    categoria: "manual",
+                },
+            ];
+        } else {
+            //Utilizamos el mismo
+            for (let habilidad of ofertaLaboral.habilidades) {
+                habilidadesInsertarOferta.push({
+                    uuid: habilidad,
+                    nombre: "Habilidad Mock",
+                    categoria: "Categoria Mock",
+                });
+            }
+        }
+
         //Generamos  y fecha fake
         let auxiliarDTO: auxiliarJSONCrearOfertaLaboralDTO = {
             uuid: (Math.random() * 1000).toFixed(0),
@@ -96,13 +117,7 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
             turnoTrabajo: ofertaLaboral.turnoTrabajo,
             numeroVacantes: ofertaLaboral.numeroVacantes,
             descripcion: ofertaLaboral.descripcion,
-            habilidades: [
-                {
-                    uuid: "sa5d45s4d5sa",
-                    nombre: "Hace nudos",
-                    categoria: "manual",
-                },
-            ],
+            habilidades: habilidadesInsertarOferta,
             requisitosEspeciales: ofertaLaboral.requisitosEspeciales,
         };
         arregloOfertas.push(auxiliarDTO);
