@@ -57,7 +57,7 @@
                                 <td>{{ row.item.fechaPublicacion }}</td>
                                 <td>{{ row.item.numeroVacantes }}</td>
                                 <td>{{ row.item.estado }}</td>
-                                <td>
+                                <td >
                                     <!--Llamamos al componente del detalle de oferta laboral-->
                                     <modal-oferta-detalle
                                         :uuid="row.item.uuid"

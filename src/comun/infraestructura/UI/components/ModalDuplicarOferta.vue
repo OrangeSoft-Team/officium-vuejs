@@ -7,6 +7,7 @@
                 color="purple"
                 title="Duplicar oferta laboral"
                 small
+                icon
                 v-bind="attrs"
                 v-on="on"
                 v-on:click="obtenerDetalle"
@@ -383,8 +384,18 @@ export default Vue.extend({
                         this.ofertaLaboralDuplicar.requisitosEspeciales =
                             data.getValue().requisitosEspeciales;
                         this.ofertaLaboralDuplicar.descripcion = <string>data.getValue().descripcion;
+
+                        //let varHabilidades:HabilidadDTO[] = <HabilidadDTO[]>data.getValue().habilidades;
+
                         this.ofertaLaboralDuplicar.habilidades = <HabilidadDTO[]>data.getValue().habilidades;
-                        this.habilidadesEmpresa = <HabilidadDTO[]>data.getValue().habilidades;
+
+                        for (let i = 0; i < this.ofertaLaboralDuplicar.habilidades.length; i++) {
+                            //this.habilidadesEmpresa.push(this.varHabilidades[i]);
+                            this.habilidadesEmpresa.push(this.ofertaLaboralDuplicar.habilidades[i]);
+                        }
+
+                        //this.ofertaLaboralDuplicar.habilidades = varHabilidades;
+                        //this.habilidadesEmpresa = varHabilidades;
 
                     } else {
                         //TODO Manejo de caso con error al recuperar conjunto
@@ -436,7 +447,7 @@ export default Vue.extend({
                         //Cambiamos el estado
                         this.estaCargando = false;
 
-                        console.log("[Oferta modificada satisfactoriamente]");
+                        console.log("[Oferta duplicada satisfactoriamente]");
 
                         //Si la oferta fue exitosamente creada, mostramos
                         //mensaje de éxito y cerramos el modal
