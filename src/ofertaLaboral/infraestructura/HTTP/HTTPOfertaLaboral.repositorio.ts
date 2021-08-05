@@ -38,7 +38,7 @@ interface auxiliarJSONCrearOfertaLaboralDTO {
     requisitosEspeciales?: string;
 }
 
-export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
+export class HTTPOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
     private persistenciaAlterna: IServicioPersistencia;
 
     constructor(implPersistencia: IServicioPersistencia) {

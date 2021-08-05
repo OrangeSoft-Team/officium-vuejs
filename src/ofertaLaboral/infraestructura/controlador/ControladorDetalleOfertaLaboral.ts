@@ -7,6 +7,7 @@ import {
 import { OfertaLaboralEmpresaDTO } from "../../aplicacion/dto/OfertaLaboralEmpresaDTO";
 import { IOfertasLaboralesRepo } from "../../aplicacion/IOfertaLaboral.repositorio";
 import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
+import { HTTPOfertaLaboralRepositorio } from "../HTTP/HTTPOfertaLaboral.repositorio";
 
 //Controlador de CU Obtener detalle de Oferta Laboral
 export class ControladorDetalleOfertaLaboral {
@@ -20,7 +21,7 @@ export class ControladorDetalleOfertaLaboral {
     //Método estático para inicializar controlador
     public static inicializar(): ControladorDetalleOfertaLaboral {
         return new ControladorDetalleOfertaLaboral(
-            new JSONOfertaLaboralRepositorio(new LocalStoragePersistencia())
+            new HTTPOfertaLaboralRepositorio(new LocalStoragePersistencia())
         );
     }
 

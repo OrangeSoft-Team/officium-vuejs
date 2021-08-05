@@ -10,6 +10,7 @@ import { CrearOfertaLaboralDTO } from "../../aplicacion/dto/CrearOfertaLaboralDT
 import { OperacionExitosaDTO } from "../../../comun/aplicacion/dto.respuestaOperaciones/OperacionExitosa";
 import { IOfertasLaboralesRepo } from "../../aplicacion/IOfertaLaboral.repositorio";
 import { LocalStoragePersistencia } from "../../../comun/infraestructura/persistencia/LocalStorage.persistencia";
+import { HTTPOfertaLaboralRepositorio } from "../HTTP/HTTPOfertaLaboral.repositorio";
 
 //Controlador de CU Obtener detalle de Oferta Laboral
 export class ControladorCrearOfertaLaboral {
@@ -23,7 +24,7 @@ export class ControladorCrearOfertaLaboral {
     //Método estático para inicializar controlador
     public static inicializar(): ControladorCrearOfertaLaboral {
         return new ControladorCrearOfertaLaboral(
-            new JSONOfertaLaboralRepositorio(new LocalStoragePersistencia())
+            new HTTPOfertaLaboralRepositorio(new LocalStoragePersistencia())
         );
     }
 

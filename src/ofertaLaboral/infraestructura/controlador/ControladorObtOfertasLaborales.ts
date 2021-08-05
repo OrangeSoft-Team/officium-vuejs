@@ -10,6 +10,7 @@ import {
     CLAVE_SESION_USUARIO,
 } from "../../../comun/infraestructura/persistencia/ClavesLocalStorage";
 import { RespuestaInicioSesionDTO } from "../../../sesion/aplicacion/dto/RespuestaInicioSesionDTO";
+import { HTTPOfertaLaboralRepositorio } from "../HTTP/HTTPOfertaLaboral.repositorio";
 
 //Controlador de CU Obtener Ofertas Laborales Activas
 export class ControladorObtenerOfertasLaboralesActivas {
@@ -30,7 +31,7 @@ export class ControladorObtenerOfertasLaboralesActivas {
     public static inicializar(): ControladorObtenerOfertasLaboralesActivas {
         const AdaptadorPersistencia = new LocalStoragePersistencia();
         return new ControladorObtenerOfertasLaboralesActivas(
-            new JSONOfertaLaboralRepositorio(AdaptadorPersistencia),
+            new HTTPOfertaLaboralRepositorio(AdaptadorPersistencia),
             AdaptadorPersistencia
         );
     }
