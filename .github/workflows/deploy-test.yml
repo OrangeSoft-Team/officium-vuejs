@@ -1,7 +1,7 @@
 name: Despliegue Testing a GH Pages
 on:
     push:
-        branches: [integracion-nest]
+        branches: [integracion-spring]
 
 jobs:
     build:
