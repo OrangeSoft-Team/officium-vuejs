@@ -60,6 +60,14 @@ export class CrearOfertaLaboralMapeador {
             ),
         };
 
+        if (
+            entidad.props.hasOwnProperty("requisitosEspeciales") &&
+            entidad.props.requisitosEspeciales != undefined
+        ) {
+            dto.requisitosEspeciales =
+                entidad.props.requisitosEspeciales.valor();
+        }
+
         return Resultado.ok<CrearOfertaLaboralDTO>(dto);
     }
 }

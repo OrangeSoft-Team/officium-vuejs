@@ -183,7 +183,7 @@ export class JSONOfertaLaboralRepositorio implements IOfertasLaboralesRepo {
 
     cancelaOfertaLaboral(
         id: SolicitudOfertaLaboralDTO
-    ): Resultado<OperacionExitosaDTO>{
+    ): Resultado<OperacionExitosaDTO> {
         //Respondemos a la solicitud
         return Resultado.ok<OperacionExitosaDTO>({
             mensaje: OPERACION_EXITOSA,
